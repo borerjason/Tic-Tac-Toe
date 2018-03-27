@@ -1,0 +1,30 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/borerjason/tic-tac-toe.git"
+  },
+  "keywords": [],
+  "author": "Jason Borer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/borerjason/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/borerjason/tic-tac-toe#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "path": "^0.12.7",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "webpack": "^4.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.2"
+  }
+}
