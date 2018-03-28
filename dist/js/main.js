@@ -25745,6 +25745,10 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _BoardPiece = __webpack_require__(79);
+
+var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -25765,7 +25769,7 @@ var Board = function (_React$Component) {
 
     _this.state = {
       n: 3, // make this variable
-      board: [['', '', ''], ['', '', ''], ['', '', '']]
+      board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']]
     };
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -25774,14 +25778,14 @@ var Board = function (_React$Component) {
 
   _createClass(Board, [{
     key: 'onClickValidateMove',
-    value: function onClickValidateMove(id) {
-      console.log(id);
+    value: function onClickValidateMove(id, val) {
+
+      console.log(id, val);
       var row = Math.floor(id / this.state.n);
       var col = id - this.state.n * row;
       var board = [].concat(_toConsumableArray(this.state.board));
       board[row][col] = 'X';
-      console.log(board);
-      console.log(this.state.board);
+      this.setState({ board: board });
     }
   }, {
     key: 'updateBoard',
@@ -25789,24 +25793,13 @@ var Board = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var quadrants = [];
       var n = Math.pow(this.state.n, 2);
-
-      var _loop = function _loop(i) {
-        quadrants.push(_react2.default.createElement(
-          'div',
-          {
-            onClick: function onClick() {
-              return _this2.onClickValidateMove(i);
-            }, key: i, id: i, val: '' },
-          i
-        ));
-      };
-
       for (var i = 0; i < n; i += 1) {
-        _loop(i);
+        var row = Math.floor(i / this.state.n);
+        var col = i - this.state.n * row;
+        quadrants.push(_react2.default.createElement(_BoardPiece2.default, {
+          validate: this.onClickValidateMove, key: i, id: i, val: this.state.board[row][col], loc: [row, col] }));
       }
 
       return _react2.default.createElement(
@@ -25821,6 +25814,38 @@ var Board = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Board;
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var BoardPiece = function BoardPiece(props) {
+  console.log(props);
+  return _react2.default.createElement(
+    'div',
+    {
+      onClick: function onClick() {
+        return props.validate(props.id, props.val);
+      }
+    },
+    props.val
+  );
+};
+
+exports.default = BoardPiece;
 
 /***/ })
 /******/ ]);
