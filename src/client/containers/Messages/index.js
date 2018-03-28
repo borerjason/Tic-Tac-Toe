@@ -11,10 +11,10 @@ class Messages extends React.Component {
     };
 
     subscribeToMessages((err, msg) => {
-      const messages = [...this.state.messages];
-      messages.push(msg);
-      this.setState({ messages });
-    })
+      this.setState({
+        messages: [...this.state.messages, msg] 
+      });
+    });
   }
 
   onClickSumbitMessage(e) {

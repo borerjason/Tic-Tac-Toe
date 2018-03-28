@@ -18348,9 +18348,9 @@ var Messages = function (_React$Component) {
     };
 
     (0, _socket.subscribeToMessages)(function (err, msg) {
-      var messages = [].concat(_toConsumableArray(_this.state.messages));
-      messages.push(msg);
-      _this.setState({ messages: messages });
+      _this.setState({
+        messages: [].concat(_toConsumableArray(_this.state.messages), [msg])
+      });
     });
     return _this;
   }
