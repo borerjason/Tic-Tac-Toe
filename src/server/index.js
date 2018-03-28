@@ -10,7 +10,6 @@ app.use( '/', express.static(path.join(__dirname, '../../dist')));
 io.on('connection', (socket) => {
   console.log('A player connected');
   socket.on('message', (msg) => {
-    console.log('message', msg);
     io.emit('message', msg);
   });
 });

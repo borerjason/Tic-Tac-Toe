@@ -18292,6 +18292,10 @@ var _Messages = __webpack_require__(29);
 
 var _Messages2 = _interopRequireDefault(_Messages);
 
+var _Board = __webpack_require__(78);
+
+var _Board2 = _interopRequireDefault(_Board);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
@@ -18299,7 +18303,8 @@ var App = function App() {
     'div',
     null,
     'WORK ALREADY!',
-    _react2.default.createElement(_Messages2.default, null)
+    _react2.default.createElement(_Messages2.default, null),
+    _react2.default.createElement(_Board2.default, null)
   );
 };
 
@@ -25722,6 +25727,100 @@ var sendNewMessage = function sendNewMessage(msg) {
 
 exports.subscribeToMessages = subscribeToMessages;
 exports.sendNewMessage = sendNewMessage;
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Board = function (_React$Component) {
+  _inherits(Board, _React$Component);
+
+  function Board(props) {
+    _classCallCheck(this, Board);
+
+    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
+
+    _this.state = {
+      n: 3, // make this variable
+      board: [['', '', ''], ['', '', ''], ['', '', '']]
+    };
+
+    _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
+    return _this;
+  }
+
+  _createClass(Board, [{
+    key: 'onClickValidateMove',
+    value: function onClickValidateMove(id) {
+      console.log(id);
+      var row = Math.floor(id / this.state.n);
+      var col = id - this.state.n * row;
+      var board = [].concat(_toConsumableArray(this.state.board));
+      board[row][col] = 'X';
+      console.log(board);
+      console.log(this.state.board);
+    }
+  }, {
+    key: 'updateBoard',
+    value: function updateBoard() {}
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var quadrants = [];
+      var n = Math.pow(this.state.n, 2);
+
+      var _loop = function _loop(i) {
+        quadrants.push(_react2.default.createElement(
+          'div',
+          {
+            onClick: function onClick() {
+              return _this2.onClickValidateMove(i);
+            }, key: i, id: i, val: '' },
+          i
+        ));
+      };
+
+      for (var i = 0; i < n; i += 1) {
+        _loop(i);
+      }
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        quadrants
+      );
+    }
+  }]);
+
+  return Board;
+}(_react2.default.Component);
+
+exports.default = Board;
 
 /***/ })
 /******/ ]);
