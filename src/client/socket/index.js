@@ -10,4 +10,12 @@ const sendNewMessage = (msg) => {
   socket.emit('message', msg);
 }
 
-export { subscribeToMessages, sendNewMessage };
+const startGame = (cb) => {
+  socket.emit('startGame');
+}
+
+const updateGameId = (cb) => {
+  socket.on('startGame', (gameId) => cb(null, gameId));
+}
+
+export { subscribeToMessages, sendNewMessage, startGame, updateGameId };

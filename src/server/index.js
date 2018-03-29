@@ -5,6 +5,8 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+let gameId = 100;
+
 app.use( '/', express.static(path.join(__dirname, '../../dist')));
 
 io.on('connection', (socket) => {
@@ -12,7 +14,15 @@ io.on('connection', (socket) => {
   socket.on('message', (msg) => {
     io.emit('message', msg);
   });
+
+  socket.on('startGame', () => {
+    console.log('start game');
+    socket.join(++gameId);
+    io.to(gameId).emit('startGame', gameId);
+  })
+  
 });
+
 
 const PORT = process.env.PORT || 3000;
 

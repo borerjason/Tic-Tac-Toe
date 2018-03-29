@@ -18284,13 +18284,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _Messages = __webpack_require__(29);
-
-var _Messages2 = _interopRequireDefault(_Messages);
 
 var _Board = __webpack_require__(78);
 
@@ -18300,42 +18298,9 @@ var _Welcome = __webpack_require__(80);
 
 var _Welcome2 = _interopRequireDefault(_Welcome);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var App = function App() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(_Messages2.default, null),
-    _react2.default.createElement(_Welcome2.default, null),
-    _react2.default.createElement(_Board2.default, null)
-  );
-};
-
-exports.default = App;
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
 var _socket = __webpack_require__(77);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -18343,91 +18308,66 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Messages = function (_React$Component) {
-  _inherits(Messages, _React$Component);
+// import Messages from '../Messages';
 
-  function Messages(props) {
-    _classCallCheck(this, Messages);
 
-    var _this = _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
+
+  function App(props) {
+    _classCallCheck(this, App);
+
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      val: '',
-      messages: []
+      activeGame: false,
+      gameId: ''
     };
 
-    (0, _socket.subscribeToMessages)(function (err, msg) {
+    (0, _socket.updateGameId)(function (err, gameId) {
       _this.setState({
-        messages: [].concat(_toConsumableArray(_this.state.messages), [msg])
+        gameId: gameId,
+        activeGame: true
       });
     });
+
+    _this.startNewGame = _this.startNewGame.bind(_this);
     return _this;
   }
 
-  _createClass(Messages, [{
-    key: 'onClickSumbitMessage',
-    value: function onClickSumbitMessage(e) {
+  _createClass(App, [{
+    key: 'startNewGame',
+    value: function startNewGame(e) {
       e.preventDefault();
-      (0, _socket.sendNewMessage)(this.state.val);
-      this.setState({
-        val: ''
-      });
-    }
-  }, {
-    key: 'onChangeUpdateValue',
-    value: function onChangeUpdateValue(e) {
-      this.setState({
-        val: e.target.value
-      });
+      (0, _socket.startGame)();
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
+      console.log('GameID', this.state.gameId);
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-          'ul',
-          { id: 'messages' },
-          this.state.messages.map(function (message) {
-            return _react2.default.createElement(
-              'li',
-              null,
-              message
-            );
-          })
-        ),
-        _react2.default.createElement(
-          'form',
-          { action: '' },
-          _react2.default.createElement('input', {
-            value: this.state.val,
-            placeholder: 'Enter message',
-            onChange: function onChange(e) {
-              return _this2.onChangeUpdateValue(e);
-            } }),
-          _react2.default.createElement(
-            'button',
-            {
-              onClick: function onClick(e) {
-                return _this2.onClickSumbitMessage(e);
-              }
-            },
-            'Send'
-          )
+        !this.state.activeGame ? _react2.default.createElement(_Welcome2.default, {
+          newGame: this.startNewGame
+        }) : _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(_Board2.default, null)
         )
       );
     }
   }]);
 
-  return Messages;
+  return App;
 }(_react2.default.Component);
 
-exports.default = Messages;
+;
+
+exports.default = App;
 
 /***/ }),
+/* 29 */,
 /* 30 */
 /***/ (function(module, exports) {
 
@@ -25709,7 +25649,7 @@ Backoff.prototype.setJitter = function(jitter){
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sendNewMessage = exports.subscribeToMessages = undefined;
+exports.updateGameId = exports.startGame = exports.sendNewMessage = exports.subscribeToMessages = undefined;
 
 var _socket = __webpack_require__(53);
 
@@ -25729,8 +25669,20 @@ var sendNewMessage = function sendNewMessage(msg) {
   socket.emit('message', msg);
 };
 
+var startGame = function startGame(cb) {
+  socket.emit('startGame');
+};
+
+var updateGameId = function updateGameId(cb) {
+  socket.on('startGame', function (gameId) {
+    return cb(null, gameId);
+  });
+};
+
 exports.subscribeToMessages = subscribeToMessages;
 exports.sendNewMessage = sendNewMessage;
+exports.startGame = startGame;
+exports.updateGameId = updateGameId;
 
 /***/ }),
 /* 78 */
@@ -25862,6 +25814,10 @@ exports.default = BoardPiece;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
@@ -25885,7 +25841,8 @@ var Welcome = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Welcome.__proto__ || Object.getPrototypeOf(Welcome)).call(this, props));
 
     _this.state = {
-      name: ''
+      name: '',
+      gameId: ''
     };
     return _this;
   }
@@ -25899,19 +25856,56 @@ var Welcome = function (_React$Component) {
       });
     }
   }, {
+    key: 'onChangeUpdateGameId',
+    value: function onChangeUpdateGameId(e) {
+      e.preventDefault();
+      this.setState({
+        gameId: e.target.value
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      _react2.default.createElement(
+      return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Start New Game'
+        ),
         _react2.default.createElement(
           'form',
           null,
           _react2.default.createElement('input', { onChange: function onChange(e) {
               return _this2.onChangeUpdateName(e);
-            }, type: 'text', placeholder: 'Enter name', value: '' })
+            }, type: 'text', placeholder: 'Enter name', value: this.state.name }),
+          _react2.default.createElement(
+            'button',
+            {
+              onClick: this.props.newGame
+            },
+            'Start Game'
+          )
+        ),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Join Existing Game'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement('input', { onChange: function onChange(e) {
+              return _this2.onChangeUpdateGameId(e);
+            }, type: 'text', placeholder: 'Enter game id', value: this.state.gameId }),
+          _react2.default.createElement(
+            'button',
+            null,
+            'Join Game'
+          )
         )
       );
     }
@@ -25919,6 +25913,8 @@ var Welcome = function (_React$Component) {
 
   return Welcome;
 }(_react2.default.Component);
+
+exports.default = Welcome;
 
 /***/ })
 /******/ ]);
