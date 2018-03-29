@@ -8,10 +8,11 @@ import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socke
 
 const AppWrapper = styled.div`
   display: flex;
-  min-height: 100%;
+  height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: yellow;
 `
 
 class App extends React.Component {

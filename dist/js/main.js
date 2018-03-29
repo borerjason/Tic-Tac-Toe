@@ -4604,6 +4604,8 @@ var _App = __webpack_require__(51);
 
 var _App2 = _interopRequireDefault(_App);
 
+__webpack_require__(91);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var wrapper = document.getElementById('app');
@@ -21931,7 +21933,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  min-height: 100%;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n'], ['\n  display: flex;\n  min-height: 100%;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  height: 100vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n'], ['\n  display: flex;\n  height: 100vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n']);
 
 var _react = __webpack_require__(2);
 
@@ -30779,6 +30781,21 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
     return targetComponent;
 };
 
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _templateObject = _taggedTemplateLiteral(['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n  }\n  \n'], ['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n  }\n  \n']);
+
+var _styledComponents = __webpack_require__(81);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+(0, _styledComponents.injectGlobal)(_templateObject);
 
 /***/ })
 /******/ ]);
