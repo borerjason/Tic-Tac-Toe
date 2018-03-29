@@ -1,6 +1,8 @@
 import React from 'react';
 
-class Welcome extends React.Component {
+import Input from '../../components/Input';
+
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,31 +25,29 @@ class Welcome extends React.Component {
     });
   }
 
-
   render() {
     return (
       <div>
         <h3>Start New Game</h3>
         <form>
-          <input onChange={(e) => this.onChangeUpdateName(e)} type='text' placeholder='Enter name' value={this.state.name}  />
+          <Input onChange={(e) => this.onChangeUpdateName(e)} type='text' placeholder='Enter name' value={this.state.name}  />
           <button
+            className='btn-primary'
             onClick={this.props.newGame}
             >Start Game
           </button>
         </form>
-
         <h3>Join Existing Game</h3>
         <form>
-          <input onChange={(e) => this.onChangeUpdateGameId(e)} type='text' placeholder='Enter game id' value={this.state.gameId}  />
+          <Input onChange={(e) => this.onChangeUpdateGameId(e)} type='text' placeholder='Enter game id' value={this.state.gameId}  />
           <button
             onClick={(e) => { this.props.joinGame(e, this.state.gameId) }}
             >Join Game
           </button>
         </form>
-       
       </div>
     );
   }
 }
 
-export default Welcome;
+export default Home;

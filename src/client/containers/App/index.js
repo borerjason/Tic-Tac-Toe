@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 // import Messages from '../Messages';
 import Board from '../Board';
-import Welcome from '../Welcome';
+import Home from '../Home';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
 const AppWrapper = styled.div`
   display: flex;
-  height: 100vh;
+  height: 50vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@ class App extends React.Component {
     return (
       <AppWrapper>
         {!this.state.activeGame ? 
-          <Welcome 
+          <Home 
             newGame={this.startNewGame} 
             joinGame={this.joinExistingGame} 
           /> : 

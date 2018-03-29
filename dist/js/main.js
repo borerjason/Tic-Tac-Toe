@@ -21933,7 +21933,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  height: 100vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n'], ['\n  display: flex;\n  height: 100vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  height: 50vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n'], ['\n  display: flex;\n  height: 50vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n']);
 
 var _react = __webpack_require__(2);
 
@@ -21947,9 +21947,9 @@ var _Board = __webpack_require__(52);
 
 var _Board2 = _interopRequireDefault(_Board);
 
-var _Welcome = __webpack_require__(54);
+var _Home = __webpack_require__(93);
 
-var _Welcome2 = _interopRequireDefault(_Welcome);
+var _Home2 = _interopRequireDefault(_Home);
 
 var _socket = __webpack_require__(55);
 
@@ -22024,7 +22024,7 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         AppWrapper,
         null,
-        !this.state.activeGame ? _react2.default.createElement(_Welcome2.default, {
+        !this.state.activeGame ? _react2.default.createElement(_Home2.default, {
           newGame: this.startNewGame,
           joinGame: this.joinExistingGame
         }) : _react2.default.createElement(
@@ -22100,9 +22100,8 @@ var Board = function (_React$Component) {
 
     _this.state = {
       n: 3, // make this variable
-      board: [['', '', ''], ['', '', ''], ['', '', '']],
+      board: [['X', '', ''], ['', 'X', ''], ['O', '', '']],
       turn: 'X',
-      // role: 'X',
       opponent: false
     };
 
@@ -22126,9 +22125,6 @@ var Board = function (_React$Component) {
       }
     }
   }, {
-    key: 'updateBoard',
-    value: function updateBoard() {}
-  }, {
     key: 'render',
     value: function render() {
       var quadrants = [];
@@ -22137,9 +22133,13 @@ var Board = function (_React$Component) {
         var row = Math.floor(i / this.state.n);
         var col = i - this.state.n * row;
         quadrants.push(_react2.default.createElement(_BoardPiece2.default, {
-          validate: this.onClickValidateMove, key: i, id: i, val: this.state.board[row][col], loc: [row, col] }));
+          validate: this.onClickValidateMove,
+          key: i,
+          id: i,
+          val: this.state.board[row][col],
+          loc: [row, col]
+        }));
       }
-
       return _react2.default.createElement(
         Wrapper,
         null,
@@ -22183,7 +22183,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n'], ['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n'], ['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n font-size: 100px;\n text-align: center;\n'], ['\n font-size: 100px;\n text-align: center;\n']);
 
 var _react = __webpack_require__(2);
 
@@ -22199,6 +22200,8 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var PieceWrapper = _styledComponents2.default.div(_templateObject);
 
+var Piece = _styledComponents2.default.p(_templateObject2);
+
 var BoardPiece = function BoardPiece(props) {
   console.log(props);
   return _react2.default.createElement(
@@ -22208,126 +22211,18 @@ var BoardPiece = function BoardPiece(props) {
         return props.validate(props.id, props.val, props.loc);
       }
     },
-    props.val
+    _react2.default.createElement(
+      Piece,
+      null,
+      props.val
+    )
   );
 };
 
 exports.default = BoardPiece;
 
 /***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Welcome = function (_React$Component) {
-  _inherits(Welcome, _React$Component);
-
-  function Welcome(props) {
-    _classCallCheck(this, Welcome);
-
-    var _this = _possibleConstructorReturn(this, (Welcome.__proto__ || Object.getPrototypeOf(Welcome)).call(this, props));
-
-    _this.state = {
-      name: '',
-      gameId: ''
-    };
-    return _this;
-  }
-
-  _createClass(Welcome, [{
-    key: 'onChangeUpdateName',
-    value: function onChangeUpdateName(e) {
-      e.preventDefault();
-      this.setState({
-        name: e.target.value
-      });
-    }
-  }, {
-    key: 'onChangeUpdateGameId',
-    value: function onChangeUpdateGameId(e) {
-      e.preventDefault();
-      this.setState({
-        gameId: e.target.value
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'h3',
-          null,
-          'Start New Game'
-        ),
-        _react2.default.createElement(
-          'form',
-          null,
-          _react2.default.createElement('input', { onChange: function onChange(e) {
-              return _this2.onChangeUpdateName(e);
-            }, type: 'text', placeholder: 'Enter name', value: this.state.name }),
-          _react2.default.createElement(
-            'button',
-            {
-              onClick: this.props.newGame
-            },
-            'Start Game'
-          )
-        ),
-        _react2.default.createElement(
-          'h3',
-          null,
-          'Join Existing Game'
-        ),
-        _react2.default.createElement(
-          'form',
-          null,
-          _react2.default.createElement('input', { onChange: function onChange(e) {
-              return _this2.onChangeUpdateGameId(e);
-            }, type: 'text', placeholder: 'Enter game id', value: this.state.gameId }),
-          _react2.default.createElement(
-            'button',
-            {
-              onClick: function onClick(e) {
-                _this2.props.joinGame(e, _this2.state.gameId);
-              }
-            },
-            'Join Game'
-          )
-        )
-      );
-    }
-  }]);
-
-  return Welcome;
-}(_react2.default.Component);
-
-exports.default = Welcome;
-
-/***/ }),
+/* 54 */,
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30796,6 +30691,149 @@ var _styledComponents = __webpack_require__(81);
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 (0, _styledComponents.injectGlobal)(_templateObject);
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  border-radius: 5px;\n  width: 200px;\n  box-shadow: none;\n  height: 30px;\n  border: 1px solid lightgrey;\n  margin: 5px;\n'], ['\n  border-radius: 5px;\n  width: 200px;\n  box-shadow: none;\n  height: 30px;\n  border: 1px solid lightgrey;\n  margin: 5px;\n']);
+
+var _styledComponents = __webpack_require__(81);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Input = _styledComponents2.default.input(_templateObject);
+
+exports.default = Input;
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Input = __webpack_require__(92);
+
+var _Input2 = _interopRequireDefault(_Input);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_React$Component) {
+  _inherits(Home, _React$Component);
+
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+    _this.state = {
+      name: '',
+      gameId: ''
+    };
+    return _this;
+  }
+
+  _createClass(Home, [{
+    key: 'onChangeUpdateName',
+    value: function onChangeUpdateName(e) {
+      e.preventDefault();
+      this.setState({
+        name: e.target.value
+      });
+    }
+  }, {
+    key: 'onChangeUpdateGameId',
+    value: function onChangeUpdateGameId(e) {
+      e.preventDefault();
+      this.setState({
+        gameId: e.target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Start New Game'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(_Input2.default, { onChange: function onChange(e) {
+              return _this2.onChangeUpdateName(e);
+            }, type: 'text', placeholder: 'Enter name', value: this.state.name }),
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'btn-primary',
+              onClick: this.props.newGame
+            },
+            'Start Game'
+          )
+        ),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Join Existing Game'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(_Input2.default, { onChange: function onChange(e) {
+              return _this2.onChangeUpdateGameId(e);
+            }, type: 'text', placeholder: 'Enter game id', value: this.state.gameId }),
+          _react2.default.createElement(
+            'button',
+            {
+              onClick: function onClick(e) {
+                _this2.props.joinGame(e, _this2.state.gameId);
+              }
+            },
+            'Join Game'
+          )
+        )
+      );
+    }
+  }]);
+
+  return Home;
+}(_react2.default.Component);
+
+exports.default = Home;
 
 /***/ })
 /******/ ]);

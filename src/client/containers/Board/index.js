@@ -16,9 +16,8 @@ class Board extends React.Component {
     super(props);
     this.state = {
       n: 3, // make this variable
-      board: [['', '', ''], ['', '', ''], ['', '', '']],
+      board: [['X', '', ''], ['', 'X', ''], ['O', '', '']],
       turn: 'X',
-      // role: 'X',
       opponent: false,
     }
 
@@ -39,9 +38,6 @@ class Board extends React.Component {
     }
   }
 
-  updateBoard() {
-
-  }
   render() {
     const quadrants = [];
     const n = Math.pow(this.state.n, 2);
@@ -50,10 +46,14 @@ class Board extends React.Component {
       const col = i - (this.state.n * row);
       quadrants.push(
         <BoardPiece 
-          validate={this.onClickValidateMove} key={i} id={i} val={this.state.board[row][col]} loc={[row, col]} />
+          validate={this.onClickValidateMove} 
+          key={i} 
+          id={i} 
+          val={this.state.board[row][col]} 
+          loc={[row, col]}
+        />
       )
     }
-
     return (
       <Wrapper>
         {!this.state.opponent && <h3>{this.props.message}</h3>}

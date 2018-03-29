@@ -10,12 +10,18 @@ const PieceWrapper = styled.div`
   border: 1px solid black;
 `;
 
+const Piece = styled.p`
+ font-size: 100px;
+ text-align: center;
+`;
+
 const BoardPiece = (props) => {
   console.log(props);
   return (
     <PieceWrapper
       onClick={() => props.validate(props.id, props.val, props.loc)}
-      >{props.val}
+    >
+      <Piece>{props.val}</Piece>
     </PieceWrapper>
   )
 }
