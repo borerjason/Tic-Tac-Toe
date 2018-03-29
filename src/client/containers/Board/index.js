@@ -9,7 +9,7 @@ class Board extends React.Component {
       n: 3, // make this variable
       board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
       turn: 'X',
-      role: 'X',
+      // role: 'X',
     }
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
@@ -18,12 +18,11 @@ class Board extends React.Component {
   onClickValidateMove(id, val, loc) {
     if (this.state.turn !== this.state.role) {
       alert('Please wait for your turn');
-   
     } else if (val !== '') {
       alert('This spot as already been played. Please select again!')
     } else { 
       const board = [...this.state.board];
-      board[loc[0]][loc[1]] = this.state.role;
+      board[loc[0]][loc[1]] = this.props.role;
       this.setState({ board });
     }
   }

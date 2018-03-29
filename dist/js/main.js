@@ -18321,13 +18321,17 @@ var App = function (_React$Component) {
 
     _this.state = {
       activeGame: false,
-      gameId: ''
+      gameId: '',
+      message: '',
+      role: ''
     };
 
     (0, _socket.updateGameId)(function (err, gameId) {
       _this.setState({
+        activeGame: true,
         gameId: gameId,
-        activeGame: true
+        message: 'Send your game id to a friend to get started. Your game id is: ' + gameId,
+        role: 'X'
       });
     });
 
@@ -18344,7 +18348,6 @@ var App = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log('GameID', this.state.gameId);
       return _react2.default.createElement(
         'div',
         null,
@@ -18353,7 +18356,9 @@ var App = function (_React$Component) {
         }) : _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_Board2.default, null)
+          _react2.default.createElement(_Board2.default, {
+            message: this.state.message,
+            role: this.state.role })
         )
       );
     }
@@ -25726,8 +25731,8 @@ var Board = function (_React$Component) {
     _this.state = {
       n: 3, // make this variable
       board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
-      turn: 'X',
-      role: 'X'
+      turn: 'X'
+      // role: 'X',
     };
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -25743,7 +25748,7 @@ var Board = function (_React$Component) {
         alert('This spot as already been played. Please select again!');
       } else {
         var board = [].concat(_toConsumableArray(this.state.board));
-        board[loc[0]][loc[1]] = this.state.role;
+        board[loc[0]][loc[1]] = this.props.role;
         this.setState({ board: board });
       }
     }

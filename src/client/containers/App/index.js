@@ -10,13 +10,17 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeGame: false,
-      gameId: ''
+      gameId: '',
+      message: '',
+      role: '',
     }
     
     updateGameId((err, gameId) => {
       this.setState({ 
+        activeGame: true,
         gameId,
-        activeGame: true
+        message: `Send your game id to a friend to get started. Your game id is: ${gameId}`,
+        role: 'X'
       });
     });
 
@@ -29,7 +33,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('GameID', this.state.gameId);
     return (
       <div>
         {!this.state.activeGame ? 
@@ -37,7 +40,9 @@ class App extends React.Component {
             newGame={this.startNewGame} 
           /> : 
           <div>
-            <Board />
+            <Board 
+              message={this.state.message}
+              role={this.state.role}/>
             {/* <Messages /> */}
           </div>}
       </div>
