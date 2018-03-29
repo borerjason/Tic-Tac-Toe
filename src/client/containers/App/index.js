@@ -1,9 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
 
 // import Messages from '../Messages';
 import Board from '../Board';
 import Welcome from '../Welcome';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
+
+const AppWrapper = styled.div`
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 class App extends React.Component {
   constructor(props){
@@ -49,7 +58,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <AppWrapper>
         {!this.state.activeGame ? 
           <Welcome 
             newGame={this.startNewGame} 
@@ -61,7 +70,7 @@ class App extends React.Component {
               role={this.state.role}/>
             {/* <Messages /> */}
           </div>}
-      </div>
+      </AppWrapper>
     );
   }
 };

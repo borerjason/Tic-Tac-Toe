@@ -1,13 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 
+import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       n: 3, // make this variable
-      board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
+      board: [['', '', ''], ['', '', ''], ['', '', '']],
       turn: 'X',
       // role: 'X',
       opponent: false,
@@ -17,7 +26,9 @@ class Board extends React.Component {
   }
   
   onClickValidateMove(id, val, loc) {
-    if (this.state.turn !== this.state.role) {
+    if (!this.state.opponent) {
+      alert('Please wait for another player!')
+    } else if (this.state.turn !== this.state.role) {
       alert('Please wait for your turn');
     } else if (val !== '') {
       alert('This spot as already been played. Please select again!')
@@ -44,12 +55,14 @@ class Board extends React.Component {
     }
 
     return (
-      <div>
+      <Wrapper>
         {!this.state.opponent && <h3>{this.props.message}</h3>}
         {this.state.opponent && this.state.turn === this.props.role && <h3>It's Your Turn!</h3>}
         {this.state.opponent && this.state.turn !== this.props.role && <h3>It's Your Opponents Turn!</h3>}
+        <Body>
         {quadrants}
-      </div>
+        </Body>
+      </Wrapper>
     )
   }
 }
