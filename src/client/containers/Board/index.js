@@ -8,19 +8,24 @@ class Board extends React.Component {
     this.state = {
       n: 3, // make this variable
       board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
+      turn: 'X',
+      role: 'X',
     }
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
   }
   
-  onClickValidateMove(id, val) {
-
-    console.log(id, val);
-    const row = Math.floor(id / this.state.n);
-    const col = id - (this.state.n * row);
-    const board = [...this.state.board];
-    board[row][col] = 'X';
-    this.setState({ board });
+  onClickValidateMove(id, val, loc) {
+    if (this.state.turn !== this.state.role) {
+      alert('Please wait for your turn');
+   
+    } else if (val !== '') {
+      alert('This spot as already been played. Please select again!')
+    } else { 
+      const board = [...this.state.board];
+      board[loc[0]][loc[1]] = this.state.role;
+      this.setState({ board });
+    }
   }
 
   updateBoard() {

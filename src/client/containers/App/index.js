@@ -2,12 +2,13 @@ import React from 'react';
 
 import Messages from '../Messages';
 import Board from '../Board';
+import Welcome from '../Welcome';
 
 const App = () => {
   return (
     <div>
-      WORK ALREADY!
       <Messages />
+      <Welcome />
       <Board />
     </div>
   );

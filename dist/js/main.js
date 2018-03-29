@@ -18296,14 +18296,18 @@ var _Board = __webpack_require__(78);
 
 var _Board2 = _interopRequireDefault(_Board);
 
+var _Welcome = __webpack_require__(80);
+
+var _Welcome2 = _interopRequireDefault(_Welcome);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
   return _react2.default.createElement(
     'div',
     null,
-    'WORK ALREADY!',
     _react2.default.createElement(_Messages2.default, null),
+    _react2.default.createElement(_Welcome2.default, null),
     _react2.default.createElement(_Board2.default, null)
   );
 };
@@ -25769,7 +25773,9 @@ var Board = function (_React$Component) {
 
     _this.state = {
       n: 3, // make this variable
-      board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']]
+      board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
+      turn: 'X',
+      role: 'X'
     };
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -25778,14 +25784,16 @@ var Board = function (_React$Component) {
 
   _createClass(Board, [{
     key: 'onClickValidateMove',
-    value: function onClickValidateMove(id, val) {
-
-      console.log(id, val);
-      var row = Math.floor(id / this.state.n);
-      var col = id - this.state.n * row;
-      var board = [].concat(_toConsumableArray(this.state.board));
-      board[row][col] = 'X';
-      this.setState({ board: board });
+    value: function onClickValidateMove(id, val, loc) {
+      if (this.state.turn !== this.state.role) {
+        alert('Please wait for your turn');
+      } else if (val !== '') {
+        alert('This spot as already been played. Please select again!');
+      } else {
+        var board = [].concat(_toConsumableArray(this.state.board));
+        board[loc[0]][loc[1]] = this.state.role;
+        this.setState({ board: board });
+      }
     }
   }, {
     key: 'updateBoard',
@@ -25838,7 +25846,7 @@ var BoardPiece = function BoardPiece(props) {
     'div',
     {
       onClick: function onClick() {
-        return props.validate(props.id, props.val);
+        return props.validate(props.id, props.val, props.loc);
       }
     },
     props.val
@@ -25846,6 +25854,71 @@ var BoardPiece = function BoardPiece(props) {
 };
 
 exports.default = BoardPiece;
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Welcome = function (_React$Component) {
+  _inherits(Welcome, _React$Component);
+
+  function Welcome(props) {
+    _classCallCheck(this, Welcome);
+
+    var _this = _possibleConstructorReturn(this, (Welcome.__proto__ || Object.getPrototypeOf(Welcome)).call(this, props));
+
+    _this.state = {
+      name: ''
+    };
+    return _this;
+  }
+
+  _createClass(Welcome, [{
+    key: 'onChangeUpdateName',
+    value: function onChangeUpdateName(e) {
+      e.preventDefault();
+      this.setState({
+        name: e.target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement('input', { onChange: function onChange(e) {
+              return _this2.onChangeUpdateName(e);
+            }, type: 'text', placeholder: 'Enter name', value: '' })
+        )
+      );
+    }
+  }]);
+
+  return Welcome;
+}(_react2.default.Component);
 
 /***/ })
 /******/ ]);
