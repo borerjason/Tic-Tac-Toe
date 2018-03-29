@@ -18335,6 +18335,16 @@ var App = function (_React$Component) {
       });
     });
 
+    (0, _socket.confirmJoinNewGame)(function (err, data) {
+      console.log('DATA', data);
+      _this.setState({
+        activeGame: true,
+        gameId: data.gameId,
+        message: 'You\'ve joined, it is your opponents turn',
+        role: 'O'
+      });
+    });
+
     _this.startNewGame = _this.startNewGame.bind(_this);
     return _this;
   }
@@ -18343,7 +18353,13 @@ var App = function (_React$Component) {
     key: 'startNewGame',
     value: function startNewGame(e) {
       e.preventDefault();
-      (0, _socket.startGame)();
+      (0, _socket.newGame)();
+    }
+  }, {
+    key: 'joinExistingGame',
+    value: function joinExistingGame(e, gameId) {
+      e.preventDefault();
+      (0, _socket.joinGame)({ gameId: gameId });
     }
   }, {
     key: 'render',
@@ -18352,7 +18368,8 @@ var App = function (_React$Component) {
         'div',
         null,
         !this.state.activeGame ? _react2.default.createElement(_Welcome2.default, {
-          newGame: this.startNewGame
+          newGame: this.startNewGame,
+          joinGame: this.joinExistingGame
         }) : _react2.default.createElement(
           'div',
           null,
@@ -25654,7 +25671,7 @@ Backoff.prototype.setJitter = function(jitter){
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateGameId = exports.startGame = exports.sendNewMessage = exports.subscribeToMessages = undefined;
+exports.confirmJoinNewGame = exports.joinGame = exports.updateGameId = exports.newGame = exports.sendNewMessage = exports.subscribeToMessages = undefined;
 
 var _socket = __webpack_require__(53);
 
@@ -25674,20 +25691,34 @@ var sendNewMessage = function sendNewMessage(msg) {
   socket.emit('message', msg);
 };
 
-var startGame = function startGame(cb) {
-  socket.emit('startGame');
+var newGame = function newGame() {
+  socket.emit('newGame');
 };
 
 var updateGameId = function updateGameId(cb) {
-  socket.on('startGame', function (gameId) {
+  socket.on('newGame', function (gameId) {
     return cb(null, gameId);
+  });
+};
+
+var joinGame = function joinGame(data) {
+  console.log('data in socket client', data);
+  socket.emit('joinGame', data);
+};
+
+var confirmJoinNewGame = function confirmJoinNewGame(cb) {
+  console.log('trigger in confimr join');
+  socket.on('joinGame', function (data) {
+    return cb(null, data);
   });
 };
 
 exports.subscribeToMessages = subscribeToMessages;
 exports.sendNewMessage = sendNewMessage;
-exports.startGame = startGame;
+exports.newGame = newGame;
 exports.updateGameId = updateGameId;
+exports.joinGame = joinGame;
+exports.confirmJoinNewGame = confirmJoinNewGame;
 
 /***/ }),
 /* 78 */
@@ -25924,7 +25955,11 @@ var Welcome = function (_React$Component) {
             }, type: 'text', placeholder: 'Enter game id', value: this.state.gameId }),
           _react2.default.createElement(
             'button',
-            null,
+            {
+              onClick: function onClick(e) {
+                _this2.props.joinGame(e, _this2.state.gameId);
+              }
+            },
             'Join Game'
           )
         )

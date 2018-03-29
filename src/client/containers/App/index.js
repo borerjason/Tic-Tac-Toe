@@ -3,7 +3,7 @@ import React from 'react';
 // import Messages from '../Messages';
 import Board from '../Board';
 import Welcome from '../Welcome';
-import { startGame, updateGameId } from '../../socket';
+import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
 class App extends React.Component {
   constructor(props){
@@ -24,12 +24,27 @@ class App extends React.Component {
       });
     });
 
+    confirmJoinNewGame((err, data) => {
+      console.log('DATA', data);
+      this.setState({
+        activeGame: true,
+        gameId: data.gameId,
+        message: `You've joined, it is your opponents turn`,
+        role: 'O'
+      });
+    })
+
     this.startNewGame = this.startNewGame.bind(this);
   }
   
   startNewGame(e) {
     e.preventDefault();
-    startGame();
+    newGame();
+  }
+
+  joinExistingGame(e, gameId) {
+    e.preventDefault();
+    joinGame({ gameId });
   }
 
   render() {
@@ -38,6 +53,7 @@ class App extends React.Component {
         {!this.state.activeGame ? 
           <Welcome 
             newGame={this.startNewGame} 
+            joinGame={this.joinExistingGame} 
           /> : 
           <div>
             <Board 

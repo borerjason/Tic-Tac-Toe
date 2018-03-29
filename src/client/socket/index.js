@@ -10,12 +10,23 @@ const sendNewMessage = (msg) => {
   socket.emit('message', msg);
 }
 
-const startGame = (cb) => {
-  socket.emit('startGame');
+const newGame = () => {
+  socket.emit('newGame');
 }
 
 const updateGameId = (cb) => {
-  socket.on('startGame', (gameId) => cb(null, gameId));
+  socket.on('newGame', (gameId) => cb(null, gameId));
 }
 
-export { subscribeToMessages, sendNewMessage, startGame, updateGameId };
+const joinGame = (data) => {
+  console.log('data in socket client', data);
+  socket.emit('joinGame', data);
+}
+
+const confirmJoinNewGame = (cb) => {
+  console.log('trigger in confimr join')
+  socket.on('joinGame', (data) => cb(null, data));
+}
+
+
+export { subscribeToMessages, sendNewMessage, newGame, updateGameId, joinGame, confirmJoinNewGame };

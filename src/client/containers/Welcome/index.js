@@ -23,6 +23,7 @@ class Welcome extends React.Component {
     });
   }
 
+
   render() {
     return (
       <div>
@@ -38,8 +39,12 @@ class Welcome extends React.Component {
         <h3>Join Existing Game</h3>
         <form>
           <input onChange={(e) => this.onChangeUpdateGameId(e)} type='text' placeholder='Enter game id' value={this.state.gameId}  />
-          <button>Join Game</button>
+          <button
+            onClick={(e) => { this.props.joinGame(e, this.state.gameId) }}
+            >Join Game
+          </button>
         </form>
+       
       </div>
     );
   }
