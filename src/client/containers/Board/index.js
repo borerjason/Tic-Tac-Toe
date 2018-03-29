@@ -10,6 +10,7 @@ class Board extends React.Component {
       board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
       turn: 'X',
       // role: 'X',
+      opponent: false,
     }
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
@@ -44,6 +45,9 @@ class Board extends React.Component {
 
     return (
       <div>
+        {!this.state.opponent && <h3>{this.props.message}</h3>}
+        {this.state.opponent && this.state.turn === this.props.role && <h3>It's Your Turn!</h3>}
+        {this.state.opponent && this.state.turn !== this.props.role && <h3>It's Your Opponents Turn!</h3>}
         {quadrants}
       </div>
     )

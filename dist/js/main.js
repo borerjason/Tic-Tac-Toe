@@ -25731,8 +25731,9 @@ var Board = function (_React$Component) {
     _this.state = {
       n: 3, // make this variable
       board: [['a', 'a', 'a'], ['', '', ''], ['', '', '']],
-      turn: 'X'
+      turn: 'X',
       // role: 'X',
+      opponent: false
     };
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -25770,6 +25771,21 @@ var Board = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        !this.state.opponent && _react2.default.createElement(
+          'h3',
+          null,
+          this.props.message
+        ),
+        this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
+          'h3',
+          null,
+          'It\'s Your Turn!'
+        ),
+        this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
+          'h3',
+          null,
+          'It\'s Your Opponents Turn!'
+        ),
         quadrants
       );
     }
