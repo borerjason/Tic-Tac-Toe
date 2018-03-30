@@ -25,3 +25,9 @@ const checkDiagonal = (board, row, col) => {
 
   return true;
 }
+
+const checkWinner = (n, board, row, col) => {
+  return checkRow(n, board, row) && checkColumn(n, board, col) && checkDiagonal(board, row, col);
+}
+
+export default checkWinner;

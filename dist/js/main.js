@@ -22073,6 +22073,10 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _socket = __webpack_require__(55);
 
+var _gameplay = __webpack_require__(94);
+
+var _gameplay2 = _interopRequireDefault(_gameplay);
+
 var _Body = __webpack_require__(80);
 
 var _Body2 = _interopRequireDefault(_Body);
@@ -22107,7 +22111,9 @@ var Board = function (_React$Component) {
       n: 3, // make this variable
       board: [['', '', ''], ['', '', ''], ['', '', '']],
       turn: 'X',
-      opponent: false
+      opponent: false,
+      winner: false,
+      numOfPlays: 0
     };
 
     (0, _socket.startGame)(function (err) {
@@ -22135,9 +22141,12 @@ var Board = function (_React$Component) {
       var _props = this.props,
           role = _props.role,
           gameId = _props.gameId;
+      var _state = this.state,
+          opponent = _state.opponent,
+          n = _state.n;
 
 
-      if (!this.state.opponent) {
+      if (!opponent) {
         alert('Please wait for another player!');
       } else if (this.state.turn !== role) {
         alert('Please wait for your turn');
@@ -22145,7 +22154,10 @@ var Board = function (_React$Component) {
         alert('This spot as already been played. Please select again!');
       } else {
         var board = [].concat(_toConsumableArray(this.state.board));
+
         board[loc[0]][loc[1]] = role;
+        var winner = (0, _gameplay2.default)(n, board, loc[0], loc[1]);
+        console.log('Winner?', winner);
         var turn = this.state.turn === 'X' ? 'O' : 'X';
         this.setState({ board: board, turn: turn }, function () {
           (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId });
@@ -30881,6 +30893,51 @@ var Home = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Home;
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var checkRow = function checkRow(n, board, row) {
+  // 1
+  for (var _i = 0; _i < n - 1; _i += 1) {
+    if (board[row][_i] !== board[row][_i + 1]) return false;
+  }
+
+  return true;
+};
+
+var checkColumn = function checkColumn(n, board, col) {
+  for (var _i2 = 0; _i2 < n - 1; _i2 += 1) {
+    if (board[_i2][col] !== board[_i2][col]) return false;
+  }
+
+  return true;
+};
+
+var checkDiagonal = function checkDiagonal(board, row, col) {
+  for (var _i3 = 0; _i3 < n - 1; _i3 += 1) {
+    if (board[_i3][_i3] !== board[_i3 + 1][_i3 + 1]) return false;
+  }
+
+  for (var j = n - 1; i > 0; i -= 1) {
+    if (board[i][i] !== board[i - 1][i - 1]) return false;
+  }
+
+  return true;
+};
+
+var checkWinner = function checkWinner(n, board, row, col) {
+  return checkRow(n, board, row) && checkColumn(n, board, col) && checkDiagonal(board, row, col);
+};
+
+exports.default = checkWinner;
 
 /***/ })
 /******/ ]);

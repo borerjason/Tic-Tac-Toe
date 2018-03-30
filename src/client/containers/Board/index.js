@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
+import checkWinner from '../../helpers/gameplay';
 import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
 
@@ -20,6 +21,8 @@ class Board extends React.Component {
       board: [['', '', ''], ['', '', ''], ['', '', '']],
       turn: 'X',
       opponent: false,
+      winner: false,
+      numOfPlays: 0,
     }
     
     startGame((err) => {
@@ -34,14 +37,15 @@ class Board extends React.Component {
       if (err) throw new Error('Error starting game');
       this.setState({ board, turn });
     });
-    
+
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
   }
   
   onClickValidateMove(id, val, loc) {
     const { role, gameId } = this.props;
+    const { opponent, n } = this.state;
 
-    if (!this.state.opponent) {
+    if (!opponent) {
       alert('Please wait for another player!')
     } else if (this.state.turn !== role) {
       alert('Please wait for your turn');
@@ -49,7 +53,10 @@ class Board extends React.Component {
       alert('This spot as already been played. Please select again!')
     } else { 
       const board = [...this.state.board];
+    
       board[loc[0]][loc[1]] = role;
+      const winner = checkWinner(n, board, loc[0], loc[1]);
+      console.log('Winner?', winner);
       const turn = this.state.turn === 'X' ? 'O' : 'X';
       this.setState({ board, turn }, () => {
         updateBoard({ board, turn, gameId  });
