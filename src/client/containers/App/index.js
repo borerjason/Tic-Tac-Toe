@@ -8,11 +8,24 @@ import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socke
 
 const AppWrapper = styled.div`
   display: flex;
-  height: 50vh;
+  // height: 50vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: yellow;
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const GameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 class App extends React.Component {
@@ -23,10 +36,11 @@ class App extends React.Component {
       gameId: '',
       message: '',
       role: '',
+      name: '',
+      opponent: 'TBD',
     }
     
     updateGameId((err, gameId) => {
-      console.log('gameId', gameId);
       this.setState({ 
         activeGame: true,
         gameId,
@@ -36,27 +50,37 @@ class App extends React.Component {
     });
 
     confirmJoinNewGame((err, data) => {
-      console.log('DATA', data);
-      console.log('err', err);
       this.setState({
         activeGame: true,
         gameId: data.gameId,
         message: `You've joined, it is your opponents turn`,
-        role: 'O'
+        role: 'O',
+        opponent: data.opponent
       });
     })
 
     this.startNewGame = this.startNewGame.bind(this);
+    this.joinExistingGame = this.joinExistingGame.bind(this);
+    this.updateOpponent = this.updateOpponent.bind(this);
   }
   
-  startNewGame(e) {
+  startNewGame(e, name) {
     e.preventDefault();
-    newGame();
+    this.setState({ name });
+    newGame({ name });
+  }
+  
+  joinExistingGame(e, gameId, name) {
+    e.preventDefault();
+    this.setState({ name });
+    joinGame({ gameId, name });
   }
 
-  joinExistingGame(e, gameId) {
-    e.preventDefault();
-    joinGame({ gameId });
+  updateOpponent(players) {
+    const name = this.state.name;
+    console.log('NAME', name, players);
+    const opponent = name === players[0] ? players[1] : players[0];
+    this.setState({ opponent });
   }
 
   render() {
@@ -65,15 +89,23 @@ class App extends React.Component {
         {!this.state.activeGame ? 
           <Home 
             newGame={this.startNewGame} 
-            joinGame={this.joinExistingGame} 
+            joinGame={this.joinExistingGame}
           /> : 
-          <div>
+          <GameWrapper>
             <Board 
               message={this.state.message}
               gameId={this.state.gameId}
-              role={this.state.role}/>
+              updateOpponent={this.updateOpponent} 
+              role={this.state.role}
+              name={this.state.name}
+              opponent={this.state.opponent}
+            />
             {/* <Messages /> */}
-          </div>}
+            <Wrapper>
+              <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
+              <div> This will be chatService</div>
+            </Wrapper>
+          </GameWrapper>}
       </AppWrapper>
     );
   }

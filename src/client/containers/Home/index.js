@@ -30,18 +30,27 @@ class Home extends React.Component {
       <div>
         <h3>Start New Game</h3>
         <form>
-          <Input onChange={(e) => this.onChangeUpdateName(e)} type='text' placeholder='Enter name' value={this.state.name}  />
+          <Input 
+            onChange={(e) => this.onChangeUpdateName(e)}
+            type='text'
+            placeholder='Enter name'
+            value={this.state.name} 
+          />
           <button
             className='btn-primary'
-            onClick={this.props.newGame}
+            onClick={(e, name) => this.props.newGame(e, this.state.name)}
             >Start Game
           </button>
         </form>
         <h3>Join Existing Game</h3>
         <form>
-          <Input onChange={(e) => this.onChangeUpdateGameId(e)} type='text' placeholder='Enter game id' value={this.state.gameId}  />
+          <Input 
+            onChange={(e) => this.onChangeUpdateGameId(e)}
+            type='text' placeholder='Enter game id'
+            value={this.state.gameId}
+          />
           <button
-            onClick={(e) => { this.props.joinGame(e, this.state.gameId) }}
+            onClick={(e) => { this.props.joinGame(e, this.state.gameId, this.state.name) }}
             >Join Game
           </button>
         </form>

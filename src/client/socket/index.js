@@ -10,8 +10,8 @@ const sendNewMessage = (msg) => {
   socket.emit('message', msg);
 }
 
-const newGame = () => {
-  socket.emit('newGame');
+const newGame = (data) => {
+  socket.emit('newGame', data);
 }
 
 const updateGameId = (cb) => {
@@ -27,7 +27,7 @@ const confirmJoinNewGame = (cb) => {
 }
 
 const startGame = (cb) => {
-  socket.on('startGame', () => cb());
+  socket.on('startGame', (data) => cb(null, data));
 }
 
 const updateBoard = (data) => {

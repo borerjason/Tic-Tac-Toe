@@ -6,6 +6,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 let gameId = 100;
+const games = {};
 
 app.use( '/', express.static(path.join(__dirname, '../../dist')));
 
@@ -15,17 +16,20 @@ io.on('connection', (socket) => {
     io.emit('message', msg);
   });
 
-  socket.on('newGame', () => {
+  socket.on('newGame', (data) => {
     socket.join(++gameId);
+    games[gameId] = [data.name];
     socket.emit('newGame', gameId);
-    // io.to(gameId).emit('newGame', gameId);
-  })
+  });
 
   socket.on('joinGame', (data) => {
     const room = parseInt(data.gameId);
+    data.opponent = games[room][0];
+    games[room].push(data.name);
+    const players = games[room];
     socket.join(room);
     socket.emit('joinGame', data);
-    io.in(room).emit('startGame');
+    io.in(room).emit('startGame', players);
   });
 
   socket.on('updateBoard', (data) => {

@@ -10,7 +10,7 @@ import BoardPiece from '../BoardPiece';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 `
 
@@ -26,11 +26,12 @@ class Board extends React.Component {
       numOfPlays: 0,
     }
     
-    startGame((err) => {
+    startGame((err, data) => {
       if (err) throw new Error('Error starting game');
       this.setState({
         opponent: true
       });
+      this.props.updateOpponent(data);
     });
     
     clientUpdateBoard((err, data) => {
@@ -84,16 +85,17 @@ class Board extends React.Component {
   }
 
   render() {
-    const { role } = this.props;
+    const { role, name, opponent } = this.props;
     const { n, board, winner, turn, numOfPlays } = this.state;
     const quadrants = buildBoard(n, board, this.onClickValidateMove);
     const lastPlayer = turn === 'X' ? 'O' : 'X';
+    const winningPlayer = lastPlayer === role ? name : opponent;
  
     return (
       <Wrapper>
         {(winner || numOfPlays === 9) ?
         <div>
-          {winner ? <h3>{lastPlayer} Wins!</h3> : <h3>Tie!</h3>}
+          {winner ? <h3>{winningPlayer} Wins!</h3> : <h3>Tie!</h3>}
           <button 
             className='btn-secondary'
             onClick={this.restartGame}
@@ -102,8 +104,8 @@ class Board extends React.Component {
           </div> :
           <div>
         {!this.state.opponent && <h3>{this.props.message}</h3>}
-        {!winner && this.state.opponent && this.state.turn === this.props.role && <h3>It's Your Turn!</h3>}
-        {!winner && this.state.opponent && this.state.turn !== this.props.role && <h3>It's Your Opponent's Turn!</h3>}
+        {!winner && this.state.opponent && this.state.turn === this.props.role && <h3>It's {name}'s Turn!</h3>}
+        {!winner && this.state.opponent && this.state.turn !== this.props.role && <h3>It's {opponent}'s Turn!</h3>}
         </div>
         }
         <Body>
