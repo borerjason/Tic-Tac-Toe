@@ -8,26 +8,33 @@ const checkRow = (n, board, row) => {
 
 const checkColumn = (n, board, col) => {
   for (let i = 0; i < n - 1; i += 1) {
-    if (!board[i][col] || board[i][col] !== board[i][col]) return false;
+    if (!board[i][col] || board[i][col] !== board[i + 1][col]) return false;
   }
 
   return true; 
 }
 
-const checkDiagonal = (board, row, col) => {
+const checkDiagonal = (n, board, row, col) => {
+  
+  let foundDiagonal = true;
   for (let i = 0; i < n - 1; i += 1) {
-    if (board[i][i] !== board[i + 1][i + 1]) return false;
+    if (!board[i][i] || board[i][i] !== board[i + 1][i + 1]) {
+      foundDiagonal = false;
+    }
   }
+  
+  if (foundDiagonal) return true;
 
-  for (let j = n - 1; i > 0; i -= 1) {
-    if (board[i][i] !== board[i - 1][i - 1]) return false;
+  for (let i = 0, j = n - 1; i < n - 1; i += 1) {
+    if (!board[i][j] || board[i][j] !== board[i + 1][j - 1]) return false;
+    j -= 1;
   }
-
+  
   return true;
 }
 
 const checkWinner = (n, board, row, col) => {
-  return checkRow(n, board, row) && checkColumn(n, board, col) && checkDiagonal(board, row, col);
+  return checkRow(n, board, row) || checkColumn(n, board, col) || checkDiagonal(n, board, row, col);
 }
 
 export { checkRow, checkColumn, checkDiagonal, checkWinner };

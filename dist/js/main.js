@@ -22075,7 +22075,7 @@ var _socket = __webpack_require__(55);
 
 var _gameplay = __webpack_require__(94);
 
-var _gameplay2 = _interopRequireDefault(_gameplay);
+var _buildBoard = __webpack_require__(95);
 
 var _Body = __webpack_require__(80);
 
@@ -22146,6 +22146,7 @@ var Board = function (_React$Component) {
           n = _state.n;
 
 
+      console.log('BOard', this.state.board);
       if (!opponent) {
         alert('Please wait for another player!');
       } else if (this.state.turn !== role) {
@@ -22156,8 +22157,8 @@ var Board = function (_React$Component) {
         var board = [].concat(_toConsumableArray(this.state.board));
 
         board[loc[0]][loc[1]] = role;
-        var winner = (0, _gameplay2.default)(n, board, loc[0], loc[1]);
-        console.log('Winner?', winner);
+        var winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
+        console.log('Winner?', winner, 'row', loc[0], 'col', loc[1]);
         var turn = this.state.turn === 'X' ? 'O' : 'X';
         this.setState({ board: board, turn: turn }, function () {
           (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId });
@@ -22167,19 +22168,27 @@ var Board = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var quadrants = [];
-      var n = Math.pow(this.state.n, 2);
-      for (var i = 0; i < n; i += 1) {
-        var row = Math.floor(i / this.state.n);
-        var col = i - this.state.n * row;
-        quadrants.push(_react2.default.createElement(_BoardPiece2.default, {
-          validate: this.onClickValidateMove,
-          key: i,
-          id: i,
-          val: this.state.board[row][col],
-          loc: [row, col]
-        }));
-      }
+      var _state2 = this.state,
+          n = _state2.n,
+          board = _state2.board;
+
+
+      var quadrants = (0, _buildBoard.buildBoard)(n, board, this.onClickValidateMove);
+      // const quadrants = [];
+      // const n = Math.pow(this.state.n, 2);
+      // for (let i = 0; i < n; i+= 1) {
+      //   const row = Math.floor(i / this.state.n);
+      //   const col = i - (this.state.n * row);
+      //   quadrants.push(
+      //     <BoardPiece 
+      //       validate={this.onClickValidateMove} 
+      //       key={i} 
+      //       id={i} 
+      //       val={this.state.board[row][col]} 
+      //       loc={[row, col]}
+      //     />
+      //   )
+      // }
 
       return _react2.default.createElement(
         Wrapper,
@@ -30905,41 +30914,91 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var checkRow = function checkRow(n, board, row) {
-  for (var _i = 0; _i < n - 1; _i += 1) {
-    if (!board[row][_i] || board[row][_i] !== board[row][_i + 1]) return false;
+  for (var i = 0; i < n - 1; i += 1) {
+    if (!board[row][i] || board[row][i] !== board[row][i + 1]) return false;
   }
 
   return true;
 };
 
 var checkColumn = function checkColumn(n, board, col) {
-  for (var _i2 = 0; _i2 < n - 1; _i2 += 1) {
-    if (!board[_i2][col] || board[_i2][col] !== board[_i2][col]) return false;
+  for (var i = 0; i < n - 1; i += 1) {
+    if (!board[i][col] || board[i][col] !== board[i + 1][col]) return false;
   }
 
   return true;
 };
 
-var checkDiagonal = function checkDiagonal(board, row, col) {
-  for (var _i3 = 0; _i3 < n - 1; _i3 += 1) {
-    if (board[_i3][_i3] !== board[_i3 + 1][_i3 + 1]) return false;
+var checkDiagonal = function checkDiagonal(n, board, row, col) {
+
+  var foundDiagonal = true;
+  for (var i = 0; i < n - 1; i += 1) {
+    if (!board[i][i] || board[i][i] !== board[i + 1][i + 1]) {
+      foundDiagonal = false;
+    }
   }
 
-  for (var j = n - 1; i > 0; i -= 1) {
-    if (board[i][i] !== board[i - 1][i - 1]) return false;
+  if (foundDiagonal) return true;
+
+  for (var _i = 0, j = n - 1; _i < n - 1; _i += 1) {
+    if (!board[_i][j] || board[_i][j] !== board[_i + 1][j - 1]) return false;
+    j -= 1;
   }
 
   return true;
 };
 
 var checkWinner = function checkWinner(n, board, row, col) {
-  return checkRow(n, board, row) && checkColumn(n, board, col) && checkDiagonal(board, row, col);
+  return checkRow(n, board, row) || checkColumn(n, board, col) || checkDiagonal(n, board, row, col);
 };
 
 exports.checkRow = checkRow;
 exports.checkColumn = checkColumn;
 exports.checkDiagonal = checkDiagonal;
 exports.checkWinner = checkWinner;
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BoardPiece = __webpack_require__(53);
+
+var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var buildBoard = function buildBoard(size, board, validate) {
+  var quadrants = [];
+  var n = Math.pow(size, 2);
+
+  for (var i = 0; i < n; i += 1) {
+    var row = Math.floor(i / size);
+    var col = i - size * row;
+
+    quadrants.push(_react2.default.createElement(_BoardPiece2.default, {
+      validate: validate,
+      key: i,
+      id: i,
+      val: board[row][col],
+      loc: [row, col]
+    }));
+  }
+
+  return quadrants;
+};
+
+exports.default = buildBoard;
 
 /***/ })
 /******/ ]);

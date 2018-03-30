@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
-import checkWinner from '../../helpers/gameplay';
+import { checkWinner } from '../../helpers/gameplay';
+import { buildBoard } from '../../helpers/buildBoard';
 import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
 
@@ -44,7 +45,8 @@ class Board extends React.Component {
   onClickValidateMove(id, val, loc) {
     const { role, gameId } = this.props;
     const { opponent, n } = this.state;
-
+    
+    console.log('BOard', this.state.board);
     if (!opponent) {
       alert('Please wait for another player!')
     } else if (this.state.turn !== role) {
@@ -56,7 +58,7 @@ class Board extends React.Component {
     
       board[loc[0]][loc[1]] = role;
       const winner = checkWinner(n, board, loc[0], loc[1]);
-      console.log('Winner?', winner);
+      console.log('Winner?', winner, 'row', loc[0], 'col', loc[1]);
       const turn = this.state.turn === 'X' ? 'O' : 'X';
       this.setState({ board, turn }, () => {
         updateBoard({ board, turn, gameId  });
@@ -65,21 +67,24 @@ class Board extends React.Component {
   }
 
   render() {
-    const quadrants = [];
-    const n = Math.pow(this.state.n, 2);
-    for (let i = 0; i < n; i+= 1) {
-      const row = Math.floor(i / this.state.n);
-      const col = i - (this.state.n * row);
-      quadrants.push(
-        <BoardPiece 
-          validate={this.onClickValidateMove} 
-          key={i} 
-          id={i} 
-          val={this.state.board[row][col]} 
-          loc={[row, col]}
-        />
-      )
-    }
+    const { n, board } = this.state;
+
+    const quadrants = buildBoard(n, board, this.onClickValidateMove);
+    // const quadrants = [];
+    // const n = Math.pow(this.state.n, 2);
+    // for (let i = 0; i < n; i+= 1) {
+    //   const row = Math.floor(i / this.state.n);
+    //   const col = i - (this.state.n * row);
+    //   quadrants.push(
+    //     <BoardPiece 
+    //       validate={this.onClickValidateMove} 
+    //       key={i} 
+    //       id={i} 
+    //       val={this.state.board[row][col]} 
+    //       loc={[row, col]}
+    //     />
+    //   )
+    // }
 
     return (
       <Wrapper>
