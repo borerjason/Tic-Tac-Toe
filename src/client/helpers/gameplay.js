@@ -1,6 +1,6 @@
-const checkRow = (n, board, row) => { // 1
+const checkRow = (n, board, row) => {
   for (let i = 0; i < n - 1; i += 1) {
-    if (board[row][i] !== board[row][i + 1]) return false;
+    if (!board[row][i] || (board[row][i] !== board[row][i + 1])) return false;
   }
 
   return true;     
@@ -8,7 +8,7 @@ const checkRow = (n, board, row) => { // 1
 
 const checkColumn = (n, board, col) => {
   for (let i = 0; i < n - 1; i += 1) {
-    if (board[i][col] !== board[i][col]) return false;
+    if (!board[i][col] || board[i][col] !== board[i][col]) return false;
   }
 
   return true; 
@@ -30,4 +30,4 @@ const checkWinner = (n, board, row, col) => {
   return checkRow(n, board, row) && checkColumn(n, board, col) && checkDiagonal(board, row, col);
 }
 
-export default checkWinner;
+export { checkRow, checkColumn, checkDiagonal, checkWinner };

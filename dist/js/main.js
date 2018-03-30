@@ -30905,9 +30905,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var checkRow = function checkRow(n, board, row) {
-  // 1
   for (var _i = 0; _i < n - 1; _i += 1) {
-    if (board[row][_i] !== board[row][_i + 1]) return false;
+    if (!board[row][_i] || board[row][_i] !== board[row][_i + 1]) return false;
   }
 
   return true;
@@ -30915,7 +30914,7 @@ var checkRow = function checkRow(n, board, row) {
 
 var checkColumn = function checkColumn(n, board, col) {
   for (var _i2 = 0; _i2 < n - 1; _i2 += 1) {
-    if (board[_i2][col] !== board[_i2][col]) return false;
+    if (!board[_i2][col] || board[_i2][col] !== board[_i2][col]) return false;
   }
 
   return true;
@@ -30937,7 +30936,10 @@ var checkWinner = function checkWinner(n, board, row, col) {
   return checkRow(n, board, row) && checkColumn(n, board, col) && checkDiagonal(board, row, col);
 };
 
-exports.default = checkWinner;
+exports.checkRow = checkRow;
+exports.checkColumn = checkColumn;
+exports.checkDiagonal = checkDiagonal;
+exports.checkWinner = checkWinner;
 
 /***/ })
 /******/ ]);
