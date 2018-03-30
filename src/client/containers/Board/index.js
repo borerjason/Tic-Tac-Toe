@@ -35,8 +35,8 @@ class Board extends React.Component {
     
     clientUpdateBoard((err, data) => {
       if (err) throw new Error('Error starting game');
-      const { board, turn, winner } = data;
-      this.setState({ board, turn, winner});
+      const { board, turn, winner, numOfPlays } = data;
+      this.setState({ board, turn, winner, numOfPlays });
     });
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
@@ -45,9 +45,9 @@ class Board extends React.Component {
   
   onClickValidateMove(id, val, loc) {
     const { role, gameId } = this.props;
-    const { opponent, n } = this.state;
+    let { turn, opponent, n, winner, numOfPlays } = this.state;
     
-    if(this.state.winner) {
+    if(winner || numOfPlays === 9) {
       return;
     } else if (!opponent) {
       alert('Please wait for another player!')
@@ -58,11 +58,16 @@ class Board extends React.Component {
     } else { 
       const board = [...this.state.board];
       board[loc[0]][loc[1]] = role;
-      const winner = checkWinner(n, board, loc[0], loc[1]);
-      const turn = this.state.turn === 'X' ? 'O' : 'X';
-      this.setState({ board, turn, winner }, () => {
-        updateBoard({ board, turn, gameId, winner });
+      turn = turn === 'X' ? 'O' : 'X';
+      numOfPlays += 1;
+
+      if (numOfPlays > 4) {
+        winner = checkWinner(n, board, loc[0], loc[1]);
+      }
+      
+      this.setState({ board, turn, winner, numOfPlays }, () => {
       });
+      updateBoard({ board, turn, gameId, winner, numOfPlays });
     }
   }
 
@@ -70,33 +75,37 @@ class Board extends React.Component {
     this.setState({
       board: [['', '', ''], ['', '', ''], ['', '', '']],
       winner: false,
+      numOfPlays: 0,
     }, () => {
       const { gameId } = this.props;
-      const { n, board, winner, turn } = this.state;
-      updateBoard({ board, turn, gameId, winner })
+      const { n, board, winner, turn, numOfPlays } = this.state;
+      updateBoard({ board, turn, gameId, winner, numOfPlays })
     });
   }
 
   render() {
     const { role } = this.props;
-    const { n, board, winner, turn } = this.state;
+    const { n, board, winner, turn, numOfPlays } = this.state;
     const quadrants = buildBoard(n, board, this.onClickValidateMove);
     const lastPlayer = turn === 'X' ? 'O' : 'X';
-
+ 
     return (
       <Wrapper>
-        {winner && 
+        {(winner || numOfPlays === 9) ?
         <div>
-          <h3>{lastPlayer} Wins!</h3>
+          {winner ? <h3>{lastPlayer} Wins!</h3> : <h3>Tie!</h3>}
           <button 
             className='btn-secondary'
             onClick={this.restartGame}
            >Restart Game
           </button>
-          </div> }
+          </div> :
+          <div>
         {!this.state.opponent && <h3>{this.props.message}</h3>}
         {!winner && this.state.opponent && this.state.turn === this.props.role && <h3>It's Your Turn!</h3>}
         {!winner && this.state.opponent && this.state.turn !== this.props.role && <h3>It's Your Opponent's Turn!</h3>}
+        </div>
+        }
         <Body>
         {quadrants}
         </Body>

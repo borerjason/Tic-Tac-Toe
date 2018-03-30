@@ -22129,9 +22129,10 @@ var Board = function (_React$Component) {
       if (err) throw new Error('Error starting game');
       var board = data.board,
           turn = data.turn,
-          winner = data.winner;
+          winner = data.winner,
+          numOfPlays = data.numOfPlays;
 
-      _this.setState({ board: board, turn: turn, winner: winner });
+      _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays });
     });
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -22146,11 +22147,14 @@ var Board = function (_React$Component) {
           role = _props.role,
           gameId = _props.gameId;
       var _state = this.state,
+          turn = _state.turn,
           opponent = _state.opponent,
-          n = _state.n;
+          n = _state.n,
+          winner = _state.winner,
+          numOfPlays = _state.numOfPlays;
 
 
-      if (this.state.winner) {
+      if (winner || numOfPlays === 9) {
         return;
       } else if (!opponent) {
         alert('Please wait for another player!');
@@ -22161,11 +22165,15 @@ var Board = function (_React$Component) {
       } else {
         var board = [].concat(_toConsumableArray(this.state.board));
         board[loc[0]][loc[1]] = role;
-        var winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
-        var turn = this.state.turn === 'X' ? 'O' : 'X';
-        this.setState({ board: board, turn: turn, winner: winner }, function () {
-          (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner });
-        });
+        turn = turn === 'X' ? 'O' : 'X';
+        numOfPlays += 1;
+
+        if (numOfPlays > 4) {
+          winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
+        }
+
+        this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays }, function () {});
+        (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner, numOfPlays: numOfPlays });
       }
     }
   }, {
@@ -22175,16 +22183,18 @@ var Board = function (_React$Component) {
 
       this.setState({
         board: [['', '', ''], ['', '', ''], ['', '', '']],
-        winner: false
+        winner: false,
+        numOfPlays: 0
       }, function () {
         var gameId = _this2.props.gameId;
         var _state2 = _this2.state,
             n = _state2.n,
             board = _state2.board,
             winner = _state2.winner,
-            turn = _state2.turn;
+            turn = _state2.turn,
+            numOfPlays = _state2.numOfPlays;
 
-        (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner });
+        (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner, numOfPlays: numOfPlays });
       });
     }
   }, {
@@ -22195,7 +22205,8 @@ var Board = function (_React$Component) {
           n = _state3.n,
           board = _state3.board,
           winner = _state3.winner,
-          turn = _state3.turn;
+          turn = _state3.turn,
+          numOfPlays = _state3.numOfPlays;
 
       var quadrants = (0, _buildBoard2.default)(n, board, this.onClickValidateMove);
       var lastPlayer = turn === 'X' ? 'O' : 'X';
@@ -22203,14 +22214,18 @@ var Board = function (_React$Component) {
       return _react2.default.createElement(
         Wrapper,
         null,
-        winner && _react2.default.createElement(
+        winner || numOfPlays === 9 ? _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(
+          winner ? _react2.default.createElement(
             'h3',
             null,
             lastPlayer,
             ' Wins!'
+          ) : _react2.default.createElement(
+            'h3',
+            null,
+            'Tie!'
           ),
           _react2.default.createElement(
             'button',
@@ -22220,21 +22235,24 @@ var Board = function (_React$Component) {
             },
             'Restart Game'
           )
-        ),
-        !this.state.opponent && _react2.default.createElement(
-          'h3',
+        ) : _react2.default.createElement(
+          'div',
           null,
-          this.props.message
-        ),
-        !winner && this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
-          'h3',
-          null,
-          'It\'s Your Turn!'
-        ),
-        !winner && this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
-          'h3',
-          null,
-          'It\'s Your Opponent\'s Turn!'
+          !this.state.opponent && _react2.default.createElement(
+            'h3',
+            null,
+            this.props.message
+          ),
+          !winner && this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
+            'h3',
+            null,
+            'It\'s Your Turn!'
+          ),
+          !winner && this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
+            'h3',
+            null,
+            'It\'s Your Opponent\'s Turn!'
+          )
         ),
         _react2.default.createElement(
           _Body2.default,
