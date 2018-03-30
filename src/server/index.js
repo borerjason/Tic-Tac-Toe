@@ -29,8 +29,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updateBoard', (data) => {
-    const { board, turn, gameId} = data;
-    socket.to(gameId).emit('updateBoard', { board, turn });
+    const { board, turn, gameId, winner } = data;
+    socket.to(gameId).emit('updateBoard', { board, turn, winner });
   });
   
 });

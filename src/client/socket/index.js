@@ -19,12 +19,10 @@ const updateGameId = (cb) => {
 }
 
 const joinGame = (data) => {
-  console.log('data in socket client', data);
   socket.emit('joinGame', data);
 }
 
 const confirmJoinNewGame = (cb) => {
-  console.log('trigger in confirmJoinNewGame')
   socket.on('joinGame', (data) => cb(null, data));
 }
 

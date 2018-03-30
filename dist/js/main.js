@@ -22077,6 +22077,8 @@ var _gameplay = __webpack_require__(94);
 
 var _buildBoard = __webpack_require__(95);
 
+var _buildBoard2 = _interopRequireDefault(_buildBoard);
+
 var _Body = __webpack_require__(80);
 
 var _Body2 = _interopRequireDefault(_Body);
@@ -22108,7 +22110,7 @@ var Board = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
     _this.state = {
-      n: 3, // make this variable
+      n: 3,
       board: [['', '', ''], ['', '', ''], ['', '', '']],
       turn: 'X',
       opponent: false,
@@ -22124,14 +22126,16 @@ var Board = function (_React$Component) {
     });
 
     (0, _socket.clientUpdateBoard)(function (err, data) {
-      var board = data.board,
-          turn = data.turn;
-
       if (err) throw new Error('Error starting game');
-      _this.setState({ board: board, turn: turn });
+      var board = data.board,
+          turn = data.turn,
+          winner = data.winner;
+
+      _this.setState({ board: board, turn: turn, winner: winner });
     });
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
+    _this.restartGame = _this.restartGame.bind(_this);
     return _this;
   }
 
@@ -22146,8 +22150,9 @@ var Board = function (_React$Component) {
           n = _state.n;
 
 
-      console.log('BOard', this.state.board);
-      if (!opponent) {
+      if (this.state.winner) {
+        return;
+      } else if (!opponent) {
         alert('Please wait for another player!');
       } else if (this.state.turn !== role) {
         alert('Please wait for your turn');
@@ -22155,58 +22160,81 @@ var Board = function (_React$Component) {
         alert('This spot as already been played. Please select again!');
       } else {
         var board = [].concat(_toConsumableArray(this.state.board));
-
         board[loc[0]][loc[1]] = role;
         var winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
-        console.log('Winner?', winner, 'row', loc[0], 'col', loc[1]);
         var turn = this.state.turn === 'X' ? 'O' : 'X';
-        this.setState({ board: board, turn: turn }, function () {
-          (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId });
+        this.setState({ board: board, turn: turn, winner: winner }, function () {
+          (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner });
         });
       }
     }
   }, {
+    key: 'restartGame',
+    value: function restartGame() {
+      var _this2 = this;
+
+      this.setState({
+        board: [['', '', ''], ['', '', ''], ['', '', '']],
+        winner: false
+      }, function () {
+        var gameId = _this2.props.gameId;
+        var _state2 = _this2.state,
+            n = _state2.n,
+            board = _state2.board,
+            winner = _state2.winner,
+            turn = _state2.turn;
+
+        (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner });
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _state2 = this.state,
-          n = _state2.n,
-          board = _state2.board;
+      var role = this.props.role;
+      var _state3 = this.state,
+          n = _state3.n,
+          board = _state3.board,
+          winner = _state3.winner,
+          turn = _state3.turn;
 
-
-      var quadrants = (0, _buildBoard.buildBoard)(n, board, this.onClickValidateMove);
-      // const quadrants = [];
-      // const n = Math.pow(this.state.n, 2);
-      // for (let i = 0; i < n; i+= 1) {
-      //   const row = Math.floor(i / this.state.n);
-      //   const col = i - (this.state.n * row);
-      //   quadrants.push(
-      //     <BoardPiece 
-      //       validate={this.onClickValidateMove} 
-      //       key={i} 
-      //       id={i} 
-      //       val={this.state.board[row][col]} 
-      //       loc={[row, col]}
-      //     />
-      //   )
-      // }
+      var quadrants = (0, _buildBoard2.default)(n, board, this.onClickValidateMove);
+      var lastPlayer = turn === 'X' ? 'O' : 'X';
 
       return _react2.default.createElement(
         Wrapper,
         null,
+        winner && _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h3',
+            null,
+            lastPlayer,
+            ' Wins!'
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'btn-secondary',
+              onClick: this.restartGame
+            },
+            'Restart Game'
+          )
+        ),
         !this.state.opponent && _react2.default.createElement(
           'h3',
           null,
           this.props.message
         ),
-        this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
+        !winner && this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
           'h3',
           null,
           'It\'s Your Turn!'
         ),
-        this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
+        !winner && this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
           'h3',
           null,
-          'It\'s Your Opponents Turn!'
+          'It\'s Your Opponent\'s Turn!'
         ),
         _react2.default.createElement(
           _Body2.default,
@@ -22312,12 +22340,10 @@ var updateGameId = function updateGameId(cb) {
 };
 
 var joinGame = function joinGame(data) {
-  console.log('data in socket client', data);
   socket.emit('joinGame', data);
 };
 
 var confirmJoinNewGame = function confirmJoinNewGame(cb) {
-  console.log('trigger in confirmJoinNewGame');
   socket.on('joinGame', function (data) {
     return cb(null, data);
   });
