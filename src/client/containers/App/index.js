@@ -26,6 +26,7 @@ class App extends React.Component {
     }
     
     updateGameId((err, gameId) => {
+      console.log('gameId', gameId);
       this.setState({ 
         activeGame: true,
         gameId,
@@ -36,6 +37,7 @@ class App extends React.Component {
 
     confirmJoinNewGame((err, data) => {
       console.log('DATA', data);
+      console.log('err', err);
       this.setState({
         activeGame: true,
         gameId: data.gameId,
@@ -68,6 +70,7 @@ class App extends React.Component {
           <div>
             <Board 
               message={this.state.message}
+              gameId={this.state.gameId}
               role={this.state.role}/>
             {/* <Messages /> */}
           </div>}

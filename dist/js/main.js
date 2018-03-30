@@ -21984,6 +21984,7 @@ var App = function (_React$Component) {
     };
 
     (0, _socket.updateGameId)(function (err, gameId) {
+      console.log('gameId', gameId);
       _this.setState({
         activeGame: true,
         gameId: gameId,
@@ -21994,6 +21995,7 @@ var App = function (_React$Component) {
 
     (0, _socket.confirmJoinNewGame)(function (err, data) {
       console.log('DATA', data);
+      console.log('err', err);
       _this.setState({
         activeGame: true,
         gameId: data.gameId,
@@ -22032,6 +22034,7 @@ var App = function (_React$Component) {
           null,
           _react2.default.createElement(_Board2.default, {
             message: this.state.message,
+            gameId: this.state.gameId,
             role: this.state.role })
         )
       );
@@ -22068,6 +22071,8 @@ var _styledComponents = __webpack_require__(81);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
+var _socket = __webpack_require__(55);
+
 var _Body = __webpack_require__(80);
 
 var _Body2 = _interopRequireDefault(_Body);
@@ -22100,10 +22105,25 @@ var Board = function (_React$Component) {
 
     _this.state = {
       n: 3, // make this variable
-      board: [['X', '', ''], ['', 'X', ''], ['O', '', '']],
+      board: [['', '', ''], ['', '', ''], ['', '', '']],
       turn: 'X',
       opponent: false
     };
+
+    (0, _socket.startGame)(function (err) {
+      if (err) throw new Error('Error starting game');
+      _this.setState({
+        opponent: true
+      });
+    });
+
+    (0, _socket.clientUpdateBoard)(function (err, data) {
+      var board = data.board,
+          turn = data.turn;
+
+      if (err) throw new Error('Error starting game');
+      _this.setState({ board: board, turn: turn });
+    });
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
     return _this;
@@ -22112,16 +22132,24 @@ var Board = function (_React$Component) {
   _createClass(Board, [{
     key: 'onClickValidateMove',
     value: function onClickValidateMove(id, val, loc) {
+      var _props = this.props,
+          role = _props.role,
+          gameId = _props.gameId;
+
+
       if (!this.state.opponent) {
         alert('Please wait for another player!');
-      } else if (this.state.turn !== this.state.role) {
+      } else if (this.state.turn !== role) {
         alert('Please wait for your turn');
       } else if (val !== '') {
         alert('This spot as already been played. Please select again!');
       } else {
         var board = [].concat(_toConsumableArray(this.state.board));
-        board[loc[0]][loc[1]] = this.props.role;
-        this.setState({ board: board });
+        board[loc[0]][loc[1]] = role;
+        var turn = this.state.turn === 'X' ? 'O' : 'X';
+        this.setState({ board: board, turn: turn }, function () {
+          (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId });
+        });
       }
     }
   }, {
@@ -22140,6 +22168,7 @@ var Board = function (_React$Component) {
           loc: [row, col]
         }));
       }
+
       return _react2.default.createElement(
         Wrapper,
         null,
@@ -22203,7 +22232,6 @@ var PieceWrapper = _styledComponents2.default.div(_templateObject);
 var Piece = _styledComponents2.default.p(_templateObject2);
 
 var BoardPiece = function BoardPiece(props) {
-  console.log(props);
   return _react2.default.createElement(
     PieceWrapper,
     {
@@ -22232,7 +22260,7 @@ exports.default = BoardPiece;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.confirmJoinNewGame = exports.joinGame = exports.updateGameId = exports.newGame = exports.sendNewMessage = exports.subscribeToMessages = undefined;
+exports.clientUpdateBoard = exports.updateBoard = exports.startGame = exports.confirmJoinNewGame = exports.joinGame = exports.updateGameId = exports.newGame = exports.sendNewMessage = exports.subscribeToMessages = undefined;
 
 var _socket = __webpack_require__(56);
 
@@ -22268,8 +22296,24 @@ var joinGame = function joinGame(data) {
 };
 
 var confirmJoinNewGame = function confirmJoinNewGame(cb) {
-  console.log('trigger in confimr join');
+  console.log('trigger in confirmJoinNewGame');
   socket.on('joinGame', function (data) {
+    return cb(null, data);
+  });
+};
+
+var startGame = function startGame(cb) {
+  socket.on('startGame', function () {
+    return cb();
+  });
+};
+
+var updateBoard = function updateBoard(data) {
+  socket.emit('updateBoard', data);
+};
+
+var clientUpdateBoard = function clientUpdateBoard(cb) {
+  socket.on('updateBoard', function (data) {
     return cb(null, data);
   });
 };
@@ -22280,6 +22324,9 @@ exports.newGame = newGame;
 exports.updateGameId = updateGameId;
 exports.joinGame = joinGame;
 exports.confirmJoinNewGame = confirmJoinNewGame;
+exports.startGame = startGame;
+exports.updateBoard = updateBoard;
+exports.clientUpdateBoard = clientUpdateBoard;
 
 /***/ }),
 /* 56 */

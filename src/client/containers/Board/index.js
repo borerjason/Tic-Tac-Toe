@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
 import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
 
@@ -16,25 +17,43 @@ class Board extends React.Component {
     super(props);
     this.state = {
       n: 3, // make this variable
-      board: [['X', '', ''], ['', 'X', ''], ['O', '', '']],
+      board: [['', '', ''], ['', '', ''], ['', '', '']],
       turn: 'X',
       opponent: false,
     }
-
+    
+    startGame((err) => {
+      if (err) throw new Error('Error starting game');
+      this.setState({
+        opponent: true
+      });
+    });
+    
+    clientUpdateBoard((err, data) => {
+      const { board, turn } = data;
+      if (err) throw new Error('Error starting game');
+      this.setState({ board, turn });
+    });
+    
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
   }
   
   onClickValidateMove(id, val, loc) {
+    const { role, gameId } = this.props;
+
     if (!this.state.opponent) {
       alert('Please wait for another player!')
-    } else if (this.state.turn !== this.state.role) {
+    } else if (this.state.turn !== role) {
       alert('Please wait for your turn');
     } else if (val !== '') {
       alert('This spot as already been played. Please select again!')
     } else { 
       const board = [...this.state.board];
-      board[loc[0]][loc[1]] = this.props.role;
-      this.setState({ board });
+      board[loc[0]][loc[1]] = role;
+      const turn = this.state.turn === 'X' ? 'O' : 'X';
+      this.setState({ board, turn }, () => {
+        updateBoard({ board, turn, gameId  });
+      });
     }
   }
 
@@ -54,6 +73,7 @@ class Board extends React.Component {
         />
       )
     }
+
     return (
       <Wrapper>
         {!this.state.opponent && <h3>{this.props.message}</h3>}

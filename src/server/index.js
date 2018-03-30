@@ -16,17 +16,21 @@ io.on('connection', (socket) => {
   });
 
   socket.on('newGame', () => {
-    console.log('new game');
     socket.join(++gameId);
-    io.to(gameId).emit('newGame', gameId);
+    socket.emit('newGame', gameId);
+    // io.to(gameId).emit('newGame', gameId);
   })
 
   socket.on('joinGame', (data) => {
-    console.log('data in server', data);
     const room = parseInt(data.gameId);
     socket.join(room);
-    socket.emit(('joinGame', data));
-    // io.to(room.emit('startGame', {msg: `${data.name} has joined the game!`}))
+    socket.emit('joinGame', data);
+    io.in(room).emit('startGame');
+  });
+
+  socket.on('updateBoard', (data) => {
+    const { board, turn, gameId} = data;
+    socket.to(gameId).emit('updateBoard', { board, turn });
   });
   
 });

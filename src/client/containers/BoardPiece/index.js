@@ -16,7 +16,6 @@ const Piece = styled.p`
 `;
 
 const BoardPiece = (props) => {
-  console.log(props);
   return (
     <PieceWrapper
       onClick={() => props.validate(props.id, props.val, props.loc)}

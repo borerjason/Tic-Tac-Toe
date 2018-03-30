@@ -3,8 +3,7 @@ const checkRow = (n, board, row) => { // 1
     if (board[row][i] !== board[row][i + 1]) return false;
   }
 
-  return true;    
-    
+  return true;     
 }
 
 const checkColumn = (n, board, col) => {
