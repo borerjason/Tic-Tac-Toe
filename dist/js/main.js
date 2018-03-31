@@ -24337,6 +24337,10 @@ var _Home = __webpack_require__(92);
 
 var _Home2 = _interopRequireDefault(_Home);
 
+var _Scoreboard = __webpack_require__(95);
+
+var _Scoreboard2 = _interopRequireDefault(_Scoreboard);
+
 var _socket = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -24372,7 +24376,9 @@ var App = function (_React$Component) {
       message: '',
       role: '',
       name: '',
-      opponent: 'TBD'
+      opponent: 'TBD',
+      userWins: 0,
+      opponentWins: 0
     };
 
     (0, _socket.updateGameId)(function (err, gameId) {
@@ -24397,6 +24403,7 @@ var App = function (_React$Component) {
     _this.startNewGame = _this.startNewGame.bind(_this);
     _this.joinExistingGame = _this.joinExistingGame.bind(_this);
     _this.updateOpponent = _this.updateOpponent.bind(_this);
+    _this.onWinUpdateScoreboard = _this.onWinUpdateScoreboard.bind(_this);
     return _this;
   }
 
@@ -24418,9 +24425,18 @@ var App = function (_React$Component) {
     key: 'updateOpponent',
     value: function updateOpponent(players) {
       var name = this.state.name;
-      console.log('NAME', name, players);
       var opponent = name === players[0] ? players[1] : players[0];
       this.setState({ opponent: opponent });
+    }
+  }, {
+    key: 'onWinUpdateScoreboard',
+    value: function onWinUpdateScoreboard(winner) {
+      var _state = this.state,
+          userWins = _state.userWins,
+          opponentWins = _state.opponentWins;
+
+      winner === this.state.name ? userWins++ : opponentWins++;
+      this.setState({ userWins: userWins, opponentWins: opponentWins });
     }
   }, {
     key: 'render',
@@ -24440,11 +24456,18 @@ var App = function (_React$Component) {
             updateOpponent: this.updateOpponent,
             role: this.state.role,
             name: this.state.name,
-            opponent: this.state.opponent
+            opponent: this.state.opponent,
+            updateScoreboard: this.onWinUpdateScoreboard
           }),
           _react2.default.createElement(
             Wrapper,
             null,
+            _react2.default.createElement(_Scoreboard2.default, {
+              name: this.state.name,
+              opponent: this.state.opponent,
+              userWins: this.state.userWins,
+              opponentWins: this.state.opponentWins
+            }),
             _react2.default.createElement(
               'div',
               null,
@@ -26967,6 +26990,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n']);
@@ -26981,7 +27006,9 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _socket = __webpack_require__(27);
 
-var _gameplay = __webpack_require__(89);
+var _onMoveUpdateBoard3 = __webpack_require__(96);
+
+var _onMoveUpdateBoard4 = _interopRequireDefault(_onMoveUpdateBoard3);
 
 var _buildBoard = __webpack_require__(90);
 
@@ -26997,8 +27024,6 @@ var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -27006,6 +27031,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+// import { checkWinner } from '../../helpers/gameplay';
+
 
 var Wrapper = _styledComponents2.default.div(_templateObject);
 
@@ -27036,10 +27063,23 @@ var Board = function (_React$Component) {
 
     (0, _socket.clientUpdateBoard)(function (err, data) {
       if (err) throw new Error('Error starting game');
+
       var board = data.board,
           turn = data.turn,
           winner = data.winner,
           numOfPlays = data.numOfPlays;
+      var _this$props = _this.props,
+          role = _this$props.role,
+          name = _this$props.name,
+          opponent = _this$props.opponent,
+          updateScoreboard = _this$props.updateScoreboard;
+
+
+      if (winner) {
+        var lastPlayer = turn === 'X' ? 'O' : 'X';
+        var winningPlayer = lastPlayer === role ? name : opponent;
+        updateScoreboard(winningPlayer);
+      }
 
       _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays });
     });
@@ -27054,8 +27094,10 @@ var Board = function (_React$Component) {
     value: function onClickValidateMove(id, val, loc) {
       var _props = this.props,
           role = _props.role,
-          gameId = _props.gameId;
+          gameId = _props.gameId,
+          updateScoreboard = _props.updateScoreboard;
       var _state = this.state,
+          board = _state.board,
           turn = _state.turn,
           opponent = _state.opponent,
           n = _state.n,
@@ -27072,16 +27114,15 @@ var Board = function (_React$Component) {
       } else if (val !== '') {
         alert('This spot as already been played. Please select again!');
       } else {
-        var board = [].concat(_toConsumableArray(this.state.board));
-        board[loc[0]][loc[1]] = role;
-        turn = turn === 'X' ? 'O' : 'X';
-        numOfPlays += 1;
+        var _onMoveUpdateBoard = (0, _onMoveUpdateBoard4.default)(board, turn, numOfPlays, winner, loc, role, n);
 
-        if (numOfPlays > 4) {
-          winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
-        }
+        var _onMoveUpdateBoard2 = _slicedToArray(_onMoveUpdateBoard, 4);
 
-        this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays }, function () {});
+        board = _onMoveUpdateBoard2[0];
+        turn = _onMoveUpdateBoard2[1];
+        numOfPlays = _onMoveUpdateBoard2[2];
+        winner = _onMoveUpdateBoard2[3];
+
         (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner, numOfPlays: numOfPlays });
       }
     }
@@ -31102,6 +31143,127 @@ var _styledComponents = __webpack_require__(4);
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 (0, _styledComponents.injectGlobal)(_templateObject);
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Scoreboard = function (_React$Component) {
+  _inherits(Scoreboard, _React$Component);
+
+  function Scoreboard(props) {
+    _classCallCheck(this, Scoreboard);
+
+    var _this = _possibleConstructorReturn(this, (Scoreboard.__proto__ || Object.getPrototypeOf(Scoreboard)).call(this, props));
+
+    _this.state = {
+      userWins: 0,
+      opponentWins: 0
+    };
+    return _this;
+  }
+
+  _createClass(Scoreboard, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'table',
+        null,
+        _react2.default.createElement(
+          'thead',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            _react2.default.createElement(
+              'th',
+              null,
+              this.props.name
+            ),
+            _react2.default.createElement(
+              'th',
+              null,
+              this.props.opponent
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'tbody',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            _react2.default.createElement(
+              'td',
+              null,
+              this.props.userWins
+            ),
+            _react2.default.createElement(
+              'td',
+              null,
+              this.props.opponentWins
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Scoreboard;
+}(_react2.default.Component);
+
+exports.default = Scoreboard;
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _gameplay = __webpack_require__(89);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var onMoveUpdateBoard = function onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n) {
+  var newBoard = [].concat(_toConsumableArray(board));
+  newBoard[loc[0]][loc[1]] = role;
+  turn = turn === 'X' ? 'O' : 'X';
+  numOfPlays += 1;
+
+  if (numOfPlays > 4) {
+    winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
+  }
+
+  return [newBoard, turn, numOfPlays, winner];
+};
+
+exports.default = onMoveUpdateBoard;
 
 /***/ })
 /******/ ]);

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 // import Messages from '../Messages';
 import Board from '../Board';
 import Home from '../Home';
+import Scoreboard from '../Scoreboard';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
 const AppWrapper = styled.div`
@@ -38,6 +39,8 @@ class App extends React.Component {
       role: '',
       name: '',
       opponent: 'TBD',
+      userWins: 0,
+      opponentWins: 0
     }
     
     updateGameId((err, gameId) => {
@@ -62,6 +65,7 @@ class App extends React.Component {
     this.startNewGame = this.startNewGame.bind(this);
     this.joinExistingGame = this.joinExistingGame.bind(this);
     this.updateOpponent = this.updateOpponent.bind(this);
+    this.onWinUpdateScoreboard = this.onWinUpdateScoreboard.bind(this);
   }
   
   startNewGame(e, name) {
@@ -78,9 +82,14 @@ class App extends React.Component {
 
   updateOpponent(players) {
     const name = this.state.name;
-    console.log('NAME', name, players);
     const opponent = name === players[0] ? players[1] : players[0];
     this.setState({ opponent });
+  }
+
+  onWinUpdateScoreboard(winner) {
+    let { userWins, opponentWins } = this.state;
+    winner === this.state.name ? userWins ++ : opponentWins++;
+    this.setState({ userWins, opponentWins}); 
   }
 
   render() {
@@ -99,9 +108,15 @@ class App extends React.Component {
               role={this.state.role}
               name={this.state.name}
               opponent={this.state.opponent}
+              updateScoreboard={this.onWinUpdateScoreboard}
             />
-            {/* <Messages /> */}
             <Wrapper>
+              <Scoreboard
+                name={this.state.name}
+                opponent={this.state.opponent}
+                userWins={this.state.userWins}
+                opponentWins={this.state.opponentWins}
+              />
               <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
               <div> This will be chatService</div>
             </Wrapper>

@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 
   socket.on('updateBoard', (data) => {
     const { board, turn, gameId, winner, numOfPlays } = data;
-    socket.to(gameId).emit('updateBoard', { board, turn, winner, numOfPlays });
+    io.in(gameId).emit('updateBoard', { board, turn, winner, numOfPlays });
   });
   
 });

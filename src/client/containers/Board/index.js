@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
-import { checkWinner } from '../../helpers/gameplay';
+// import { checkWinner } from '../../helpers/gameplay';
+import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
 import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
@@ -36,7 +37,16 @@ class Board extends React.Component {
     
     clientUpdateBoard((err, data) => {
       if (err) throw new Error('Error starting game');
+
       const { board, turn, winner, numOfPlays } = data;
+      const { role, name, opponent, updateScoreboard } = this.props;
+
+      if (winner) {
+        const lastPlayer = turn === 'X' ? 'O' : 'X';
+        const winningPlayer = lastPlayer === role ? name : opponent;
+        updateScoreboard(winningPlayer);
+      } 
+
       this.setState({ board, turn, winner, numOfPlays });
     });
 
@@ -45,8 +55,8 @@ class Board extends React.Component {
   }
   
   onClickValidateMove(id, val, loc) {
-    const { role, gameId } = this.props;
-    let { turn, opponent, n, winner, numOfPlays } = this.state;
+    const { role, gameId, updateScoreboard } = this.props;
+    let { board, turn, opponent, n, winner, numOfPlays } = this.state;
     
     if(winner || numOfPlays === 9) {
       return;
@@ -57,17 +67,7 @@ class Board extends React.Component {
     } else if (val !== '') {
       alert('This spot as already been played. Please select again!')
     } else { 
-      const board = [...this.state.board];
-      board[loc[0]][loc[1]] = role;
-      turn = turn === 'X' ? 'O' : 'X';
-      numOfPlays += 1;
-
-      if (numOfPlays > 4) {
-        winner = checkWinner(n, board, loc[0], loc[1]);
-      }
-      
-      this.setState({ board, turn, winner, numOfPlays }, () => {
-      });
+     [board, turn, numOfPlays, winner] = onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n);
       updateBoard({ board, turn, gameId, winner, numOfPlays });
     }
   }
