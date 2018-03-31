@@ -11,6 +11,7 @@ const sendNewMessage = (msg) => {
 }
 
 const newGame = (data) => {
+  console.log(data);
   socket.emit('newGame', data);
 }
 

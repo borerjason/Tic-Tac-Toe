@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // import Messages from '../Messages';
 import Board from '../Board';
 import Home from '../Home';
+import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
@@ -62,6 +64,7 @@ class App extends React.Component {
       });
     })
 
+    this.onSignUpUpdateName = this.onSignUpUpdateName.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
     this.joinExistingGame = this.joinExistingGame.bind(this);
     this.updateOpponent = this.updateOpponent.bind(this);
@@ -69,14 +72,14 @@ class App extends React.Component {
   }
   
   startNewGame(e, name) {
-    e.preventDefault();
-    this.setState({ name });
+    // e.preventDefault();
+    // this.setState({ name });
     newGame({ name });
   }
   
   joinExistingGame(e, gameId, name) {
-    e.preventDefault();
-    this.setState({ name });
+    // e.preventDefault();
+    // this.setState({ name });
     joinGame({ gameId, name });
   }
 
@@ -92,37 +95,100 @@ class App extends React.Component {
     this.setState({ userWins, opponentWins}); 
   }
 
+  onSignUpUpdateName(name) {
+    this.setState({ name });
+  }
+  
   render() {
     return (
-      <AppWrapper>
-        {!this.state.activeGame ? 
-          <Home 
-            newGame={this.startNewGame} 
-            joinGame={this.joinExistingGame}
-          /> : 
-          <GameWrapper>
-            <Board 
-              message={this.state.message}
-              gameId={this.state.gameId}
-              updateOpponent={this.updateOpponent} 
-              role={this.state.role}
-              name={this.state.name}
-              opponent={this.state.opponent}
-              updateScoreboard={this.onWinUpdateScoreboard}
-            />
-            <Wrapper>
-              <Scoreboard
-                name={this.state.name}
-                opponent={this.state.opponent}
-                userWins={this.state.userWins}
-                opponentWins={this.state.opponentWins}
-              />
-              <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
-              <div> This will be chatService</div>
-            </Wrapper>
-          </GameWrapper>}
-      </AppWrapper>
-    );
+      <div>
+        <h3>Tic Tac Toe</h3>
+      <Router>
+        <Switch>
+          <Route 
+            exact path='/'
+            render={() => (
+              <AppWrapper>
+                <Welcome
+                  updateName={this.onSignUpUpdateName}
+                /> 
+              </AppWrapper>
+            )}
+          />
+          <Route 
+            path='/home'
+            render={() => (
+              <AppWrapper>
+                <Home
+                  newGame={this.startNewGame}
+                  joinGame={this.joinExistingGame}
+                  name={this.state.name}
+                /> 
+              </AppWrapper>
+            )}
+          />
+          <Route
+            path='/game'
+            render={() => (
+              <GameWrapper>
+                <Board
+                  message={this.state.message}
+                  gameId={this.state.gameId}
+                  updateOpponent={this.updateOpponent}
+                  role={this.state.role}
+                  name={this.state.name}
+                  opponent={this.state.opponent}
+                  updateScoreboard={this.onWinUpdateScoreboard}
+                />
+                <Wrapper>
+                  <Scoreboard
+                    name={this.state.name}
+                    opponent={this.state.opponent}
+                    userWins={this.state.userWins}
+                    opponentWins={this.state.opponentWins}
+                  />
+                  <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
+                  <div> This will be chatService</div>
+                </Wrapper>
+              </GameWrapper>
+            )}
+          />
+        </Switch>
+      </Router>
+      </div>
+    )
+
+
+    // return (
+    //   <AppWrapper>
+    //     {!this.state.activeGame ? 
+    //       <Home 
+    //         newGame={this.startNewGame} 
+    //         joinGame={this.joinExistingGame}
+    //       /> : 
+    //       <GameWrapper>
+    //         <Board 
+    //           message={this.state.message}
+    //           gameId={this.state.gameId}
+    //           updateOpponent={this.updateOpponent} 
+    //           role={this.state.role}
+    //           name={this.state.name}
+    //           opponent={this.state.opponent}
+    //           updateScoreboard={this.onWinUpdateScoreboard}
+    //         />
+    //         <Wrapper>
+    //           <Scoreboard
+    //             name={this.state.name}
+    //             opponent={this.state.opponent}
+    //             userWins={this.state.userWins}
+    //             opponentWins={this.state.opponentWins}
+    //           />
+    //           <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
+    //           <div> This will be chatService</div>
+    //         </Wrapper>
+    //       </GameWrapper>}
+    //   </AppWrapper>
+    // );
   }
 };
 

@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Input from '../../components/Input';
+import BtnLink from './Link';
+import LinkBtn from '../../components/Link';
+import { newGame, joinGame } from '../../socket';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
       gameId: '',
     }
   }
@@ -29,19 +31,12 @@ class Home extends React.Component {
     return (
       <div>
         <h3>Start New Game</h3>
-        <form>
-          <Input 
-            onChange={(e) => this.onChangeUpdateName(e)}
-            type='text'
-            placeholder='Enter name'
-            value={this.state.name} 
-          />
-          <button
+          <LinkBtn
+            to='/game'
             className='btn-primary'
-            onClick={(e, name) => this.props.newGame(e, this.state.name)}
-            >Start Game
-          </button>
-        </form>
+            onClick={(name) => newGame( {name: this.props.name} )}
+          >Start Game
+          </LinkBtn>
         <h3>Join Existing Game</h3>
         <form>
           <Input 
@@ -49,10 +44,12 @@ class Home extends React.Component {
             type='text' placeholder='Enter game id'
             value={this.state.gameId}
           />
-          <button
-            onClick={(e) => { this.props.joinGame(e, this.state.gameId, this.state.name) }}
+          <LinkBtn
+            to='/game'
+            className='btn-primary'
+            onClick={(gameId, name) => { joinGame({ gameId: this.state.gameId, name: this.props.name} ) }}
             >Join Game
-          </button>
+          </LinkBtn>
         </form>
       </div>
     );
