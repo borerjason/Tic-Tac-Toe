@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Input from '../../components/Input';
-import BtnLink from './Link';
-import LinkBtn from '../../components/Link';
+import BtnLink from '../../components/Link';
+import { Message, Wrapper} from '../../components';
 import { newGame, joinGame } from '../../socket';
 
 class Home extends React.Component {
@@ -13,45 +13,44 @@ class Home extends React.Component {
     }
   }
 
-  onChangeUpdateName(e) {
-    e.preventDefault();
-    this.setState({
-      name: e.target.value
-    });
-  }
-
   onChangeUpdateGameId(e) {
-    e.preventDefault();
     this.setState({
       gameId: e.target.value
     });
   }
 
+  onClickJoinGame(e, gameId, name) {
+    if (this.state.gameId.length > 0) {
+      joinGame({ gameId: this.state.gameId, name: this.props.name })
+    } else {
+      e.preventDefault();
+      alert('Please enter game id to join game');
+    }
+  }
+
   render() {
     return (
-      <div>
-        <h3>Start New Game</h3>
-          <LinkBtn
+      <Wrapper>
+        <Message>To start a new game click 'Begin':</Message>
+          <BtnLink
             to='/game'
-            className='btn-primary'
             onClick={(name) => newGame( {name: this.props.name} )}
-          >Start Game
-          </LinkBtn>
-        <h3>Join Existing Game</h3>
+          >Begin!
+          </BtnLink>
+        <Message>To join an existing game enter the game Id and click 'Join':</Message>
         <form>
           <Input 
             onChange={(e) => this.onChangeUpdateGameId(e)}
             type='text' placeholder='Enter game id'
             value={this.state.gameId}
           />
-          <LinkBtn
+          <BtnLink
             to='/game'
-            className='btn-primary'
-            onClick={(gameId, name) => { joinGame({ gameId: this.state.gameId, name: this.props.name} ) }}
-            >Join Game
-          </LinkBtn>
+            onClick={(e, gameId, name) => this.onClickJoinGame(e, this.state.gameId, this.props.name)}
+            >Join!
+          </BtnLink>
         </form>
-      </div>
+      </Wrapper>
     );
   }
 }

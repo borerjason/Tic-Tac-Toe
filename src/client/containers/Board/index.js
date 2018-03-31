@@ -2,18 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
-// import { checkWinner } from '../../helpers/gameplay';
 import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
 import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-`
+import { Wrapper, Message, BtnLink } from '../../components'
+import RestartBtn from './RestartBtn';
 
 class Board extends React.Component {
   constructor(props) {
@@ -94,18 +88,17 @@ class Board extends React.Component {
     return (
       <Wrapper>
         {(winner || numOfPlays === 9) ?
-        <div>
-          {winner ? <h3>{winningPlayer} Wins!</h3> : <h3>Tie!</h3>}
-          <button 
-            className='btn-secondary'
+        <Wrapper>
+          {winner ? <Message>{winningPlayer} Wins!</Message> : <Message>Tie!</Message>}
+          <RestartBtn 
             onClick={this.restartGame}
-           >Restart Game
-          </button>
-          </div> :
+           >Start Another Game
+          </RestartBtn>
+          </Wrapper> :
           <div>
-        {!this.state.opponent && <h3>{this.props.message}</h3>}
-        {!winner && this.state.opponent && this.state.turn === this.props.role && <h3>It's {name}'s Turn!</h3>}
-        {!winner && this.state.opponent && this.state.turn !== this.props.role && <h3>It's {opponent}'s Turn!</h3>}
+        {!this.state.opponent && <Message>{this.props.message}</Message>}
+        {!winner && this.state.opponent && this.state.turn === this.props.role && <Message>It's {name}'s Turn!</Message>}
+        {!winner && this.state.opponent && this.state.turn !== this.props.role && <Message>It's {opponent}'s Turn!</Message>}
         </div>
         }
         <Body>

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import Input from '../../components/Input';
-import LinkBtn from '../../components/Link';
+import BtnLink from '../../components/Link';
+import { Wrapper, Message } from '../../components';
 
 class Welcome extends React.Component {
   constructor(props) {
@@ -20,20 +21,22 @@ class Welcome extends React.Component {
 
   render() {
     return (
-      <form>
-        <Input
-          onChange={(e) => this.onChangeUpdateName(e)}
-          type='text'
-          placeholder='Enter name'
-          value={this.state.name}
-        />
-        <LinkBtn  
-           /* className='btn-primary' */
-           to='/home'
-           onClick={() => this.props.updateName(this.state.name)}
-        >Start
-        </LinkBtn>
-      </form>
+      <Wrapper>
+        <Message>To begin, enter your name below!</Message>
+        <form>
+          <Input
+            onChange={(e) => this.onChangeUpdateName(e)}
+            type='text'
+            placeholder='Enter name'
+            value={this.state.name}
+          />
+          <BtnLink  
+            to='/home'
+            onClick={() => this.props.updateName(this.state.name)}
+          >Start
+          </BtnLink>
+        </form>
+      </Wrapper>
       )
     }
   }

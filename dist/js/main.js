@@ -6946,7 +6946,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _templateObject = _taggedTemplateLiteral(['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n'], ['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n font-size: 100px;\n text-align: center;\n'], ['\n font-size: 100px;\n text-align: center;\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  font-size: 90px\n  font-family: \'Amatic SC\', cursive;\n  text-align: center;\n'], ['\n  font-size: 90px\n  font-family: \'Amatic SC\', cursive;\n  text-align: center;\n']);
 
 var _react = __webpack_require__(2);
 
@@ -24324,7 +24324,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  // height: 50vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n'], ['\n  display: flex;\n  // height: 50vh;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background-color: yellow;\n']),
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  display: flex;\n  justify-content: center;\n  align-items: center;\n'], ['\n  display: flex;\n  justify-content: center;\n  align-items: center;\n']);
 
@@ -24353,6 +24353,10 @@ var _Welcome2 = _interopRequireDefault(_Welcome);
 var _Scoreboard = __webpack_require__(95);
 
 var _Scoreboard2 = _interopRequireDefault(_Scoreboard);
+
+var _Header = __webpack_require__(148);
+
+var _Header2 = _interopRequireDefault(_Header);
 
 var _socket = __webpack_require__(27);
 
@@ -24414,28 +24418,12 @@ var App = function (_React$Component) {
     });
 
     _this.onSignUpUpdateName = _this.onSignUpUpdateName.bind(_this);
-    _this.startNewGame = _this.startNewGame.bind(_this);
-    _this.joinExistingGame = _this.joinExistingGame.bind(_this);
     _this.updateOpponent = _this.updateOpponent.bind(_this);
     _this.onWinUpdateScoreboard = _this.onWinUpdateScoreboard.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
-    key: 'startNewGame',
-    value: function startNewGame(e, name) {
-      // e.preventDefault();
-      // this.setState({ name });
-      (0, _socket.newGame)({ name: name });
-    }
-  }, {
-    key: 'joinExistingGame',
-    value: function joinExistingGame(e, gameId, name) {
-      // e.preventDefault();
-      // this.setState({ name });
-      (0, _socket.joinGame)({ gameId: gameId, name: name });
-    }
-  }, {
     key: 'updateOpponent',
     value: function updateOpponent(players) {
       var name = this.state.name;
@@ -24463,12 +24451,12 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'div',
+        Wrapper,
         null,
         _react2.default.createElement(
-          'h3',
+          _Header2.default,
           null,
-          'Tic Tac Toe'
+          'Tic-Tac-Toe'
         ),
         _react2.default.createElement(
           _reactRouterDom.BrowserRouter,
@@ -24495,8 +24483,6 @@ var App = function (_React$Component) {
                   AppWrapper,
                   null,
                   _react2.default.createElement(_Home2.default, {
-                    newGame: _this2.startNewGame,
-                    joinGame: _this2.joinExistingGame,
                     name: _this2.state.name
                   })
                 );
@@ -27056,8 +27042,6 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n']);
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -27084,6 +27068,12 @@ var _BoardPiece = __webpack_require__(40);
 
 var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
 
+var _components = __webpack_require__(152);
+
+var _RestartBtn = __webpack_require__(153);
+
+var _RestartBtn2 = _interopRequireDefault(_RestartBtn);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27091,12 +27081,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-// import { checkWinner } from '../../helpers/gameplay';
-
-
-var Wrapper = _styledComponents2.default.div(_templateObject);
 
 var Board = function (_React$Component) {
   _inherits(Board, _React$Component);
@@ -27228,46 +27212,45 @@ var Board = function (_React$Component) {
       var winningPlayer = lastPlayer === role ? name : opponent;
 
       return _react2.default.createElement(
-        Wrapper,
+        _components.Wrapper,
         null,
         winner || numOfPlays === 9 ? _react2.default.createElement(
-          'div',
+          _components.Wrapper,
           null,
           winner ? _react2.default.createElement(
-            'h3',
+            _components.Message,
             null,
             winningPlayer,
             ' Wins!'
           ) : _react2.default.createElement(
-            'h3',
+            _components.Message,
             null,
             'Tie!'
           ),
           _react2.default.createElement(
-            'button',
+            _RestartBtn2.default,
             {
-              className: 'btn-secondary',
               onClick: this.restartGame
             },
-            'Restart Game'
+            'Start Another Game'
           )
         ) : _react2.default.createElement(
           'div',
           null,
           !this.state.opponent && _react2.default.createElement(
-            'h3',
+            _components.Message,
             null,
             this.props.message
           ),
           !winner && this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
-            'h3',
+            _components.Message,
             null,
             'It\'s ',
             name,
             '\'s Turn!'
           ),
           !winner && this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
-            'h3',
+            _components.Message,
             null,
             'It\'s ',
             opponent,
@@ -31058,13 +31041,11 @@ var _Input = __webpack_require__(93);
 
 var _Input2 = _interopRequireDefault(_Input);
 
-var _Link = __webpack_require__(146);
+var _Link = __webpack_require__(147);
 
 var _Link2 = _interopRequireDefault(_Link);
 
-var _Link3 = __webpack_require__(147);
-
-var _Link4 = _interopRequireDefault(_Link3);
+var _components = __webpack_require__(152);
 
 var _socket = __webpack_require__(27);
 
@@ -31091,20 +31072,21 @@ var Home = function (_React$Component) {
   }
 
   _createClass(Home, [{
-    key: 'onChangeUpdateName',
-    value: function onChangeUpdateName(e) {
-      e.preventDefault();
-      this.setState({
-        name: e.target.value
-      });
-    }
-  }, {
     key: 'onChangeUpdateGameId',
     value: function onChangeUpdateGameId(e) {
-      e.preventDefault();
       this.setState({
         gameId: e.target.value
       });
+    }
+  }, {
+    key: 'onClickJoinGame',
+    value: function onClickJoinGame(e, gameId, name) {
+      if (this.state.gameId.length > 0) {
+        (0, _socket.joinGame)({ gameId: this.state.gameId, name: this.props.name });
+      } else {
+        e.preventDefault();
+        alert('Please enter game id to join game');
+      }
     }
   }, {
     key: 'render',
@@ -31112,28 +31094,27 @@ var Home = function (_React$Component) {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'div',
+        _components.Wrapper,
         null,
         _react2.default.createElement(
-          'h3',
+          _components.Message,
           null,
-          'Start New Game'
+          'To start a new game click \'Begin\':'
         ),
         _react2.default.createElement(
-          _Link4.default,
+          _Link2.default,
           {
             to: '/game',
-            className: 'btn-primary',
             onClick: function onClick(name) {
               return (0, _socket.newGame)({ name: _this2.props.name });
             }
           },
-          'Start Game'
+          'Begin!'
         ),
         _react2.default.createElement(
-          'h3',
+          _components.Message,
           null,
-          'Join Existing Game'
+          'To join an existing game enter the game Id and click \'Join\':'
         ),
         _react2.default.createElement(
           'form',
@@ -31146,15 +31127,14 @@ var Home = function (_React$Component) {
             value: this.state.gameId
           }),
           _react2.default.createElement(
-            _Link4.default,
+            _Link2.default,
             {
               to: '/game',
-              className: 'btn-primary',
-              onClick: function onClick(gameId, name) {
-                (0, _socket.joinGame)({ gameId: _this2.state.gameId, name: _this2.props.name });
+              onClick: function onClick(e, gameId, name) {
+                return _this2.onClickJoinGame(e, _this2.state.gameId, _this2.props.name);
               }
             },
-            'Join Game'
+            'Join!'
           )
         )
       );
@@ -31177,7 +31157,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  border-radius: 5px;\n  width: 200px;\n  box-shadow: none;\n  height: 30px;\n  border: 1px solid lightgrey;\n  margin: 5px;\n'], ['\n  border-radius: 5px;\n  width: 200px;\n  box-shadow: none;\n  height: 30px;\n  border: 1px solid lightgrey;\n  margin: 5px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  border-radius: 5px;\n  width: 250px;\n  box-shadow: none;\n  height: 35px;\n  border: 1px solid #25b3b6;\n  margin: 5px;\n  padding: 10px;\n\n   &:focus {\n    // text-decoration: none;\n  }\n'], ['\n  border-radius: 5px;\n  width: 250px;\n  box-shadow: none;\n  height: 35px;\n  border: 1px solid #25b3b6;\n  margin: 5px;\n  padding: 10px;\n\n   &:focus {\n    // text-decoration: none;\n  }\n']);
 
 var _styledComponents = __webpack_require__(4);
 
@@ -35775,6 +35755,8 @@ var _Link = __webpack_require__(147);
 
 var _Link2 = _interopRequireDefault(_Link);
 
+var _components = __webpack_require__(152);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35811,26 +35793,34 @@ var Welcome = function (_React$Component) {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'form',
+        _components.Wrapper,
         null,
-        _react2.default.createElement(_Input2.default, {
-          onChange: function onChange(e) {
-            return _this2.onChangeUpdateName(e);
-          },
-          type: 'text',
-          placeholder: 'Enter name',
-          value: this.state.name
-        }),
         _react2.default.createElement(
-          _Link2.default
-          /* className='btn-primary' */
-          ,
-          { to: '/home',
-            onClick: function onClick() {
-              return _this2.props.updateName(_this2.state.name);
-            }
-          },
-          'Start'
+          _components.Message,
+          null,
+          'To begin, enter your name below!'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(_Input2.default, {
+            onChange: function onChange(e) {
+              return _this2.onChangeUpdateName(e);
+            },
+            type: 'text',
+            placeholder: 'Enter name',
+            value: this.state.name
+          }),
+          _react2.default.createElement(
+            _Link2.default,
+            {
+              to: '/home',
+              onClick: function onClick() {
+                return _this2.props.updateName(_this2.state.name);
+              }
+            },
+            'Start'
+          )
         )
       );
     }
@@ -35843,7 +35833,8 @@ exports.default = Welcome;
 
 /***/ }),
 /* 145 */,
-/* 146 */
+/* 146 */,
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35853,7 +35844,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  height: 100%;\n  font-family: Garamond;\n  font-size: 20px;\n  color: white;\n  text-decoration: none;\n'], ['\n  display: block;\n  height: 100%;\n  font-family: Garamond;\n  font-size: 20px;\n  color: white;\n  text-decoration: none;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
 
 var _styledComponents = __webpack_require__(4);
 
@@ -35870,7 +35861,7 @@ var BtnLink = (0, _styledComponents2.default)(_reactRouterDom.Link)(_templateObj
 exports.default = BtnLink;
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35880,21 +35871,125 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: block;\n  height: 100%;\n  font-family: Garamond;\n  font-size: 20px;\n  color: white;\n  text-decoration: none;\n'], ['\n  display: block;\n  height: 100%;\n  font-family: Garamond;\n  font-size: 20px;\n  color: white;\n  text-decoration: none;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  font-size: 90px\n  font-family: \'Amatic SC\', cursive;\n  margin-top: 30px;\n'], ['\n  font-size: 90px\n  font-family: \'Amatic SC\', cursive;\n  margin-top: 30px;\n']);
 
 var _styledComponents = __webpack_require__(4);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _reactRouterDom = __webpack_require__(115);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Header = _styledComponents2.default.h1(_templateObject);
+
+exports.default = Header;
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n']);
+
+var _styledComponents = __webpack_require__(4);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var BtnLink = (0, _styledComponents2.default)(_reactRouterDom.Link)(_templateObject);
+var Wrapper = _styledComponents2.default.div(_templateObject);
 
-exports.default = BtnLink;
+exports.default = Wrapper;
+
+/***/ }),
+/* 150 */,
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  font-size: 25px;\n  font-family: \'Quicksand\', sans-serif;\n  margin: 15px;\n'], ['\n  font-size: 25px;\n  font-family: \'Quicksand\', sans-serif;\n  margin: 15px;\n']);
+
+var _styledComponents = __webpack_require__(4);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var WelcomeMsg = _styledComponents2.default.p(_templateObject);
+
+exports.default = WelcomeMsg;
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BtnLink = exports.Message = exports.Wrapper = undefined;
+
+var _Wrapper = __webpack_require__(149);
+
+var _Wrapper2 = _interopRequireDefault(_Wrapper);
+
+var _Message = __webpack_require__(151);
+
+var _Message2 = _interopRequireDefault(_Message);
+
+var _Link = __webpack_require__(147);
+
+var _Link2 = _interopRequireDefault(_Link);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Wrapper = _Wrapper2.default;
+exports.Message = _Message2.default;
+exports.BtnLink = _Link2.default;
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
+
+var _styledComponents = __webpack_require__(4);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var RestartBtn = _styledComponents2.default.button(_templateObject);
+
+exports.default = RestartBtn;
 
 /***/ })
 /******/ ]);
