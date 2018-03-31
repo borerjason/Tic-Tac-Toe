@@ -157,38 +157,6 @@ class App extends React.Component {
       </Router>
       </div>
     )
-
-
-    // return (
-    //   <AppWrapper>
-    //     {!this.state.activeGame ? 
-    //       <Home 
-    //         newGame={this.startNewGame} 
-    //         joinGame={this.joinExistingGame}
-    //       /> : 
-    //       <GameWrapper>
-    //         <Board 
-    //           message={this.state.message}
-    //           gameId={this.state.gameId}
-    //           updateOpponent={this.updateOpponent} 
-    //           role={this.state.role}
-    //           name={this.state.name}
-    //           opponent={this.state.opponent}
-    //           updateScoreboard={this.onWinUpdateScoreboard}
-    //         />
-    //         <Wrapper>
-    //           <Scoreboard
-    //             name={this.state.name}
-    //             opponent={this.state.opponent}
-    //             userWins={this.state.userWins}
-    //             opponentWins={this.state.opponentWins}
-    //           />
-    //           <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
-    //           <div> This will be chatService</div>
-    //         </Wrapper>
-    //       </GameWrapper>}
-    //   </AppWrapper>
-    // );
   }
 };
 
