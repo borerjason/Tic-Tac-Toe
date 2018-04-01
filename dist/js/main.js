@@ -29782,7 +29782,9 @@ var Board = function (_React$Component) {
 
       var alertMessage = '';
       var victor = (0, _stateFunctions.winningPlayer)(data, _this.props);
+
       if (victor) updateScoreboard(victor);
+
       _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays, alertMessage: alertMessage });
     });
 

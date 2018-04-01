@@ -39,7 +39,9 @@ class Board extends React.Component {
       const { role, name, opponent, updateScoreboard } = props;
       const alertMessage = '';
       const victor = winningPlayer(data, this.props);
+
       if(victor) updateScoreboard(victor);
+      
       this.setState({ board, turn, winner, numOfPlays, alertMessage });
     });
 
