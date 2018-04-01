@@ -6,6 +6,10 @@ import Board from '../Board';
 import Home from '../Home';
 import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
+import { 
+  updateOpponent,
+  onWinUpdateScoreboard 
+} from './state-functions';
 import { Header, Wrapper, GameWrapper } from '../../components';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
@@ -48,15 +52,13 @@ class App extends React.Component {
   }
 
   updateOpponent(players) {
-    const name = this.state.name;
-    const opponent = name === players[0] ? players[1] : players[0];
+    const opponent = updateOpponent(this.state.name, players);  
     this.setState({ opponent });
   }
 
   onWinUpdateScoreboard(winner) {
-    let { userWins, opponentWins } = this.state;
-    winner === this.state.name ? userWins ++ : opponentWins++;
-    this.setState({ userWins, opponentWins}); 
+    const newState = onWinUpdateScoreboard(this.state, winner);
+    this.setState(newState); 
   }
 
   onSignUpUpdateName(name) {
