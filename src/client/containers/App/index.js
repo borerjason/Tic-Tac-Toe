@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // import Messages from '../Messages';
@@ -7,28 +6,8 @@ import Board from '../Board';
 import Home from '../Home';
 import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
-import Header from '../../components/Header';
+import { Header, Wrapper, GameWrapper } from '../../components';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
-
-const AppWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const GameWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 
 class App extends React.Component {
   constructor(props){
@@ -93,21 +72,21 @@ class App extends React.Component {
             <Route 
               exact path='/'
               render={() => (
-                <AppWrapper>
+                <Wrapper>
                   <Welcome
                     updateName={this.onSignUpUpdateName}
                   /> 
-                </AppWrapper>
+                </Wrapper>
               )}
             />
             <Route 
               path='/home'
               render={() => (
-                <AppWrapper>
+                <Wrapper>
                   <Home
                     name={this.state.name}
                   /> 
-                </AppWrapper>
+                </Wrapper>
               )}
             />
             <Route

@@ -1,8 +1,6 @@
 import React from 'react';
 
-import Input from '../../components/Input';
-import BtnLink from '../../components/Link';
-import { Message, Wrapper} from '../../components';
+import { Message, Wrapper, BtnLink, Input} from '../../components';
 import { newGame, joinGame } from '../../socket';
 
 class Home extends React.Component {

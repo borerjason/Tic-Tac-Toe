@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
 import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
-import Body from './Body'; 
 import BoardPiece from '../BoardPiece';
 import { Wrapper, Message, BtnLink } from '../../components'
 import RestartBtn from './RestartBtn';
+import Body from './Body'; 
 
 class Board extends React.Component {
   constructor(props) {

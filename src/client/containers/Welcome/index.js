@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Input from '../../components/Input';
-import BtnLink from '../../components/Link';
+import BtnLink from '../../components/BtnLink';
 import { Wrapper, Message } from '../../components';
 
 class Welcome extends React.Component {

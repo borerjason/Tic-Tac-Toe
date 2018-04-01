@@ -6,6 +6,10 @@ const Body = styled.div`
   width: 400px;
   height: 400px;
   border: 1px solid back;
+
+ &:first-child {
+   background-color: pink;
+  }
 `
 
 export default Body;
