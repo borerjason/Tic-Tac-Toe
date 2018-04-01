@@ -1,15 +1,14 @@
-export function updateBoardState(data, props) {
-  const { board, turn, winner, numOfPlays } = data;
-  const { role, name, opponent, updateScoreboard } = props;
-  const alertMessage = '';
+export function winningPlayer(data, props) {
+  const { turn, winner } = data;
+  const { role, name, opponent } = props;
 
   if (winner) {
     const lastPlayer = turn === 'X' ? 'O' : 'X';
     const winningPlayer = lastPlayer === role ? name : opponent;
-    updateScoreboard(winningPlayer);
-  }  
+    return winningPlayer;
+  }
 
-  return { board, turn, winner, numOfPlays, alertMessage };
+  return false;  
 }
 
 export function validateMove(state, props, val) {
@@ -17,7 +16,7 @@ export function validateMove(state, props, val) {
   let { turn, opponent, winner, numOfPlays } = state;
 
   if (winner || numOfPlays === 9) {
-    return(`Please click 'Start new game' to start new game!`);
+    return(`Please click 'Start another game' to play again!`);
   } else if (!opponent) {
     return;
   } else if (turn !== role) {

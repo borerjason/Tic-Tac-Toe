@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
-import { updateBoardState, validateMove } from './state-functions';
+import { winningPlayer, validateMove } from './state-functions';
 import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
 import BoardPiece from '../BoardPiece';
@@ -35,7 +35,12 @@ class Board extends React.Component {
     
     clientUpdateBoard((err, data) => {
       if (err) throw new Error('Error starting game');
-      this.setState( updateBoardState(data, this.props));
+      const { board, turn, winner, numOfPlays } = data;
+      const { role, name, opponent, updateScoreboard } = props;
+      const alertMessage = '';
+      const victor = winningPlayer(data, this.props);
+      if(victor) updateScoreboard(victor);
+      this.setState({ board, turn, winner, numOfPlays, alertMessage });
     });
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
@@ -43,38 +48,19 @@ class Board extends React.Component {
   }
   
   onClickValidateMove(id, val, loc) {
-    const { role, gameId, updateScoreboard } = this.props;
     let { board, turn, opponent, n, winner, numOfPlays } = this.state;
-    
+    const { role, gameId, updateScoreboard } = this.props;
     const alertMessage = validateMove(this.state, this.props, val)
+
     if (alertMessage === false) {
       [board, turn, numOfPlays, winner] = onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n);
       
-       // send updated board to other user via socket
+       /* send updated board to other user via socket */
        updateBoard({ board, turn, gameId, winner, numOfPlays });
     } else {
       this.setState({ alertMessage })
     }
   }
-  // onClickValidateMove(id, val, loc) {
-  //   const { role, gameId, updateScoreboard } = this.props;
-  //   let { board, turn, opponent, n, winner, numOfPlays } = this.state;
-    
-  //   if(winner || numOfPlays === 9) {
-  //     return;
-  //   } else if (!opponent) {
-  //     alert('Please wait for another player!')
-  //   } else if (this.state.turn !== role) {
-  //     alert('Please wait for your turn');
-  //   } else if (val !== '') {
-  //     alert('This spot as already been played. Please select again!')
-  //   } else { 
-  //    [board, turn, numOfPlays, winner] = onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n);
-
-  //     // sends updated board to other user via socket
-  //     updateBoard({ board, turn, gameId, winner, numOfPlays });
-  //   }
-  // }
 
   restartGame() {
     this.setState({

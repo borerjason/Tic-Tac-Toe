@@ -5140,7 +5140,6 @@ var sendNewMessage = function sendNewMessage(msg) {
 };
 
 var newGame = function newGame(data) {
-  console.log(data);
   socket.emit('newGame', data);
 };
 
@@ -29772,7 +29771,19 @@ var Board = function (_React$Component) {
 
     (0, _socket.clientUpdateBoard)(function (err, data) {
       if (err) throw new Error('Error starting game');
-      _this.setState((0, _stateFunctions.updateBoardState)(data, _this.props));
+      var board = data.board,
+          turn = data.turn,
+          winner = data.winner,
+          numOfPlays = data.numOfPlays;
+      var role = props.role,
+          name = props.name,
+          opponent = props.opponent,
+          updateScoreboard = props.updateScoreboard;
+
+      var alertMessage = '';
+      var victor = (0, _stateFunctions.winningPlayer)(data, _this.props);
+      if (victor) updateScoreboard(victor);
+      _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays, alertMessage: alertMessage });
     });
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -29783,10 +29794,6 @@ var Board = function (_React$Component) {
   _createClass(Board, [{
     key: 'onClickValidateMove',
     value: function onClickValidateMove(id, val, loc) {
-      var _props = this.props,
-          role = _props.role,
-          gameId = _props.gameId,
-          updateScoreboard = _props.updateScoreboard;
       var _state = this.state,
           board = _state.board,
           turn = _state.turn,
@@ -29794,12 +29801,16 @@ var Board = function (_React$Component) {
           n = _state.n,
           winner = _state.winner,
           numOfPlays = _state.numOfPlays;
-
+      var _props = this.props,
+          role = _props.role,
+          gameId = _props.gameId,
+          updateScoreboard = _props.updateScoreboard;
 
       var alertMessage = (0, _stateFunctions.validateMove)(this.state, this.props, val);
+
       if (alertMessage === false) {
 
-        // send updated board to other user via socket
+        /* send updated board to other user via socket */
         var _onMoveUpdateBoard = (0, _onMoveUpdateBoard4.default)(board, turn, numOfPlays, winner, loc, role, n);
 
         var _onMoveUpdateBoard2 = _slicedToArray(_onMoveUpdateBoard, 4);
@@ -29813,26 +29824,6 @@ var Board = function (_React$Component) {
         this.setState({ alertMessage: alertMessage });
       }
     }
-    // onClickValidateMove(id, val, loc) {
-    //   const { role, gameId, updateScoreboard } = this.props;
-    //   let { board, turn, opponent, n, winner, numOfPlays } = this.state;
-
-    //   if(winner || numOfPlays === 9) {
-    //     return;
-    //   } else if (!opponent) {
-    //     alert('Please wait for another player!')
-    //   } else if (this.state.turn !== role) {
-    //     alert('Please wait for your turn');
-    //   } else if (val !== '') {
-    //     alert('This spot as already been played. Please select again!')
-    //   } else { 
-    //    [board, turn, numOfPlays, winner] = onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n);
-
-    //     // sends updated board to other user via socket
-    //     updateBoard({ board, turn, gameId, winner, numOfPlays });
-    //   }
-    // }
-
   }, {
     key: 'restartGame',
     value: function restartGame() {
@@ -36036,27 +36027,23 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateBoardState = updateBoardState;
+exports.winningPlayer = winningPlayer;
 exports.validateMove = validateMove;
-function updateBoardState(data, props) {
-  var board = data.board,
-      turn = data.turn,
-      winner = data.winner,
-      numOfPlays = data.numOfPlays;
+function winningPlayer(data, props) {
+  var turn = data.turn,
+      winner = data.winner;
   var role = props.role,
       name = props.name,
-      opponent = props.opponent,
-      updateScoreboard = props.updateScoreboard;
+      opponent = props.opponent;
 
-  var alertMessage = '';
 
   if (winner) {
     var lastPlayer = turn === 'X' ? 'O' : 'X';
-    var winningPlayer = lastPlayer === role ? name : opponent;
-    updateScoreboard(winningPlayer);
+    var _winningPlayer = lastPlayer === role ? name : opponent;
+    return _winningPlayer;
   }
 
-  return { board: board, turn: turn, winner: winner, numOfPlays: numOfPlays, alertMessage: alertMessage };
+  return false;
 }
 
 function validateMove(state, props, val) {
@@ -36068,7 +36055,7 @@ function validateMove(state, props, val) {
 
 
   if (winner || numOfPlays === 9) {
-    return 'Please click \'Start new game\' to start new game!';
+    return 'Please click \'Start another game\' to play again!';
   } else if (!opponent) {
     return;
   } else if (turn !== role) {

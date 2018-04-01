@@ -11,7 +11,6 @@ const sendNewMessage = (msg) => {
 }
 
 const newGame = (data) => {
-  console.log(data);
   socket.emit('newGame', data);
 }
 
@@ -39,4 +38,14 @@ const clientUpdateBoard = (cb) => {
   socket.on('updateBoard', (data) => cb(null, data));
 }
 
-export { subscribeToMessages, sendNewMessage, newGame, updateGameId, joinGame, confirmJoinNewGame, startGame, updateBoard, clientUpdateBoard };
+export { 
+  subscribeToMessages,
+  sendNewMessage,
+  newGame,
+  updateGameId,
+  joinGame,
+  confirmJoinNewGame,
+  startGame,
+  updateBoard,
+  clientUpdateBoard 
+};
