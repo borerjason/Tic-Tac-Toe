@@ -8409,35 +8409,30 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n'], ['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  font-size: 100px;\n  font-family: \'Amatic SC\', cursive;\n  text-align: center;\n'], ['\n  font-size: 100px;\n  font-family: \'Amatic SC\', cursive;\n  text-align: center;\n']);
-
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _styledComponents = __webpack_require__(6);
+var _PieceWrapper = __webpack_require__(152);
 
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
+var _PieceWrapper2 = _interopRequireDefault(_PieceWrapper);
+
+var _Piece = __webpack_require__(153);
+
+var _Piece2 = _interopRequireDefault(_Piece);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var PieceWrapper = _styledComponents2.default.div(_templateObject);
-
-var Piece = _styledComponents2.default.p(_templateObject2);
-
 var BoardPiece = function BoardPiece(props) {
   return _react2.default.createElement(
-    PieceWrapper,
+    _PieceWrapper2.default,
     {
       onClick: function onClick() {
         return props.validate(props.id, props.val, props.loc);
       }
     },
     _react2.default.createElement(
-      Piece,
+      _Piece2.default,
       null,
       props.val
     )
@@ -29514,9 +29509,9 @@ var _Scoreboard = __webpack_require__(148);
 
 var _Scoreboard2 = _interopRequireDefault(_Scoreboard);
 
-var _stateFunctions = __webpack_require__(149);
-
 var _components = __webpack_require__(21);
+
+var _stateFunctions = __webpack_require__(149);
 
 var _socket = __webpack_require__(31);
 
@@ -29527,9 +29522,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// import Messages from '../Messages';
-
 
 var App = function (_React$Component) {
   _inherits(App, _React$Component);
@@ -29715,6 +29707,8 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _socket = __webpack_require__(31);
 
+var _stateFunctions = __webpack_require__(151);
+
 var _onMoveUpdateBoard3 = __webpack_require__(137);
 
 var _onMoveUpdateBoard4 = _interopRequireDefault(_onMoveUpdateBoard3);
@@ -29728,6 +29722,10 @@ var _BoardPiece = __webpack_require__(61);
 var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
 
 var _components = __webpack_require__(21);
+
+var _AlertMessage = __webpack_require__(155);
+
+var _AlertMessage2 = _interopRequireDefault(_AlertMessage);
 
 var _RestartBtn = __webpack_require__(144);
 
@@ -29759,7 +29757,8 @@ var Board = function (_React$Component) {
       turn: 'X',
       opponent: false,
       winner: false,
-      numOfPlays: 0
+      numOfPlays: 0,
+      alertMessage: ''
     };
 
     (0, _socket.startGame)(function (err, data) {
@@ -29767,30 +29766,13 @@ var Board = function (_React$Component) {
       _this.setState({
         opponent: true
       });
+
       _this.props.updateOpponent(data);
     });
 
     (0, _socket.clientUpdateBoard)(function (err, data) {
       if (err) throw new Error('Error starting game');
-
-      var board = data.board,
-          turn = data.turn,
-          winner = data.winner,
-          numOfPlays = data.numOfPlays;
-      var _this$props = _this.props,
-          role = _this$props.role,
-          name = _this$props.name,
-          opponent = _this$props.opponent,
-          updateScoreboard = _this$props.updateScoreboard;
-
-
-      if (winner) {
-        var lastPlayer = turn === 'X' ? 'O' : 'X';
-        var winningPlayer = lastPlayer === role ? name : opponent;
-        updateScoreboard(winningPlayer);
-      }
-
-      _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays });
+      _this.setState((0, _stateFunctions.updateBoardState)(data, _this.props));
     });
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -29814,15 +29796,10 @@ var Board = function (_React$Component) {
           numOfPlays = _state.numOfPlays;
 
 
-      if (winner || numOfPlays === 9) {
-        return;
-      } else if (!opponent) {
-        alert('Please wait for another player!');
-      } else if (this.state.turn !== role) {
-        alert('Please wait for your turn');
-      } else if (val !== '') {
-        alert('This spot as already been played. Please select again!');
-      } else {
+      var alertMessage = (0, _stateFunctions.validateMove)(this.state, this.props, val);
+      if (alertMessage === false) {
+
+        // send updated board to other user via socket
         var _onMoveUpdateBoard = (0, _onMoveUpdateBoard4.default)(board, turn, numOfPlays, winner, loc, role, n);
 
         var _onMoveUpdateBoard2 = _slicedToArray(_onMoveUpdateBoard, 4);
@@ -29831,10 +29808,31 @@ var Board = function (_React$Component) {
         turn = _onMoveUpdateBoard2[1];
         numOfPlays = _onMoveUpdateBoard2[2];
         winner = _onMoveUpdateBoard2[3];
-
         (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner, numOfPlays: numOfPlays });
+      } else {
+        this.setState({ alertMessage: alertMessage });
       }
     }
+    // onClickValidateMove(id, val, loc) {
+    //   const { role, gameId, updateScoreboard } = this.props;
+    //   let { board, turn, opponent, n, winner, numOfPlays } = this.state;
+
+    //   if(winner || numOfPlays === 9) {
+    //     return;
+    //   } else if (!opponent) {
+    //     alert('Please wait for another player!')
+    //   } else if (this.state.turn !== role) {
+    //     alert('Please wait for your turn');
+    //   } else if (val !== '') {
+    //     alert('This spot as already been played. Please select again!')
+    //   } else { 
+    //    [board, turn, numOfPlays, winner] = onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n);
+
+    //     // sends updated board to other user via socket
+    //     updateBoard({ board, turn, gameId, winner, numOfPlays });
+    //   }
+    // }
+
   }, {
     key: 'restartGame',
     value: function restartGame() {
@@ -29868,7 +29866,8 @@ var Board = function (_React$Component) {
           board = _state3.board,
           winner = _state3.winner,
           turn = _state3.turn,
-          numOfPlays = _state3.numOfPlays;
+          numOfPlays = _state3.numOfPlays,
+          alertMessage = _state3.alertMessage;
 
       var quadrants = (0, _buildBoard2.default)(n, board, this.onClickValidateMove);
       var lastPlayer = turn === 'X' ? 'O' : 'X';
@@ -29877,6 +29876,11 @@ var Board = function (_React$Component) {
       return _react2.default.createElement(
         _components.Wrapper,
         null,
+        alertMessage && _react2.default.createElement(
+          _AlertMessage2.default,
+          null,
+          alertMessage
+        ),
         winner || numOfPlays === 9 ? _react2.default.createElement(
           _components.Wrapper,
           null,
@@ -36021,6 +36025,138 @@ var _styledComponents = __webpack_require__(6);
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 (0, _styledComponents.injectGlobal)(_templateObject);
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateBoardState = updateBoardState;
+exports.validateMove = validateMove;
+function updateBoardState(data, props) {
+  var board = data.board,
+      turn = data.turn,
+      winner = data.winner,
+      numOfPlays = data.numOfPlays;
+  var role = props.role,
+      name = props.name,
+      opponent = props.opponent,
+      updateScoreboard = props.updateScoreboard;
+
+  var alertMessage = '';
+
+  if (winner) {
+    var lastPlayer = turn === 'X' ? 'O' : 'X';
+    var winningPlayer = lastPlayer === role ? name : opponent;
+    updateScoreboard(winningPlayer);
+  }
+
+  return { board: board, turn: turn, winner: winner, numOfPlays: numOfPlays, alertMessage: alertMessage };
+}
+
+function validateMove(state, props, val) {
+  var role = props.role;
+  var turn = state.turn,
+      opponent = state.opponent,
+      winner = state.winner,
+      numOfPlays = state.numOfPlays;
+
+
+  if (winner || numOfPlays === 9) {
+    return 'Please click \'Start new game\' to start new game!';
+  } else if (!opponent) {
+    return;
+  } else if (turn !== role) {
+    return 'Please wait for your turn';
+  } else if (val !== '') {
+    return 'This spot as already been played. Please select again!';
+  } else {
+    return false;
+  }
+}
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n'], ['\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n  width: 33%;\n  height: 33%;\n  border: 1px solid black;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var PieceWrapper = _styledComponents2.default.div(_templateObject);
+
+exports.default = PieceWrapper;
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  font-size: 100px;\n  font-family: \'Amatic SC\', cursive;\n  text-align: center;\n'], ['\n  font-size: 100px;\n  font-family: \'Amatic SC\', cursive;\n  text-align: center;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Piece = _styledComponents2.default.p(_templateObject);
+
+exports.default = Piece;
+
+/***/ }),
+/* 154 */,
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  color: red;\n'], ['\n  color: red;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _components = __webpack_require__(21);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var AlertMessage = _components.Message.extend(_templateObject);
+
+exports.default = AlertMessage;
 
 /***/ })
 /******/ ]);

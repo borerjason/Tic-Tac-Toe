@@ -1,16 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-// import Messages from '../Messages';
 import Board from '../Board';
 import Home from '../Home';
 import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
-import { 
-  updateOpponent,
-  onWinUpdateScoreboard 
-} from './state-functions';
 import { Header, Wrapper, GameWrapper } from '../../components';
+import { updateOpponent, onWinUpdateScoreboard } from './state-functions';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
 class App extends React.Component {
