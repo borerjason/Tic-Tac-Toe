@@ -16,7 +16,6 @@ Start server:
 npm start
 ```
 
-## Transpiling / Scripts
 Webpack is used to bundle the client side code into a single file. It utilizes Babel to transpile ES6 code to ES5 code. 
 
 In a new terminal tab cd into the repo and run the follow command:
@@ -25,6 +24,13 @@ Build client:
 ```sh
 npm run build
 ```
+
+Open two tabs in our browser, one for each player:
+```sh
+localhost:3000
+```
+
+Have fun!
 
 ## Main Technologies
 
@@ -36,7 +42,7 @@ npm run build
 - styled-components
 
 ## Game Design  
-  The Tic Tac Toe board is represented in state as a 2-D array. The board is viewed and constructed as an array of BoardPiece Components. Each piece has as props, its index in the array, its value, and its respective location in the state array. 
+  The Tic Tac Toe board is represented in state as a 2-D array. The board is viewed and constructed as an array of BoardPiece components. Each piece has as props, its index in the array, its value, and its respective location in the state array. 
   
   When the user clicks on a BoardPiece the application first validates the move by checking if:  
     1. There is currently not a winner  
@@ -61,17 +67,15 @@ App
  |  
  ---- Home  
  |  
- ---- Board  
- |      |  
- |      BoardPiece  
+ ---- Board --- BoardPiece 
  |  
  ---- Scoreboard  
 
 ### Three Routes/Views:
    1. '/' (Welcome)  
-     User Interactions:   
+     User Interactions:  
         - Enter name to 'sign in'  
-
+  
    2. '/home' (Home)  
      User Interactions:  
         - Start new game  
@@ -120,14 +124,14 @@ User has the option to create a new game or join an existing game.
              - Role (opponent)  
              - gameId (opponent)  
 
-### Styling  
+## Styling  
 
 I utilized the styled-components library to optimize for resusable styled DOM elements. Elements that are used in more than one container are saved in the parent 'components' folder. Elements that are specific to one container are saved within their respective container's folder.  
  
 
 ## Testing  
 
-State function and game play function testing was done via jest.
+State functions and game play functions were tested with jest.
 
 Run tests:
 ```sh
