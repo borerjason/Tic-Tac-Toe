@@ -127,7 +127,7 @@ User has the option to create a new game or join an existing game. The userId is
              - gameId (opponent)  
 
  ### Board  
- Maintains the state of the individual game. Validates moves and sends updates to the server via socket.io to broadcast to the other user. State includes the Board, next players turn, total number of plays played, winner status, if there is an opponent present, and the size of the board. I added a state variable n to represent the size of the board so future iterations of the app can have board sizes of different dimensions. The current board is set to a fixed size of 3.
+ Maintains the state of the individual game. Validates moves and sends updates to the server via socket.io to emit to the other user. State includes the Board, next players turn, total number of plays played, winner status, if there is an opponent present, and the size of the board. I added a state variable n to represent the size of the board so future iterations of the app can have board sizes of different dimensions. The current board is set to a fixed size of 3.
 
  The Board container also triggers the scoreboard update, updates the opponents name, and updates the alert message via functions passed down from the App container as props. 
 
