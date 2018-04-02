@@ -41,17 +41,17 @@ Containers:
 
 App  
  |  
- -- Welcome  
+ ---- Welcome  
  |  
- -- Home  
+ ---- Home  
  |  
- -- Board  
- |    |  
- |    -- BoardPiece  
+ ---- Board  
+ |_____|  
+ |----- BoardPiece  
  |  
- -- Scoreboard  
+ ---- Scoreboard  
 
- Three Routes/Views:
+### Three Routes/Views:
    1. '/' (Welcome)  
      User Interactions:   
         - Enter name to 'sign in'  
@@ -65,12 +65,11 @@ App
      User Interactions:  
         - Play game  
 
- ## Design Decisions:
+## Design Decisions:
 
-  App:
-  ```sh
-   Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponents information (opponents name, opponents wins), and session information (gameId, activeGame).
-  ```
+### App:
+Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponents information (opponents name, opponents wins), and session information (gameId, activeGame).
+
    
     
     
