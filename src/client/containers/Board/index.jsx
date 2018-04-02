@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
 import { winningPlayer, validateMove } from './state-functions';
@@ -121,5 +122,14 @@ class Board extends React.Component {
     );
   }
 }
+
+Board.propTypes = {
+  updateOpponent: PropTypes.func.isRequired,
+  updateScoreboard: PropTypes.func.isRequired,
+  updateMessage: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  opponent: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+};
 
 export default Board;

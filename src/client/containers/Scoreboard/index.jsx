@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { TableHead, TableBody, TableHeader, TableDim } from './Table';
 
 const Scoreboard = props => (
@@ -17,5 +19,12 @@ const Scoreboard = props => (
     </TableBody>
   </table>
 );
+
+Scoreboard.propTypes = {
+  name: PropTypes.string.isRequired,
+  opponent: PropTypes.string.isRequired,
+  userWins: PropTypes.number.isRequired,
+  opponentWins: PropTypes.number.isRequired,
+};
 
 export default Scoreboard;

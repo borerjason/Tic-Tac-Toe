@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Message, Wrapper, BtnLink, Input } from '../../components';
 import { newGame, joinGame } from '../../socket';
@@ -52,5 +53,9 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  name: PropTypes.string.isRequired,
+};
 
 export default Home;
