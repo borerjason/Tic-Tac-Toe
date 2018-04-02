@@ -94,7 +94,13 @@ User has the option to create a new game or join an existing game.
       2. User's name and gameId are sent to server via socket.io
       3. Server looks up gameId in 'games' object and adds second user's name to game.
       4. Server adds socket to existing private game socket via the gameId
-      5. Server emits 
+      5. Server emits gameId to user
+      6. Server emits player info to both sockets in gameId room.
+         - State Updated:
+           - Board container:  
+             - opponent present   
+           - App container: 
+             - opponent's name
 
 
        socket.emit('joinGame', data);

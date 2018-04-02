@@ -36060,7 +36060,8 @@ function winningPlayer(data, props) {
 }
 
 function validateMove(state, props, val) {
-  var role = props.role;
+  var role = props.role,
+      gameId = props.gameId;
   var turn = state.turn,
       opponent = state.opponent,
       winner = state.winner,
@@ -36070,7 +36071,7 @@ function validateMove(state, props, val) {
   if (winner || numOfPlays === 9) {
     return 'Please click \'Start another game\' to play again!';
   } else if (!opponent) {
-    return;
+    return 'Invite a friend! Your game id is: ' + gameId;
   } else if (turn !== role) {
     return 'Please wait for your turn';
   } else if (val !== '') {
@@ -36174,13 +36175,15 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _components = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../../components\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+var _Message = __webpack_require__(141);
+
+var _Message2 = _interopRequireDefault(_Message);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var AlertMessage = _components.Message.extend(_templateObject);
+var AlertMessage = _Message2.default.extend(_templateObject);
 
 exports.default = AlertMessage;
 
