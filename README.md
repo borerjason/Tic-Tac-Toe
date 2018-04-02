@@ -1,4 +1,4 @@
-## Tic-Tac-Toe Challenge 
+## Tic-Tac-Toe Challenge
 
 > A web application that allows two users to play tic-tac-toe.  
 
@@ -18,18 +18,17 @@ npm start
 
 Webpack is used to bundle the client side code into a single file. It utilizes Babel to transpile ES6 code to ES5 code. 
 
-In a new terminal tab, cd into the repo.
+In a new terminal window/tab, cd into the repo.
 
 Build client:
 ```sh
 npm run build
 ```
 
-Open two tabs in our browser, one for each player:
+Open two tabs in your browser, one for each player:
 ```sh
 localhost:3000
 ```
-
 Have fun!
 
 ## Main Technologies
@@ -69,7 +68,9 @@ App
  |  
  ---- Board --- BoardPiece  
  |  
- ---- Scoreboard  
+ ---- Scoreboard 
+ |  
+ --- Messages 
 
 ### Three Routes/Views:
    1. '/' (Welcome)  
@@ -81,9 +82,10 @@ App
         - Start new game  
         - Join existing game   
 
-   3. '/game' (Board/ScoreBoard)  
+   3. '/game' (Board/ScoreBoard/Messages)  
      User Interactions:  
         - Play game  
+        - Chat with opponent  
 
 ## Design Decisions and User Flow:
 
@@ -91,14 +93,14 @@ App
 Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponent's information (opponent's name, opponent's wins), and session information (gameId, activeGame).
 
 ### Welcome:
-User 'signs in' by submitting their name. Their name is saved in state in the parent App container.
+User 'signs in' by submitting their name. The name is saved in state in the parent App container.
 
 ### Home:
-User has the option to create a new game or join an existing game.
-  - New Game:  
+User has the option to create a new game or join an existing game. The userId is saved in state and is transmitted to the server when the user joins an existing game. 
+    
     User clicks 'New Game':  
       1. User's name is sent to server via socket.io.  
-      2. Server creates a new gameId and adds the gameId and users name to the 'games' object.  
+      2. Server creates a new gameId and adds the gameId and user's name to the 'games' object.  
       3. Server adds the socket to a new socket room labeled with the gameId.     
       4. Server emits room (gameId) to the user via the new private socket.    
          State updated:  
@@ -108,7 +110,7 @@ User has the option to create a new game or join an existing game.
              - activeGame  
              - message  
       5. Client updates view to 'Board/Scoreboard' view  
-  - Join Game:
+  
     User adds gameId to join and clicks 'Join':
       1. Client validates that gameId input contains text  
       2. User's name and gameId are sent to server via socket.io  
@@ -116,7 +118,7 @@ User has the option to create a new game or join an existing game.
       4. Server adds socket to existing private game socket via the gameId  
       5. Server emits gameId to user  
       6. Server emits player info to both sockets in gameId room.  
-         - State Updated:  
+         - State updated:  
            - Board container:    
              - opponent from false to true  
            - App container:   
@@ -124,11 +126,13 @@ User has the option to create a new game or join an existing game.
              - Role (opponent)  
              - gameId (opponent)  
 
+ ### Board  
+ Maintains the state of the individual game. State includes the Board, next players turn, total number of plays, winner status, if there is an opponent present, and the size of the board. I added a state variable n as the size of the board so future iterations of the app can have board sizes of different dimensions. The current board is set to a fixed size of 3.  
+
 ## Styling  
 
 I utilized the styled-components library to optimize for resusable styled DOM elements. Elements that are used in more than one container are saved in the parent 'components' folder. Elements that are specific to one container are saved within their respective container's folder.  
  
-
 ## Testing  
 
 State functions and game play functions were tested with jest.
@@ -140,9 +144,12 @@ npm run test
 
 ## Improvements
 I would love to continue learning about socket.io and eventually add the following featuers: 
-   - Server validates that gameId exists when second player joins
-   - Server ensures only two players are allowed per game
-   - Server deletes game from 'games' object when users disconnect
-   - Users are notified when the other player disconnects
-   - Socket.io code is modular and organized separately main server file
+   - Server validates the gameId when second player joins  
+   - Server ensures only two players are allowed per game  
+   - Server deletes game from 'games' object when users disconnect  
+   - Users are notified when the other player disconnects  
+   - Socket.io code is modular and organized separately from main server file  
+
+## Known Issues:
+  - client/server rendering: If refresh browser on any route other than '/' route receive error. 
 
