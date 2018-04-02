@@ -5,8 +5,7 @@ import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
 import { winningPlayer, validateMove } from './state-functions';
 import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
-import { Wrapper, Message, MsgDiv } from '../../components';
-import RestartBtn from './RestartBtn';
+import { Wrapper, Message, MsgDiv, Btn } from '../../components';
 import Body from './Body';
 
 class Board extends React.Component {
@@ -114,10 +113,10 @@ class Board extends React.Component {
           {quadrants}
         </Body>
         {(winner || numOfPlays === 9) &&
-          <RestartBtn
+          <Btn
             onClick={this.restartGame}
           >Start Another Game
-          </RestartBtn>}
+          </Btn>}
       </Wrapper>
     );
   }

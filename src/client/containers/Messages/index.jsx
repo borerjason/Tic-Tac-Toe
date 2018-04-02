@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Btn from './Btn';
+import { Btn } from '../../components';
 import MsgInput from './Input';
 import MsgBody from './MessageBody';
 import { subscribeToMessages, sendNewMessage } from '../../socket';

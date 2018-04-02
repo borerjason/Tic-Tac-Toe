@@ -4462,7 +4462,7 @@ function localstorage() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AlertMessage = exports.MsgDiv = exports.GameWrapper = exports.Input = exports.Header = exports.BtnLink = exports.Message = exports.Wrapper = undefined;
+exports.Btn = exports.AlertMessage = exports.MsgDiv = exports.GameWrapper = exports.Input = exports.Header = exports.BtnLink = exports.Message = exports.Wrapper = undefined;
 
 var _Wrapper = __webpack_require__(144);
 
@@ -4496,6 +4496,10 @@ var _AlertMessage = __webpack_require__(148);
 
 var _AlertMessage2 = _interopRequireDefault(_AlertMessage);
 
+var _Btn = __webpack_require__(165);
+
+var _Btn2 = _interopRequireDefault(_Btn);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Wrapper = _Wrapper2.default;
@@ -4506,6 +4510,7 @@ exports.Input = _Input2.default;
 exports.GameWrapper = _GameWrapper2.default;
 exports.MsgDiv = _MsgDiv2.default;
 exports.AlertMessage = _AlertMessage2.default;
+exports.Btn = _Btn2.default;
 
 /***/ }),
 /* 22 */
@@ -29722,10 +29727,6 @@ var _buildBoard2 = _interopRequireDefault(_buildBoard);
 
 var _components = __webpack_require__(21);
 
-var _RestartBtn = __webpack_require__(149);
-
-var _RestartBtn2 = _interopRequireDefault(_RestartBtn);
-
 var _Body = __webpack_require__(150);
 
 var _Body2 = _interopRequireDefault(_Body);
@@ -29902,7 +29903,7 @@ var Board = function (_React$Component) {
           quadrants
         ),
         (winner || numOfPlays === 9) && _react2.default.createElement(
-          _RestartBtn2.default,
+          _components.Btn,
           {
             onClick: this.restartGame
           },
@@ -35802,31 +35803,7 @@ var AlertMessage = _Message2.default.extend(_templateObject);
 exports.default = AlertMessage;
 
 /***/ }),
-/* 149 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _templateObject = _taggedTemplateLiteral(['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
-
-var _styledComponents = __webpack_require__(3);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var RestartBtn = _styledComponents2.default.button(_templateObject);
-
-exports.default = RestartBtn;
-
-/***/ }),
+/* 149 */,
 /* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36357,9 +36334,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Btn = __webpack_require__(163);
-
-var _Btn2 = _interopRequireDefault(_Btn);
+var _components = __webpack_require__(21);
 
 var _Input = __webpack_require__(164);
 
@@ -36453,7 +36428,7 @@ var Messages = function (_React$Component) {
             }
           }),
           _react2.default.createElement(
-            _Btn2.default,
+            _components.Btn,
             {
               onClick: function onClick(e) {
                 return _this2.onClickSumbitMessage(e);
@@ -36502,31 +36477,7 @@ var MsgBody = _styledComponents2.default.div(_templateObject);
 exports.default = MsgBody;
 
 /***/ }),
-/* 163 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _templateObject = _taggedTemplateLiteral(['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
-
-var _styledComponents = __webpack_require__(3);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var Btn = _styledComponents2.default.button(_templateObject);
-
-exports.default = Btn;
-
-/***/ }),
+/* 163 */,
 /* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36552,6 +36503,31 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var MsgInput = _components.Input.extend(_templateObject);
 
 exports.default = MsgInput;
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Btn = _styledComponents2.default.button(_templateObject);
+
+exports.default = Btn;
 
 /***/ })
 /******/ ]);

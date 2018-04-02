@@ -6,5 +6,6 @@ import Input from './Input';
 import GameWrapper from './GameWrapper';
 import MsgDiv from './MsgDiv';
 import AlertMessage from './AlertMessage';
+import Btn from './Btn';
 
-export { Wrapper, Message, BtnLink, Header, Input, GameWrapper, MsgDiv, AlertMessage };
+export { Wrapper, Message, BtnLink, Header, Input, GameWrapper, MsgDiv, AlertMessage, Btn };
