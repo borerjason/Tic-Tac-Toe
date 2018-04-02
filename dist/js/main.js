@@ -5145,8 +5145,8 @@ var subscribeToMessages = function subscribeToMessages(cb) {
   });
 };
 
-var sendNewMessage = function sendNewMessage(msg) {
-  socket.emit('message', msg);
+var sendNewMessage = function sendNewMessage(data) {
+  socket.emit('message', data);
 };
 
 var newGame = function newGame(data) {
@@ -8443,7 +8443,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  // width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  // width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
 
 var _styledComponents = __webpack_require__(3);
 
@@ -29484,6 +29484,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(24);
 
+var _Messages = __webpack_require__(161);
+
+var _Messages2 = _interopRequireDefault(_Messages);
+
 var _Board = __webpack_require__(106);
 
 var _Board2 = _interopRequireDefault(_Board);
@@ -29529,7 +29533,9 @@ var App = function (_React$Component) {
       name: '',
       opponent: 'TBD',
       userWins: 0,
-      opponentWins: 0
+      opponentWins: 0,
+      chatMessages: [],
+      msgBody: ''
     };
 
     (0, _socket.updateGameId)(function (err, gameId) {
@@ -29635,26 +29641,34 @@ var App = function (_React$Component) {
               path: '/game',
               render: function render() {
                 return _react2.default.createElement(
-                  _components.Wrapper,
+                  _components.GameWrapper,
                   null,
-                  _react2.default.createElement(_Board2.default, {
-                    message: _this2.state.message,
-                    gameId: _this2.state.gameId,
-                    updateOpponent: _this2.updateOpponent,
-                    role: _this2.state.role,
-                    name: _this2.state.name,
-                    opponent: _this2.state.opponent,
-                    updateScoreboard: _this2.onWinUpdateScoreboard,
-                    updateMessage: _this2.updateAlertMessage
-                  }),
                   _react2.default.createElement(
                     _components.Wrapper,
                     null,
+                    _react2.default.createElement(_Board2.default, {
+                      message: _this2.state.message,
+                      gameId: _this2.state.gameId,
+                      updateOpponent: _this2.updateOpponent,
+                      role: _this2.state.role,
+                      name: _this2.state.name,
+                      opponent: _this2.state.opponent,
+                      updateScoreboard: _this2.onWinUpdateScoreboard,
+                      updateMessage: _this2.updateAlertMessage
+                    }),
                     _react2.default.createElement(_Scoreboard2.default, {
                       name: _this2.state.name,
                       opponent: _this2.state.opponent,
                       userWins: _this2.state.userWins,
                       opponentWins: _this2.state.opponentWins
+                    })
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(_Messages2.default, {
+                      gameId: _this2.state.gameId,
+                      name: _this2.state.name
                     })
                   )
                 );
@@ -35909,11 +35923,6 @@ var Home = function (_React$Component) {
         _components.Wrapper,
         null,
         _react2.default.createElement(
-          _components.Message,
-          null,
-          'To start a new game click \'Begin\':'
-        ),
-        _react2.default.createElement(
           _components.BtnLink,
           {
             to: '/game',
@@ -35921,7 +35930,7 @@ var Home = function (_React$Component) {
               return (0, _socket.newGame)({ name: _this2.props.name });
             }
           },
-          'Begin!'
+          'Start a new game!'
         ),
         _react2.default.createElement(
           _components.Message,
@@ -36319,13 +36328,161 @@ function onWinUpdateScoreboard(state, winner) {
 "use strict";
 
 
-var _templateObject = _taggedTemplateLiteral(['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Quicksand\', sans-serif;\n  }\n  \n'], ['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Quicksand\', sans-serif;\n  }\n  \n']);
+var _templateObject = _taggedTemplateLiteral(['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Quicksand\', sans-serif;\n   \n  }\n\n'], ['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Quicksand\', sans-serif;\n   \n  }\n\n']);
 
 var _styledComponents = __webpack_require__(3);
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 (0, _styledComponents.injectGlobal)(_templateObject);
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _MessageBody = __webpack_require__(162);
+
+var _MessageBody2 = _interopRequireDefault(_MessageBody);
+
+var _socket = __webpack_require__(31);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Messages = function (_React$Component) {
+  _inherits(Messages, _React$Component);
+
+  function Messages(props) {
+    _classCallCheck(this, Messages);
+
+    var _this = _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
+
+    _this.state = {
+      val: '',
+      messages: []
+    };
+
+    (0, _socket.subscribeToMessages)(function (err, msg) {
+      _this.setState({
+        messages: [].concat(_toConsumableArray(_this.state.messages), [msg])
+      });
+    });
+    return _this;
+  }
+
+  _createClass(Messages, [{
+    key: 'onClickSumbitMessage',
+    value: function onClickSumbitMessage(e) {
+      var message = this.props.name + ': ' + this.state.val;
+      var gameId = this.props.gameId;
+
+      e.preventDefault();
+      (0, _socket.sendNewMessage)({ message: message, gameId: gameId });
+      this.setState({
+        val: ''
+      });
+    }
+  }, {
+    key: 'onChangeUpdateValue',
+    value: function onChangeUpdateValue(e) {
+      this.setState({
+        val: e.target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        _MessageBody2.default,
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          this.state.messages.map(function (message) {
+            return _react2.default.createElement(
+              'p',
+              {
+                key: message
+              },
+              message
+            );
+          })
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement('input', {
+            value: this.state.val,
+            placeholder: 'Enter message',
+            onChange: function onChange(e) {
+              return _this2.onChangeUpdateValue(e);
+            }
+          }),
+          _react2.default.createElement(
+            'button',
+            {
+              onClick: function onClick(e) {
+                return _this2.onClickSumbitMessage(e);
+              }
+            },
+            'Send'
+          )
+        )
+      );
+    }
+  }]);
+
+  return Messages;
+}(_react2.default.Component);
+
+exports.default = Messages;
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  height: 358px;\n  width: 300px;\n  overflow:auto;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  height: 358px;\n  width: 300px;\n  overflow:auto;\n']);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var MsgBody = _styledComponents2.default.div(_templateObject);
+
+exports.default = MsgBody;
 
 /***/ })
 /******/ ]);

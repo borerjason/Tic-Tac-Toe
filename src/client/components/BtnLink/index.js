@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const BtnLink = styled(Link)`
-  width: 80px;
+  // width: 80px;
   height: 40px;
   color: #ffffff;
   border: none;

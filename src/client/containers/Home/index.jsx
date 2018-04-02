@@ -29,11 +29,11 @@ class Home extends React.Component {
   render() {
     return (
       <Wrapper>
-        <Message>To start a new game click 'Begin':</Message>
+        {/* <Message>To start a new game click 'Begin':</Message> */}
         <BtnLink
           to="/game"
           onClick={() => newGame({ name: this.props.name })}
-        >Begin!
+        >Start a new game!
         </BtnLink>
         <Message>To join an existing game enter the game Id and click 'Join':</Message>
         <form>

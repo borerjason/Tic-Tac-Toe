@@ -12,9 +12,6 @@ app.use('/', express.static(path.join(__dirname, '../../dist')));
 
 io.on('connection', (socket) => {
   console.log('A player connected');
-  socket.on('message', (msg) => {
-    io.emit('message', msg);
-  });
 
   socket.on('newGame', (data) => {
     socket.join(++gameId);
@@ -39,6 +36,10 @@ io.on('connection', (socket) => {
     io.in(gameId).emit('updateBoard', {
       board, turn, winner, numOfPlays,
     });
+  });
+
+  socket.on('message', (data) => {
+    io.in(data.gameId).emit('message', data.message);
   });
 });
 

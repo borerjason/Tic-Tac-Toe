@@ -9,6 +9,7 @@ injectGlobal`
 
   body {
     font-family: 'Quicksand', sans-serif;
+   
   }
-  
+
 `;

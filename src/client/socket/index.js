@@ -6,8 +6,8 @@ const subscribeToMessages = (cb) => {
   socket.on('message', msg => cb(null, msg));
 };
 
-const sendNewMessage = (msg) => {
-  socket.emit('message', msg);
+const sendNewMessage = (data) => {
+  socket.emit('message', data);
 };
 
 const newGame = (data) => {

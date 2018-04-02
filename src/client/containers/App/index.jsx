@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import Messages from '../Messages';
 import Board from '../Board';
 import Home from '../Home';
 import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
-import { Header, Wrapper, MsgDiv, AlertMessage } from '../../components';
+import { Header, Wrapper, MsgDiv, AlertMessage, GameWrapper } from '../../components';
 import { updateOpponent, onWinUpdateScoreboard } from './state-functions';
 import { updateGameId, confirmJoinNewGame } from '../../socket';
 
@@ -20,6 +21,8 @@ class App extends React.Component {
       opponent: 'TBD',
       userWins: 0,
       opponentWins: 0,
+      chatMessages: [],
+      msgBody: '',
     };
 
     updateGameId((err, gameId) => {
@@ -96,6 +99,8 @@ class App extends React.Component {
             <Route
               path="/game"
               render={() => (
+                <GameWrapper>
+
                 <Wrapper>
                   <Board
                     message={this.state.message}
@@ -107,7 +112,6 @@ class App extends React.Component {
                     updateScoreboard={this.onWinUpdateScoreboard}
                     updateMessage={this.updateAlertMessage}
                   />
-                  <Wrapper>
                     <Scoreboard
                       name={this.state.name}
                       opponent={this.state.opponent}
@@ -115,7 +119,14 @@ class App extends React.Component {
                       opponentWins={this.state.opponentWins}
                     />
                   </Wrapper>
-                </Wrapper>
+                    <div>
+                      <Messages
+                        gameId={this.state.gameId}
+                        name={this.state.name}
+                      />
+                    </div>
+                </GameWrapper>
+            
               )}
             />
           </Switch>
