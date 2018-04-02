@@ -68,7 +68,7 @@ App
  |  
  ---- Board --- BoardPiece  
  |  
- ---- Scoreboard 
+ ---- Scoreboard  
  |  
  --- Messages 
 
