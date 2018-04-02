@@ -87,7 +87,7 @@ App
         - Play game  
         - Chat with opponent  
 
-## Design Decisions and User Flow:
+## Design and User Flow:
 
 ### App:
 Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponent's information (opponent's name, opponent's wins), and session information (gameId, activeGame).
