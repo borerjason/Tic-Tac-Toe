@@ -1,14 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { startGame, updateBoard, clientUpdateBoard } from '../../socket';
 import { winningPlayer, validateMove } from './state-functions';
 import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
-import BoardPiece from '../BoardPiece';
-import { Wrapper, Message, BtnLink, MsgDiv } from '../../components'
+import { Wrapper, Message, MsgDiv } from '../../components';
 import RestartBtn from './RestartBtn';
-import Body from './Body'; 
+import Body from './Body';
 
 class Board extends React.Component {
   constructor(props) {
@@ -20,43 +18,56 @@ class Board extends React.Component {
       opponent: false,
       winner: false,
       numOfPlays: 0,
-    }
-    
+    };
+
     startGame((err, data) => {
       if (err) throw new Error('Error starting game');
       this.setState({
-        opponent: true
+        opponent: true,
       });
 
       this.props.updateOpponent(data);
     });
-    
+
     clientUpdateBoard((err, data) => {
       if (err) throw new Error('Error starting game');
-      const { board, turn, winner, numOfPlays } = data;
-      const { role, name, opponent, updateScoreboard } = props;
+
+      const {
+        board, turn, winner, numOfPlays,
+      } = data;
+
       this.props.updateMessage('');
       const victor = winningPlayer(data, this.props);
 
-      if(victor) updateScoreboard(victor);
+      if (victor) this.props.updateScoreboard(victor);
 
-      this.setState({ board, turn, winner, numOfPlays });
+      this.setState({
+        board, turn, winner, numOfPlays,
+      });
     });
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
     this.restartGame = this.restartGame.bind(this);
   }
-  
+
   onClickValidateMove(id, val, loc) {
-    let { board, turn, opponent, n, winner, numOfPlays } = this.state;
-    const { role, gameId, updateScoreboard } = this.props;
-    const alertMessage = validateMove(this.state, this.props, val)
+    let {
+      board, turn, n, winner, numOfPlays,
+    } = this.state;
+
+    const {
+      role, gameId,
+    } = this.props;
+
+    const alertMessage = validateMove(this.state, this.props, val);
 
     if (alertMessage === false) {
       [board, turn, numOfPlays, winner] = onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n);
-      
-       /* send updated board to other user via socket */
-       updateBoard({ board, turn, gameId, winner, numOfPlays });
+
+      /* send updated board to other user via socket */
+      updateBoard({
+        board, turn, gameId, winner, numOfPlays,
+      });
     } else {
       this.props.updateMessage(alertMessage);
     }
@@ -69,23 +80,29 @@ class Board extends React.Component {
       numOfPlays: 0,
     }, () => {
       const { gameId } = this.props;
-      const { n, board, winner, turn, numOfPlays } = this.state;
-      updateBoard({ board, turn, gameId, winner, numOfPlays })
+      const {
+        board, winner, turn, numOfPlays,
+      } = this.state;
+      updateBoard({
+        board, turn, gameId, winner, numOfPlays,
+      });
     });
   }
 
   render() {
     const { role, name, opponent } = this.props;
-    const { n, board, winner, turn, numOfPlays, alertMessage } = this.state;
+    const {
+      n, board, winner, turn, numOfPlays,
+    } = this.state;
     const quadrants = buildBoard(n, board, this.onClickValidateMove);
     const lastPlayer = turn === 'X' ? 'O' : 'X';
-    const winningPlayer = lastPlayer === role ? name : opponent;
- 
+    const winPlayer = lastPlayer === role ? name : opponent;
+
     return (
       <Wrapper>
         {(winner || numOfPlays === 9) ?
-        <Wrapper>
-          {winner ? <Message>{winningPlayer} Wins!</Message> : <Message>Tie!</Message>}
+          <Wrapper>
+            {winner ? <Message>{winPlayer} Wins!</Message> : <Message>Tie!</Message>}
           </Wrapper> :
           <MsgDiv>
             {!winner && this.state.opponent && this.state.turn === this.props.role && <Message>It's {name}'s turn!</Message>}
@@ -101,7 +118,7 @@ class Board extends React.Component {
           >Start Another Game
           </RestartBtn>}
       </Wrapper>
-    )
+    );
   }
 }
 

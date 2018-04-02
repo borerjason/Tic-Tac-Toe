@@ -5,12 +5,12 @@ import Board from '../Board';
 import Home from '../Home';
 import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
-import { Header, Wrapper, GameWrapper, MsgDiv, AlertMessage } from '../../components';
+import { Header, Wrapper, MsgDiv, AlertMessage } from '../../components';
 import { updateOpponent, onWinUpdateScoreboard } from './state-functions';
-import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
+import { updateGameId, confirmJoinNewGame } from '../../socket';
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       gameId: '',
@@ -19,14 +19,14 @@ class App extends React.Component {
       name: '',
       opponent: 'TBD',
       userWins: 0,
-      opponentWins: 0
-    }
-    
+      opponentWins: 0,
+    };
+
     updateGameId((err, gameId) => {
-      this.setState({ 
+      this.setState({
         gameId,
         message: `Send your game id to a friend to play. Your game id is: ${gameId}`,
-        role: 'X'
+        role: 'X',
       });
     });
 
@@ -34,7 +34,7 @@ class App extends React.Component {
       this.setState({
         gameId: data.gameId,
         role: 'O',
-        opponent: data.opponent
+        opponent: data.opponent,
       });
     });
 
@@ -44,24 +44,24 @@ class App extends React.Component {
     this.updateAlertMessage = this.updateAlertMessage.bind(this);
   }
 
-  updateOpponent(players) {
-    const opponent = updateOpponent(this.state.name, players);  
-    this.setState({ opponent, message: '' });
-  }
-
   onWinUpdateScoreboard(winner) {
     const newState = onWinUpdateScoreboard(this.state, winner);
-    this.setState(newState); 
+    this.setState(newState);
   }
 
   onSignUpUpdateName(name) {
     this.setState({ name });
   }
 
-  updateAlertMessage(message ) {
+  updateOpponent(players) {
+    const opponent = updateOpponent(this.state.name, players);
+    this.setState({ opponent, message: '' });
+  }
+
+  updateAlertMessage(message) {
     this.setState({ message });
   }
-  
+
   render() {
     return (
       <Wrapper>
@@ -71,29 +71,30 @@ class App extends React.Component {
         </MsgDiv>
         <Router>
           <Switch>
-            <Route 
-              exact path='/'
+            <Route
+              exact
+              path="/"
               render={() => (
                 <Wrapper>
                   <Welcome
                     updateName={this.onSignUpUpdateName}
-                  /> 
+                  />
                 </Wrapper>
               )}
             />
-            <Route 
-              path='/home'
+            <Route
+              path="/home"
               render={() => (
                 <Wrapper>
                   <Home
                     name={this.state.name}
                     updateMessage={this.updateAlertMessage}
-                  /> 
+                  />
                 </Wrapper>
               )}
             />
             <Route
-              path='/game'
+              path="/game"
               render={() => (
                 <Wrapper>
                   <Board
@@ -120,8 +121,8 @@ class App extends React.Component {
           </Switch>
         </Router>
       </Wrapper>
-    )
+    );
   }
-};
+}
 
 export default App;

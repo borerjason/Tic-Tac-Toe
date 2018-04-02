@@ -3,7 +3,12 @@ export function updateOpponent(name, players) {
 }
 
 export function onWinUpdateScoreboard(state, winner) {
-  const newState = {...state};
-  winner === newState.name ? newState.userWins++ : newState.opponentWins++;
+  const newState = { ...state };
+  if (winner === newState.name) {
+    newState.userWins += 1;
+  } else {
+    newState.opponentWins += 1;
+  }
+
   return newState;
 }
