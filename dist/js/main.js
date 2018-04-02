@@ -29541,7 +29541,6 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      activeGame: false,
       gameId: '',
       message: '',
       role: '',
@@ -29553,7 +29552,6 @@ var App = function (_React$Component) {
 
     (0, _socket.updateGameId)(function (err, gameId) {
       _this.setState({
-        activeGame: true,
         gameId: gameId,
         message: 'Send your game id to a friend to play. Your game id is: ' + gameId,
         role: 'X'
@@ -29562,7 +29560,6 @@ var App = function (_React$Component) {
 
     (0, _socket.confirmJoinNewGame)(function (err, data) {
       _this.setState({
-        activeGame: true,
         gameId: data.gameId,
         role: 'O',
         opponent: data.opponent
@@ -29580,7 +29577,7 @@ var App = function (_React$Component) {
     key: 'updateOpponent',
     value: function updateOpponent(players) {
       var opponent = (0, _stateFunctions.updateOpponent)(this.state.name, players);
-      this.setState({ opponent: opponent });
+      this.setState({ opponent: opponent, message: '' });
     }
   }, {
     key: 'onWinUpdateScoreboard',

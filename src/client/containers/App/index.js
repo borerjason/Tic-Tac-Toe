@@ -13,7 +13,6 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      activeGame: false,
       gameId: '',
       message: '',
       role: '',
@@ -25,7 +24,6 @@ class App extends React.Component {
     
     updateGameId((err, gameId) => {
       this.setState({ 
-        activeGame: true,
         gameId,
         message: `Send your game id to a friend to play. Your game id is: ${gameId}`,
         role: 'X'
@@ -34,7 +32,6 @@ class App extends React.Component {
 
     confirmJoinNewGame((err, data) => {
       this.setState({
-        activeGame: true,
         gameId: data.gameId,
         role: 'O',
         opponent: data.opponent
@@ -49,7 +46,7 @@ class App extends React.Component {
 
   updateOpponent(players) {
     const opponent = updateOpponent(this.state.name, players);  
-    this.setState({ opponent });
+    this.setState({ opponent, message: '' });
   }
 
   onWinUpdateScoreboard(winner) {

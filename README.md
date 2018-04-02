@@ -98,14 +98,12 @@ User has the option to create a new game or join an existing game.
       6. Server emits player info to both sockets in gameId room.
          - State Updated:
            - Board container:  
-             - opponent present   
+             - opponent from false to true
            - App container: 
              - opponent's name
+             - Role (opponent)
+             - gameId (opponent)
 
-
-       socket.emit('joinGame', data);
-    io.in(room).emit('startGame', players);
-  }); 
 
    
 
