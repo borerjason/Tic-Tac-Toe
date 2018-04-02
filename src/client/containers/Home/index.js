@@ -32,7 +32,7 @@ class Home extends React.Component {
         <Message>To start a new game click 'Begin':</Message>
           <BtnLink
             to='/game'
-            onClick={(name) => newGame( {name: this.props.name} )}
+            onClick={(name) => newGame({ name: this.props.name })}
           >Begin!
           </BtnLink>
         <Message>To join an existing game enter the game Id and click 'Join':</Message>

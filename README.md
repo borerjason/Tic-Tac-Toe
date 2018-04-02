@@ -46,8 +46,8 @@ App
  ---- Home  
  |  
  ---- Board  
- |_____|  
- |----- BoardPiece  
+ |      |  
+ |      BoardPiece  
  |  
  ---- Scoreboard  
 
@@ -68,12 +68,28 @@ App
 ## Design Decisions:
 
 ### App:
-Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponents information (opponents name, opponents wins), and session information (gameId, activeGame).
+Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponent's information (opponent's name, opponent's wins), and session information (gameId, activeGame).
+
+### Welcome:
+User 'signs in' by submitting their name. Their name is saved in state in the parent App container.
+
+### Home:
+User has the option to create a new game or join an existing game.
+  - New Game:  
+    User clicks 'New Game':  
+      1. User's name is sent to server via socket.io.  
+      2. The server creates a new room and adds the users name.   
+      3. Server sends back the room (gameId) to the user  
+         State updated:  
+           - App container:   
+             - gameId  
+             - role  
+             - activeGame  
+             - message  
+      4. Client updates view to 'Board/Scoreboard' view  
+  -   
 
    
-    
-    
-
 
 Express: Create node.js webserver. Is a level of abstraction above node.js http module. Simpler API set up and provides useful middleware 
   Middleware utilized: 

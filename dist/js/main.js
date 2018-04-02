@@ -29551,6 +29551,7 @@ var App = function (_React$Component) {
     });
 
     (0, _socket.confirmJoinNewGame)(function (err, data) {
+      console.log(err);
       _this.setState({
         activeGame: true,
         gameId: data.gameId,

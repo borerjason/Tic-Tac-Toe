@@ -33,6 +33,7 @@ class App extends React.Component {
     });
 
     confirmJoinNewGame((err, data) => {
+      console.log(err);
       this.setState({
         activeGame: true,
         gameId: data.gameId,
