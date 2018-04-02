@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
   socket.on('newGame', (data) => {
     socket.join(++gameId);
     games[gameId] = [data.name];
-    socket.emit('newGame', gameId);
+    socket.emit('newGame', gameId.toString());
   });
 
   socket.on('joinGame', (data) => {

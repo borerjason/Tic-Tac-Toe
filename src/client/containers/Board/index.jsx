@@ -130,6 +130,7 @@ Board.propTypes = {
   name: PropTypes.string.isRequired,
   opponent: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
+  gameId: PropTypes.string.isRequired,
 };
 
 export default Board;

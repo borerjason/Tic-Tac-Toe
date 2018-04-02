@@ -29907,7 +29907,8 @@ Board.propTypes = {
   updateMessage: _propTypes2.default.func.isRequired,
   name: _propTypes2.default.string.isRequired,
   opponent: _propTypes2.default.string.isRequired,
-  role: _propTypes2.default.string.isRequired
+  role: _propTypes2.default.string.isRequired,
+  gameId: _propTypes2.default.string.isRequired
 };
 
 exports.default = Board;
