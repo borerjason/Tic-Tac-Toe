@@ -90,7 +90,7 @@ App
 ## Design and User Flow:
 
 ### App:
-Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponent's information (opponent's name, opponent's wins), and session information (gameId, activeGame).
+Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponent's information (opponent's name, opponent's wins), and session information (gameId).
 
 ### Welcome:
 User 'signs in' by submitting their name. The name is saved in state in the parent App container.
@@ -106,8 +106,7 @@ User has the option to create a new game or join an existing game. The userId is
          State updated:  
            - App container:   
              - gameId  
-             - role  
-             - activeGame  
+             - role   
              - message  
       5. Client updates view to 'Board/Scoreboard' view  
   
