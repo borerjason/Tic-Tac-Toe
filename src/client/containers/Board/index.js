@@ -86,19 +86,20 @@ class Board extends React.Component {
         {(winner || numOfPlays === 9) ?
         <Wrapper>
           {winner ? <Message>{winningPlayer} Wins!</Message> : <Message>Tie!</Message>}
-          <RestartBtn 
-            onClick={this.restartGame}
-           >Start Another Game
-          </RestartBtn>
           </Wrapper> :
           <MsgDiv>
-        {!winner && this.state.opponent && this.state.turn === this.props.role && <Message>It's {name}'s Turn!</Message>}
-        {!winner && this.state.opponent && this.state.turn !== this.props.role && <Message>It's {opponent}'s Turn!</Message>}
-        </MsgDiv>
+            {!winner && this.state.opponent && this.state.turn === this.props.role && <Message>It's {name}'s turn!</Message>}
+            {!winner && this.state.opponent && this.state.turn !== this.props.role && <Message>It's {opponent}'s turn!</Message>}
+          </MsgDiv>
         }
         <Body>
-        {quadrants}
+          {quadrants}
         </Body>
+        {(winner || numOfPlays === 9) &&
+          <RestartBtn
+            onClick={this.restartGame}
+          >Start Another Game
+          </RestartBtn>}
       </Wrapper>
     )
   }

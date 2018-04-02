@@ -29652,7 +29652,7 @@ var App = function (_React$Component) {
               path: '/game',
               render: function render() {
                 return _react2.default.createElement(
-                  _components.GameWrapper,
+                  _components.Wrapper,
                   null,
                   _react2.default.createElement(_Board2.default, {
                     message: _this2.state.message,
@@ -29672,21 +29672,7 @@ var App = function (_React$Component) {
                       opponent: _this2.state.opponent,
                       userWins: _this2.state.userWins,
                       opponentWins: _this2.state.opponentWins
-                    }),
-                    _react2.default.createElement(
-                      'div',
-                      null,
-                      ' THis will be scoreboard ',
-                      _this2.state.name,
-                      ' vs ',
-                      _this2.state.opponent,
-                      ' '
-                    ),
-                    _react2.default.createElement(
-                      'div',
-                      null,
-                      ' This will be chatService'
-                    )
+                    })
                   )
                 );
               }
@@ -29899,13 +29885,6 @@ var Board = function (_React$Component) {
             _components.Message,
             null,
             'Tie!'
-          ),
-          _react2.default.createElement(
-            _RestartBtn2.default,
-            {
-              onClick: this.restartGame
-            },
-            'Start Another Game'
           )
         ) : _react2.default.createElement(
           _components.MsgDiv,
@@ -29915,20 +29894,27 @@ var Board = function (_React$Component) {
             null,
             'It\'s ',
             name,
-            '\'s Turn!'
+            '\'s turn!'
           ),
           !winner && this.state.opponent && this.state.turn !== this.props.role && _react2.default.createElement(
             _components.Message,
             null,
             'It\'s ',
             opponent,
-            '\'s Turn!'
+            '\'s turn!'
           )
         ),
         _react2.default.createElement(
           _Body2.default,
           null,
           quadrants
+        ),
+        (winner || numOfPlays === 9) && _react2.default.createElement(
+          _RestartBtn2.default,
+          {
+            onClick: this.restartGame
+          },
+          'Start Another Game'
         )
       );
     }
@@ -35538,7 +35524,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  margin: 10px;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  margin: 10px;\n']);
 
 var _styledComponents = __webpack_require__(6);
 
@@ -35613,7 +35599,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  justify-content: center;\n  align-items: center;\n'], ['\n  display: flex;\n  justify-content: center;\n  align-items: center;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n'], ['\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n']);
 
 var _styledComponents = __webpack_require__(6);
 

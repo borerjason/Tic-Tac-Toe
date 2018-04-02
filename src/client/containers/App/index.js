@@ -95,7 +95,7 @@ class App extends React.Component {
             <Route
               path='/game'
               render={() => (
-                <GameWrapper>
+                <Wrapper>
                   <Board
                     message={this.state.message}
                     gameId={this.state.gameId}
@@ -113,10 +113,9 @@ class App extends React.Component {
                       userWins={this.state.userWins}
                       opponentWins={this.state.opponentWins}
                     />
-                    <div> THis will be scoreboard {this.state.name} vs {this.state.opponent} </div>
-                    <div> This will be chatService</div>
+                    {/* <div> This will be chatService</div> */}
                   </Wrapper>
-                </GameWrapper>
+                </Wrapper>
               )}
             />
           </Switch>
