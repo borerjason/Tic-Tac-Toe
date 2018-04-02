@@ -39,31 +39,31 @@ npm run build
 
 Containers: 
 
-App 
- | 
- -- Welcome 
- | 
- -- Home 
- | 
- -- Board 
- |    | 
- |    -- BoardPiece 
- | 
- -- Scoreboard 
+App  
+ |  
+ -- Welcome  
+ |  
+ -- Home  
+ |  
+ -- Board  
+ |    |  
+ |    -- BoardPiece  
+ |  
+ -- Scoreboard  
 
  Three Routes/Views:
-   1. '/' (Welcome)
-     User Interactions: 
-        - Enter name to 'sign in'
+   1. '/' (Welcome)  
+     User Interactions:   
+        - Enter name to 'sign in'  
 
-   2. '/home' (Home)
-     User Interactions:
-        - Start new game
-        - Join existing game 
+   2. '/home' (Home)  
+     User Interactions:  
+        - Start new game  
+        - Join existing game   
 
-   3. '/game' (Board/ScoreBoard)
-     User Interactions:
-        - Play game
+   3. '/game' (Board/ScoreBoard)  
+     User Interactions:  
+        - Play game  
 
  ## Design Decisions:
 
