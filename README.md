@@ -7,7 +7,7 @@
 
 Once you have forked & cloned the repo to your own machine:
 
-Install Dependencies:
+Install dependencies:
 ```sh
 npm install
 ```
@@ -17,9 +17,9 @@ npm start
 ```
 
 ## Transpiling / Scripts
-Webpack is used to bundle our client side code into a single file. It also utilizes Babel to transpile ES6 code to ES5 code. 
+Webpack is used to bundle the client side code into a single file. It utilizes Babel to transpile ES6 code to ES5 code. 
 
-In a new terminal tab cd back into the repo and run the follow command:
+In a new terminal tab cd into the repo and run the follow command:
 
 Build client:
 ```sh
@@ -39,17 +39,17 @@ npm run build
 
 Containers: 
 
-App
- |
- -- Welcome
- |
+App 
+ | 
+ -- Welcome 
+ | 
  -- Home 
- |
- -- Board
- |    |
- |    -- BoardPiece
- |
- -- Scoreboard
+ | 
+ -- Board 
+ |    | 
+ |    -- BoardPiece 
+ | 
+ -- Scoreboard 
 
  Three Routes/Views:
    1. '/' (Welcome)
