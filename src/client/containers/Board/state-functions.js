@@ -4,26 +4,29 @@ export function winningPlayer(data, props) {
 
   if (winner) {
     const lastPlayer = turn === 'X' ? 'O' : 'X';
-    const winningPlayer = lastPlayer === role ? name : opponent;
-    return winningPlayer;
+    const winPlayer = lastPlayer === role ? name : opponent;
+    return winPlayer;
   }
 
-  return false;  
+  return false;
 }
 
 export function validateMove(state, props, val) {
   const { role, gameId } = props;
-  let { turn, opponent, winner, numOfPlays } = state;
+
+  const {
+    turn, opponent, winner, numOfPlays,
+  } = state;
 
   if (winner || numOfPlays === 9) {
-    return(`Please click 'Start another game' to play again!`);
+    return ('Please click \'Start another game\' to play again!');
   } else if (!opponent) {
-    return (`Invite a friend! Your game id is: ${gameId}`) ;
+    return (`Invite a friend! Your game id is: ${gameId}`);
   } else if (turn !== role) {
-    return('Please wait for your turn');
+    return ('Please wait for your turn');
   } else if (val !== '') {
-    return('This spot as already been played. Please select again!')
-  } else {
-    return false;
+    return ('This spot as already been played. Please select again!');
   }
+
+  return false;
 }

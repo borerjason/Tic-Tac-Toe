@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const RestartBtn = styled.button `
+const RestartBtn = styled.button`
   height: 40px;
   color: #ffffff;
   border: none;

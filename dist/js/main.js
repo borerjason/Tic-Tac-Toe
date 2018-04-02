@@ -33548,8 +33548,8 @@ function winningPlayer(data, props) {
 
   if (winner) {
     var lastPlayer = turn === 'X' ? 'O' : 'X';
-    var _winningPlayer = lastPlayer === role ? name : opponent;
-    return _winningPlayer;
+    var winPlayer = lastPlayer === role ? name : opponent;
+    return winPlayer;
   }
 
   return false;
@@ -33572,9 +33572,9 @@ function validateMove(state, props, val) {
     return 'Please wait for your turn';
   } else if (val !== '') {
     return 'This spot as already been played. Please select again!';
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 /***/ }),
@@ -33593,16 +33593,18 @@ var _gameplay = __webpack_require__(133);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var onMoveUpdateBoard = function onMoveUpdateBoard(board, turn, numOfPlays, winner, loc, role, n) {
+  var newTurn = turn === 'X' ? 'O' : 'X';
   var newBoard = [].concat(_toConsumableArray(board));
+  var updateWinner = winner;
+  var playCount = numOfPlays;
   newBoard[loc[0]][loc[1]] = role;
-  turn = turn === 'X' ? 'O' : 'X';
-  numOfPlays += 1;
+  playCount += 1;
 
   if (numOfPlays > 4) {
-    winner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
+    updateWinner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
   }
 
-  return [newBoard, turn, numOfPlays, winner];
+  return [newBoard, newTurn, playCount, updateWinner];
 };
 
 exports.default = onMoveUpdateBoard;
@@ -35796,7 +35798,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-wrap: wrap;\n  width: 400px;\n  height: 400px;\n  border: 1px solid back;\n\n &:first-child {\n   background-color: pink;\n  }\n'], ['\n  display: flex;\n  flex-wrap: wrap;\n  width: 400px;\n  height: 400px;\n  border: 1px solid back;\n\n &:first-child {\n   background-color: pink;\n  }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-wrap: wrap;\n  width: 400px;\n  height: 400px;\n  border: 1px solid back;\n\n'], ['\n  display: flex;\n  flex-wrap: wrap;\n  width: 400px;\n  height: 400px;\n  border: 1px solid back;\n\n']);
 
 var _styledComponents = __webpack_require__(2);
 

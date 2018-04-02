@@ -1,16 +1,18 @@
-import { checkWinner } from '../gameplay'
+import { checkWinner } from '../gameplay';
 
 const onMoveUpdateBoard = (board, turn, numOfPlays, winner, loc, role, n) => {
+  const newTurn = turn === 'X' ? 'O' : 'X';
   const newBoard = [...board];
+  let updateWinner = winner;
+  let playCount = numOfPlays;
   newBoard[loc[0]][loc[1]] = role;
-  turn = turn === 'X' ? 'O' : 'X';
-  numOfPlays += 1;
+  playCount += 1;
 
   if (numOfPlays > 4) {
-    winner = checkWinner(n, board, loc[0], loc[1]);
+    updateWinner = checkWinner(n, board, loc[0], loc[1]);
   }
 
-  return [newBoard, turn, numOfPlays, winner];
-}
+  return [newBoard, newTurn, playCount, updateWinner];
+};
 
 export default onMoveUpdateBoard;
