@@ -36353,6 +36353,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _MessageBody = __webpack_require__(162);
 
 var _MessageBody2 = _interopRequireDefault(_MessageBody);
@@ -36456,6 +36460,11 @@ var Messages = function (_React$Component) {
 
   return Messages;
 }(_react2.default.Component);
+
+Messages.propTypes = {
+  name: _propTypes2.default.string.isRequired,
+  gameId: _propTypes2.default.string.isRequired
+};
 
 exports.default = Messages;
 

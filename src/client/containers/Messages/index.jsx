@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import MsgBody from './MessageBody';
 import { subscribeToMessages, sendNewMessage } from '../../socket';
@@ -61,5 +62,10 @@ class Messages extends React.Component {
     );
   }
 }
+
+Messages.propTypes = {
+  name: PropTypes.string.isRequired,
+  gameId: PropTypes.string.isRequired,
+};
 
 export default Messages;
