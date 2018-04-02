@@ -18,7 +18,7 @@ npm start
 
 Webpack is used to bundle the client side code into a single file. It utilizes Babel to transpile ES6 code to ES5 code. 
 
-In a new terminal tab cd into the repo and run the follow command:
+In a new terminal tab, cd into the repo.
 
 Build client:
 ```sh
@@ -67,7 +67,7 @@ App
  |  
  ---- Home  
  |  
- ---- Board --- BoardPiece 
+ ---- Board --- BoardPiece  
  |  
  ---- Scoreboard  
 
@@ -137,3 +137,12 @@ Run tests:
 ```sh
 npm run test
 ```
+
+## Improvements
+I would love to continue learning about socket.io and eventually add the following featuers: 
+   - Server validates that gameId exists when second player joins
+   - Server ensures only two players are allowed per game
+   - Server deletes game from 'games' object when users disconnect
+   - Users are notified when the other player disconnects
+   - Socket.io code is modular and organized separately main server file
+

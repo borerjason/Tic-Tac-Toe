@@ -1,4 +1,5 @@
 import React from 'react';
+import { TableHead, TableBody, TableHeader, TableDim } from './Table';
 
 class Scoreboard extends React.Component {
   constructor(props) {
@@ -11,18 +12,18 @@ class Scoreboard extends React.Component {
   render () {
     return (
       <table>
-        <thead>
+        <TableHead>
           <tr>
-            <th>{this.props.name}</th>
-            <th>{this.props.opponent}</th>
+            <TableHeader>{this.props.name}</TableHeader>
+            <TableHeader>{this.props.opponent}</TableHeader>
           </tr>
-        </thead>
-        <tbody>
+        </TableHead>
+        <TableBody>
           <tr>
-            <td>{this.props.userWins}</td>
-            <td>{this.props.opponentWins}</td>
+            <TableDim>{this.props.userWins}</TableDim>
+            <TableDim>{this.props.opponentWins}</TableDim>
           </tr>
-        </tbody>
+        </TableBody>
       </table>
     );
   }

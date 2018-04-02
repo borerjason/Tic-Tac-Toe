@@ -35913,6 +35913,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Table = __webpack_require__(158);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35943,36 +35945,36 @@ var Scoreboard = function (_React$Component) {
         'table',
         null,
         _react2.default.createElement(
-          'thead',
+          _Table.TableHead,
           null,
           _react2.default.createElement(
             'tr',
             null,
             _react2.default.createElement(
-              'th',
+              _Table.TableHeader,
               null,
               this.props.name
             ),
             _react2.default.createElement(
-              'th',
+              _Table.TableHeader,
               null,
               this.props.opponent
             )
           )
         ),
         _react2.default.createElement(
-          'tbody',
+          _Table.TableBody,
           null,
           _react2.default.createElement(
             'tr',
             null,
             _react2.default.createElement(
-              'td',
+              _Table.TableDim,
               null,
               this.props.userWins
             ),
             _react2.default.createElement(
-              'td',
+              _Table.TableDim,
               null,
               this.props.opponentWins
             )
@@ -36019,7 +36021,7 @@ function onWinUpdateScoreboard(state, winner) {
 "use strict";
 
 
-var _templateObject = _taggedTemplateLiteral(['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n  }\n  \n'], ['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n  }\n  \n']);
+var _templateObject = _taggedTemplateLiteral(['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Quicksand\', sans-serif;\n  }\n  \n'], ['\n  html,\n  body {\n    height: 100%;\n    width: 100%;\n  }\n\n  body {\n    font-family: \'Quicksand\', sans-serif;\n  }\n  \n']);
 
 var _styledComponents = __webpack_require__(6);
 
@@ -36183,6 +36185,141 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var AlertMessage = _Message2.default.extend(_templateObject);
 
 exports.default = AlertMessage;
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TableDim = exports.TableHeader = exports.TableHead = exports.TableBody = undefined;
+
+var _TableBody = __webpack_require__(159);
+
+var _TableBody2 = _interopRequireDefault(_TableBody);
+
+var _TableHead = __webpack_require__(160);
+
+var _TableHead2 = _interopRequireDefault(_TableHead);
+
+var _TableHeader = __webpack_require__(161);
+
+var _TableHeader2 = _interopRequireDefault(_TableHeader);
+
+var _TableDim = __webpack_require__(162);
+
+var _TableDim2 = _interopRequireDefault(_TableDim);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.TableBody = _TableBody2.default;
+exports.TableHead = _TableHead2.default;
+exports.TableHeader = _TableHeader2.default;
+exports.TableDim = _TableDim2.default;
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  text-align: center;\n  font-family: \'Open Sans\', sans-serif;\n'], ['\n  text-align: center;\n  font-family: \'Open Sans\', sans-serif;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var TableBody = _styledComponents2.default.tbody(_templateObject);
+
+exports.default = TableBody;
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  text-align: center;\n  font-size: 20px;\n'], ['\n  text-align: center;\n  font-size: 20px;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var TableHead = _styledComponents2.default.thead(_templateObject);
+
+exports.default = TableHead;
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  padding: 0 20px;\n'], ['\n  padding: 0 20px;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var TableHeader = _styledComponents2.default.th(_templateObject);
+
+exports.default = TableHeader;
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  font-family: \'Open Sans\', sans-serif;\n  font-size: 40px;\n'], ['\n  font-family: \'Open Sans\', sans-serif;\n  font-size: 40px;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var TableHead = _styledComponents2.default.td(_templateObject);
+
+exports.default = TableHead;
 
 /***/ })
 /******/ ]);
