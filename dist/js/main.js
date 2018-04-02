@@ -4462,7 +4462,7 @@ function localstorage() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GameWrapper = exports.Input = exports.Header = exports.BtnLink = exports.Message = exports.Wrapper = undefined;
+exports.AlertMessage = exports.MsgDiv = exports.GameWrapper = exports.Input = exports.Header = exports.BtnLink = exports.Message = exports.Wrapper = undefined;
 
 var _Wrapper = __webpack_require__(140);
 
@@ -4488,6 +4488,14 @@ var _GameWrapper = __webpack_require__(143);
 
 var _GameWrapper2 = _interopRequireDefault(_GameWrapper);
 
+var _MsgDiv = __webpack_require__(156);
+
+var _MsgDiv2 = _interopRequireDefault(_MsgDiv);
+
+var _AlertMessage = __webpack_require__(157);
+
+var _AlertMessage2 = _interopRequireDefault(_AlertMessage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Wrapper = _Wrapper2.default;
@@ -4496,6 +4504,8 @@ exports.BtnLink = _BtnLink2.default;
 exports.Header = _Header2.default;
 exports.Input = _Input2.default;
 exports.GameWrapper = _GameWrapper2.default;
+exports.MsgDiv = _MsgDiv2.default;
+exports.AlertMessage = _AlertMessage2.default;
 
 /***/ }),
 /* 22 */
@@ -29545,17 +29555,15 @@ var App = function (_React$Component) {
       _this.setState({
         activeGame: true,
         gameId: gameId,
-        message: 'Send your game id to a friend to get started. Your game id is: ' + gameId,
+        message: 'Send your game id to a friend to play. Your game id is: ' + gameId,
         role: 'X'
       });
     });
 
     (0, _socket.confirmJoinNewGame)(function (err, data) {
-      console.log(err);
       _this.setState({
         activeGame: true,
         gameId: data.gameId,
-        message: 'You\'ve joined, it is your opponents turn',
         role: 'O',
         opponent: data.opponent
       });
@@ -29564,6 +29572,7 @@ var App = function (_React$Component) {
     _this.onSignUpUpdateName = _this.onSignUpUpdateName.bind(_this);
     _this.updateOpponent = _this.updateOpponent.bind(_this);
     _this.onWinUpdateScoreboard = _this.onWinUpdateScoreboard.bind(_this);
+    _this.updateAlertMessage = _this.updateAlertMessage.bind(_this);
     return _this;
   }
 
@@ -29585,6 +29594,11 @@ var App = function (_React$Component) {
       this.setState({ name: name });
     }
   }, {
+    key: 'updateAlertMessage',
+    value: function updateAlertMessage(message) {
+      this.setState({ message: message });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -29596,6 +29610,15 @@ var App = function (_React$Component) {
           _components.Header,
           null,
           'Tic-Tac-Toe'
+        ),
+        _react2.default.createElement(
+          _components.MsgDiv,
+          null,
+          _react2.default.createElement(
+            _components.AlertMessage,
+            null,
+            this.state.message
+          )
         ),
         _react2.default.createElement(
           _reactRouterDom.BrowserRouter,
@@ -29622,7 +29645,8 @@ var App = function (_React$Component) {
                   _components.Wrapper,
                   null,
                   _react2.default.createElement(_Home2.default, {
-                    name: _this2.state.name
+                    name: _this2.state.name,
+                    updateMessage: _this2.updateAlertMessage
                   })
                 );
               }
@@ -29640,7 +29664,8 @@ var App = function (_React$Component) {
                     role: _this2.state.role,
                     name: _this2.state.name,
                     opponent: _this2.state.opponent,
-                    updateScoreboard: _this2.onWinUpdateScoreboard
+                    updateScoreboard: _this2.onWinUpdateScoreboard,
+                    updateMessage: _this2.updateAlertMessage
                   }),
                   _react2.default.createElement(
                     _components.Wrapper,
@@ -29723,10 +29748,6 @@ var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
 
 var _components = __webpack_require__(21);
 
-var _AlertMessage = __webpack_require__(155);
-
-var _AlertMessage2 = _interopRequireDefault(_AlertMessage);
-
 var _RestartBtn = __webpack_require__(144);
 
 var _RestartBtn2 = _interopRequireDefault(_RestartBtn);
@@ -29757,8 +29778,7 @@ var Board = function (_React$Component) {
       turn: 'X',
       opponent: false,
       winner: false,
-      numOfPlays: 0,
-      alertMessage: ''
+      numOfPlays: 0
     };
 
     (0, _socket.startGame)(function (err, data) {
@@ -29781,12 +29801,12 @@ var Board = function (_React$Component) {
           opponent = props.opponent,
           updateScoreboard = props.updateScoreboard;
 
-      var alertMessage = '';
+      _this.props.updateMessage('');
       var victor = (0, _stateFunctions.winningPlayer)(data, _this.props);
 
       if (victor) updateScoreboard(victor);
 
-      _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays, alertMessage: alertMessage });
+      _this.setState({ board: board, turn: turn, winner: winner, numOfPlays: numOfPlays });
     });
 
     _this.onClickValidateMove = _this.onClickValidateMove.bind(_this);
@@ -29824,7 +29844,7 @@ var Board = function (_React$Component) {
         winner = _onMoveUpdateBoard2[3];
         (0, _socket.updateBoard)({ board: board, turn: turn, gameId: gameId, winner: winner, numOfPlays: numOfPlays });
       } else {
-        this.setState({ alertMessage: alertMessage });
+        this.props.updateMessage(alertMessage);
       }
     }
   }, {
@@ -29870,11 +29890,6 @@ var Board = function (_React$Component) {
       return _react2.default.createElement(
         _components.Wrapper,
         null,
-        alertMessage && _react2.default.createElement(
-          _AlertMessage2.default,
-          null,
-          alertMessage
-        ),
         winner || numOfPlays === 9 ? _react2.default.createElement(
           _components.Wrapper,
           null,
@@ -29896,13 +29911,8 @@ var Board = function (_React$Component) {
             'Start Another Game'
           )
         ) : _react2.default.createElement(
-          'div',
+          _components.MsgDiv,
           null,
-          !this.state.opponent && _react2.default.createElement(
-            _components.Message,
-            null,
-            this.props.message
-          ),
           !winner && this.state.opponent && this.state.turn === this.props.role && _react2.default.createElement(
             _components.Message,
             null,
@@ -35556,7 +35566,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  font-size: 25px;\n  font-family: \'Quicksand\', sans-serif;\n  margin: 15px;\n'], ['\n  font-size: 25px;\n  font-family: \'Quicksand\', sans-serif;\n  margin: 15px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  font-size: 25px;\n  font-family: \'Quicksand\', sans-serif;\n  margin-bottom: 15px;\n'], ['\n  font-size: 25px;\n  font-family: \'Quicksand\', sans-serif;\n  margin-bottom: 15px;\n']);
 
 var _styledComponents = __webpack_require__(6);
 
@@ -36122,7 +36132,8 @@ exports.default = Piece;
 
 /***/ }),
 /* 154 */,
-/* 155 */
+/* 155 */,
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36132,13 +36143,38 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  color: red;\n'], ['\n  color: red;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  height: 50px;\n  text-align: center;\n'], ['\n  height: 50px;\n  text-align: center;\n']);
 
 var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _components = __webpack_require__(21);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var MsgDiv = _styledComponents2.default.div(_templateObject);
+
+exports.default = MsgDiv;
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  color: red;\n  margin: 0;\n'], ['\n  color: red;\n  margin: 0;\n']);
+
+var _styledComponents = __webpack_require__(6);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _components = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../../components\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

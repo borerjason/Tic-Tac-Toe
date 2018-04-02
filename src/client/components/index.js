@@ -4,5 +4,7 @@ import BtnLink from './BtnLink';
 import Header from './Header';
 import Input from './Input'
 import GameWrapper from './GameWrapper';
+import MsgDiv from './MsgDiv';
+import AlertMessage from './AlertMessage';
 
-export { Wrapper, Message, BtnLink, Header, Input, GameWrapper };
+export { Wrapper, Message, BtnLink, Header, Input, GameWrapper, MsgDiv, AlertMessage };

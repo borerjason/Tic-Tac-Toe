@@ -78,16 +78,28 @@ User has the option to create a new game or join an existing game.
   - New Game:  
     User clicks 'New Game':  
       1. User's name is sent to server via socket.io.  
-      2. The server creates a new room and adds the users name.   
-      3. Server sends back the room (gameId) to the user  
+      2. Server creates a new gameId and adds the gameId and users name to the 'games' object.  
+      3. Server adds the socket to a new socket room labeled with the gameId.     
+      4. Server emits room (gameId) to the user via the new private socket.    
          State updated:  
            - App container:   
              - gameId  
              - role  
              - activeGame  
              - message  
-      4. Client updates view to 'Board/Scoreboard' view  
-  -   
+      5. Client updates view to 'Board/Scoreboard' view  
+  - Join Game:
+    User adds gameId to join and clicks 'Join':
+      1. Client validates that gameId input contains text
+      2. User's name and gameId are sent to server via socket.io
+      3. Server looks up gameId in 'games' object and adds second user's name to game.
+      4. Server adds socket to existing private game socket via the gameId
+      5. Server emits 
+
+
+       socket.emit('joinGame', data);
+    io.in(room).emit('startGame', players);
+  }); 
 
    
 

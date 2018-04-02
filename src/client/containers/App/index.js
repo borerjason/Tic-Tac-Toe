@@ -5,7 +5,7 @@ import Board from '../Board';
 import Home from '../Home';
 import Welcome from '../Welcome';
 import Scoreboard from '../Scoreboard';
-import { Header, Wrapper, GameWrapper } from '../../components';
+import { Header, Wrapper, GameWrapper, MsgDiv, AlertMessage } from '../../components';
 import { updateOpponent, onWinUpdateScoreboard } from './state-functions';
 import { newGame, updateGameId, joinGame, confirmJoinNewGame } from '../../socket';
 
@@ -27,25 +27,24 @@ class App extends React.Component {
       this.setState({ 
         activeGame: true,
         gameId,
-        message: `Send your game id to a friend to get started. Your game id is: ${gameId}`,
+        message: `Send your game id to a friend to play. Your game id is: ${gameId}`,
         role: 'X'
       });
     });
 
     confirmJoinNewGame((err, data) => {
-      console.log(err);
       this.setState({
         activeGame: true,
         gameId: data.gameId,
-        message: `You've joined, it is your opponents turn`,
         role: 'O',
         opponent: data.opponent
       });
-    })
+    });
 
     this.onSignUpUpdateName = this.onSignUpUpdateName.bind(this);
     this.updateOpponent = this.updateOpponent.bind(this);
     this.onWinUpdateScoreboard = this.onWinUpdateScoreboard.bind(this);
+    this.updateAlertMessage = this.updateAlertMessage.bind(this);
   }
 
   updateOpponent(players) {
@@ -61,11 +60,18 @@ class App extends React.Component {
   onSignUpUpdateName(name) {
     this.setState({ name });
   }
+
+  updateAlertMessage(message ) {
+    this.setState({ message });
+  }
   
   render() {
     return (
       <Wrapper>
         <Header>Tic-Tac-Toe</Header>
+        <MsgDiv>
+          <AlertMessage>{this.state.message}</AlertMessage>
+        </MsgDiv>
         <Router>
           <Switch>
             <Route 
@@ -84,6 +90,7 @@ class App extends React.Component {
                 <Wrapper>
                   <Home
                     name={this.state.name}
+                    updateMessage={this.updateAlertMessage}
                   /> 
                 </Wrapper>
               )}
@@ -100,6 +107,7 @@ class App extends React.Component {
                     name={this.state.name}
                     opponent={this.state.opponent}
                     updateScoreboard={this.onWinUpdateScoreboard}
+                    updateMessage={this.updateAlertMessage}
                   />
                   <Wrapper>
                     <Scoreboard

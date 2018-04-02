@@ -6,8 +6,7 @@ import { winningPlayer, validateMove } from './state-functions';
 import onMoveUpdateBoard from '../../helpers/onMoveUpdateBoard';
 import buildBoard from '../../helpers/buildBoard';
 import BoardPiece from '../BoardPiece';
-import { Wrapper, Message, BtnLink } from '../../components'
-import AlertMessage from './AlertMessage';
+import { Wrapper, Message, BtnLink, MsgDiv } from '../../components'
 import RestartBtn from './RestartBtn';
 import Body from './Body'; 
 
@@ -21,7 +20,6 @@ class Board extends React.Component {
       opponent: false,
       winner: false,
       numOfPlays: 0,
-      alertMessage: ''
     }
     
     startGame((err, data) => {
@@ -37,12 +35,12 @@ class Board extends React.Component {
       if (err) throw new Error('Error starting game');
       const { board, turn, winner, numOfPlays } = data;
       const { role, name, opponent, updateScoreboard } = props;
-      const alertMessage = '';
+      this.props.updateMessage('');
       const victor = winningPlayer(data, this.props);
 
       if(victor) updateScoreboard(victor);
-      
-      this.setState({ board, turn, winner, numOfPlays, alertMessage });
+
+      this.setState({ board, turn, winner, numOfPlays });
     });
 
     this.onClickValidateMove = this.onClickValidateMove.bind(this);
@@ -60,7 +58,7 @@ class Board extends React.Component {
        /* send updated board to other user via socket */
        updateBoard({ board, turn, gameId, winner, numOfPlays });
     } else {
-      this.setState({ alertMessage })
+      this.props.updateMessage(alertMessage);
     }
   }
 
@@ -85,7 +83,6 @@ class Board extends React.Component {
  
     return (
       <Wrapper>
-        {alertMessage && <AlertMessage>{alertMessage}</AlertMessage>}
         {(winner || numOfPlays === 9) ?
         <Wrapper>
           {winner ? <Message>{winningPlayer} Wins!</Message> : <Message>Tie!</Message>}
@@ -94,11 +91,10 @@ class Board extends React.Component {
            >Start Another Game
           </RestartBtn>
           </Wrapper> :
-          <div>
-        {!this.state.opponent && <Message>{this.props.message}</Message>}
+          <MsgDiv>
         {!winner && this.state.opponent && this.state.turn === this.props.role && <Message>It's {name}'s Turn!</Message>}
         {!winner && this.state.opponent && this.state.turn !== this.props.role && <Message>It's {opponent}'s Turn!</Message>}
-        </div>
+        </MsgDiv>
         }
         <Body>
         {quadrants}
