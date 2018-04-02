@@ -113,7 +113,6 @@ class App extends React.Component {
                       userWins={this.state.userWins}
                       opponentWins={this.state.opponentWins}
                     />
-                    {/* <div> This will be chatService</div> */}
                   </Wrapper>
                 </Wrapper>
               )}
