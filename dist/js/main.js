@@ -33600,7 +33600,7 @@ var onMoveUpdateBoard = function onMoveUpdateBoard(board, turn, numOfPlays, winn
   newBoard[loc[0]][loc[1]] = role;
   playCount += 1;
 
-  if (numOfPlays > 4) {
+  if (playCount > 4) {
     updateWinner = (0, _gameplay.checkWinner)(n, board, loc[0], loc[1]);
   }
 
@@ -35866,10 +35866,9 @@ var Home = function (_React$Component) {
     key: 'onClickJoinGame',
     value: function onClickJoinGame(e, gameId, name) {
       if (this.state.gameId.length > 0) {
-        (0, _socket.joinGame)({ gameId: this.state.gameId, name: this.props.name });
+        (0, _socket.joinGame)({ gameId: gameId, name: name });
       } else {
         e.preventDefault();
-        alert('Please enter game id to join game');
       }
     }
   }, {
@@ -35889,7 +35888,7 @@ var Home = function (_React$Component) {
           _components.BtnLink,
           {
             to: '/game',
-            onClick: function onClick(name) {
+            onClick: function onClick() {
               return (0, _socket.newGame)({ name: _this2.props.name });
             }
           },
@@ -35907,14 +35906,15 @@ var Home = function (_React$Component) {
             onChange: function onChange(e) {
               return _this2.onChangeUpdateGameId(e);
             },
-            type: 'text', placeholder: 'Enter game id',
+            type: 'text',
+            placeholder: 'Enter game id',
             value: this.state.gameId
           }),
           _react2.default.createElement(
             _components.BtnLink,
             {
               to: '/game',
-              onClick: function onClick(e, gameId, name) {
+              onClick: function onClick(e) {
                 return _this2.onClickJoinGame(e, _this2.state.gameId, _this2.props.name);
               }
             },
@@ -36042,8 +36042,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -36052,75 +36050,48 @@ var _Table = __webpack_require__(154);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Scoreboard = function (_React$Component) {
-  _inherits(Scoreboard, _React$Component);
-
-  function Scoreboard(props) {
-    _classCallCheck(this, Scoreboard);
-
-    var _this = _possibleConstructorReturn(this, (Scoreboard.__proto__ || Object.getPrototypeOf(Scoreboard)).call(this, props));
-
-    _this.state = {
-      userWins: 0,
-      opponentWins: 0
-    };
-    return _this;
-  }
-
-  _createClass(Scoreboard, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'table',
+var Scoreboard = function Scoreboard(props) {
+  return _react2.default.createElement(
+    'table',
+    null,
+    _react2.default.createElement(
+      _Table.TableHead,
+      null,
+      _react2.default.createElement(
+        'tr',
         null,
         _react2.default.createElement(
-          _Table.TableHead,
+          _Table.TableHeader,
           null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            _react2.default.createElement(
-              _Table.TableHeader,
-              null,
-              this.props.name
-            ),
-            _react2.default.createElement(
-              _Table.TableHeader,
-              null,
-              this.props.opponent
-            )
-          )
+          props.name
         ),
         _react2.default.createElement(
-          _Table.TableBody,
+          _Table.TableHeader,
           null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            _react2.default.createElement(
-              _Table.TableDim,
-              null,
-              this.props.userWins
-            ),
-            _react2.default.createElement(
-              _Table.TableDim,
-              null,
-              this.props.opponentWins
-            )
-          )
+          props.opponent
         )
-      );
-    }
-  }]);
-
-  return Scoreboard;
-}(_react2.default.Component);
+      )
+    ),
+    _react2.default.createElement(
+      _Table.TableBody,
+      null,
+      _react2.default.createElement(
+        'tr',
+        null,
+        _react2.default.createElement(
+          _Table.TableDim,
+          null,
+          props.userWins
+        ),
+        _react2.default.createElement(
+          _Table.TableDim,
+          null,
+          props.opponentWins
+        )
+      )
+    )
+  );
+};
 
 exports.default = Scoreboard;
 

@@ -9,13 +9,13 @@ class Welcome extends React.Component {
     super(props);
     this.state = {
       name: '',
-    }
+    };
   }
 
   onChangeUpdateName(e) {
     e.preventDefault();
     this.setState({
-      name: e.target.value
+      name: e.target.value,
     });
   }
 
@@ -25,20 +25,20 @@ class Welcome extends React.Component {
         <Message>To begin, enter your name below!</Message>
         <form>
           <Input
-            onChange={(e) => this.onChangeUpdateName(e)}
-            type='text'
-            placeholder='Enter name'
+            onChange={e => this.onChangeUpdateName(e)}
+            type="text"
+            placeholder="Enter name"
             value={this.state.name}
           />
-          <BtnLink  
-            to='/home'
+          <BtnLink
+            to="/home"
             onClick={() => this.props.updateName(this.state.name)}
           >Start
           </BtnLink>
         </form>
       </Wrapper>
-      )
-    }
+    );
   }
+}
 
-  export default Welcome;
+export default Welcome;

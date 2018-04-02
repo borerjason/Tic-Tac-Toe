@@ -8,7 +8,7 @@ const onMoveUpdateBoard = (board, turn, numOfPlays, winner, loc, role, n) => {
   newBoard[loc[0]][loc[1]] = role;
   playCount += 1;
 
-  if (numOfPlays > 4) {
+  if (playCount > 4) {
     updateWinner = checkWinner(n, board, loc[0], loc[1]);
   }
 
