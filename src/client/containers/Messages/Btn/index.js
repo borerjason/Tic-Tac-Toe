@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-const BtnLink = styled(Link)`
+const Btn = styled.button`
   height: 40px;
   color: #ffffff;
   border: none;
@@ -26,4 +25,4 @@ const BtnLink = styled(Link)`
   }
 `;
 
-export default BtnLink;
+export default Btn;

@@ -8443,7 +8443,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  // width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  // width: 80px;\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
 
 var _styledComponents = __webpack_require__(3);
 
@@ -8470,7 +8470,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  border-radius: 5px;\n  width: 250px;\n  box-shadow: none;\n  height: 35px;\n  border: 1px solid #25b3b6;\n  margin: 5px;\n  padding: 10px;\n\n   &:focus {\n    // text-decoration: none;\n  }\n'], ['\n  border-radius: 5px;\n  width: 250px;\n  box-shadow: none;\n  height: 35px;\n  border: 1px solid #25b3b6;\n  margin: 5px;\n  padding: 10px;\n\n   &:focus {\n    // text-decoration: none;\n  }\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  border-radius: 5px;\n  width: 250px;\n  box-shadow: none;\n  height: 35px;\n  border: 1px solid #25b3b6;\n  margin: 5px;\n  padding: 10px;\n'], ['\n  border-radius: 5px;\n  width: 250px;\n  box-shadow: none;\n  height: 35px;\n  border: 1px solid #25b3b6;\n  margin: 5px;\n  padding: 10px;\n']);
 
 var _styledComponents = __webpack_require__(3);
 
@@ -36357,6 +36357,14 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _Btn = __webpack_require__(163);
+
+var _Btn2 = _interopRequireDefault(_Btn);
+
+var _Input = __webpack_require__(164);
+
+var _Input2 = _interopRequireDefault(_Input);
+
 var _MessageBody = __webpack_require__(162);
 
 var _MessageBody2 = _interopRequireDefault(_MessageBody);
@@ -36437,7 +36445,7 @@ var Messages = function (_React$Component) {
         _react2.default.createElement(
           'form',
           null,
-          _react2.default.createElement('input', {
+          _react2.default.createElement(_Input2.default, {
             value: this.state.val,
             placeholder: 'Enter message',
             onChange: function onChange(e) {
@@ -36445,7 +36453,7 @@ var Messages = function (_React$Component) {
             }
           }),
           _react2.default.createElement(
-            'button',
+            _Btn2.default,
             {
               onClick: function onClick(e) {
                 return _this2.onClickSumbitMessage(e);
@@ -36479,7 +36487,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  height: 358px;\n  width: 300px;\n  overflow:auto;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  height: 358px;\n  width: 300px;\n  overflow:auto;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  height: 388px;\n  width: 300px;\n  overflow:auto;\n'], ['\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  height: 388px;\n  width: 300px;\n  overflow:auto;\n']);
 
 var _styledComponents = __webpack_require__(3);
 
@@ -36492,6 +36500,58 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 var MsgBody = _styledComponents2.default.div(_templateObject);
 
 exports.default = MsgBody;
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n'], ['\n  height: 40px;\n  color: #ffffff;\n  border: none;\n  border-radius: 5px;\n  font-size: 16px;\n  margin: 10px;\n  cursor: pointer;\n  text-decoration: none;\n  background-color: #25b3b6;\n  padding: 8px 15px 8px 15px;\n  \n  &:focus {\n    outline: none;\n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n\n  &:hover {\n    color: #ffffff; \n    text-decoration: none;\n    background-color: #2bd5d8;\n  }\n']);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var Btn = _styledComponents2.default.button(_templateObject);
+
+exports.default = Btn;
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _templateObject = _taggedTemplateLiteral(['\n  width: 200px;\n  margin: 0;\n'], ['\n  width: 200px;\n  margin: 0;\n']);
+
+var _styledComponents = __webpack_require__(3);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _components = __webpack_require__(21);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var MsgInput = _components.Input.extend(_templateObject);
+
+exports.default = MsgInput;
 
 /***/ })
 /******/ ]);

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Btn from './Btn';
+import MsgInput from './Input';
 import MsgBody from './MessageBody';
 import { subscribeToMessages, sendNewMessage } from '../../socket';
 
@@ -48,15 +50,15 @@ class Messages extends React.Component {
           ))}
         </div>
         <form>
-          <input
+          <MsgInput
             value={this.state.val}
             placeholder="Enter message"
             onChange={e => this.onChangeUpdateValue(e)}
           />
-          <button
+          <Btn
             onClick={e => this.onClickSumbitMessage(e)}
           >Send
-          </button>
+          </Btn>
         </form>
       </MsgBody>
     );
