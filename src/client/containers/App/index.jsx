@@ -100,18 +100,17 @@ class App extends React.Component {
               path="/game"
               render={() => (
                 <GameWrapper>
-
-                <Wrapper>
-                  <Board
-                    message={this.state.message}
-                    gameId={this.state.gameId}
-                    updateOpponent={this.updateOpponent}
-                    role={this.state.role}
-                    name={this.state.name}
-                    opponent={this.state.opponent}
-                    updateScoreboard={this.onWinUpdateScoreboard}
-                    updateMessage={this.updateAlertMessage}
-                  />
+                  <Wrapper>
+                    <Board
+                      message={this.state.message}
+                      gameId={this.state.gameId}
+                      updateOpponent={this.updateOpponent}
+                      role={this.state.role}
+                      name={this.state.name}
+                      opponent={this.state.opponent}
+                      updateScoreboard={this.onWinUpdateScoreboard}
+                      updateMessage={this.updateAlertMessage}
+                    />
                     <Scoreboard
                       name={this.state.name}
                       opponent={this.state.opponent}
@@ -119,14 +118,11 @@ class App extends React.Component {
                       opponentWins={this.state.opponentWins}
                     />
                   </Wrapper>
-                    <div>
-                      <Messages
-                        gameId={this.state.gameId}
-                        name={this.state.name}
-                      />
-                    </div>
+                  <Messages
+                    gameId={this.state.gameId}
+                    name={this.state.name}
+                  />
                 </GameWrapper>
-            
               )}
             />
           </Switch>

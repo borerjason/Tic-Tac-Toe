@@ -29668,14 +29668,10 @@ var App = function (_React$Component) {
                       opponentWins: _this2.state.opponentWins
                     })
                   ),
-                  _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(_Messages2.default, {
-                      gameId: _this2.state.gameId,
-                      name: _this2.state.name
-                    })
-                  )
+                  _react2.default.createElement(_Messages2.default, {
+                    gameId: _this2.state.gameId,
+                    name: _this2.state.name
+                  })
                 );
               }
             })
