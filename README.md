@@ -35,6 +35,22 @@ npm run build
 - react-router
 - styled-components
 
+## Game Design  
+  The Tic Tac Toe board is represented in state as a 2-D array. The board is viewed and constructed as an array of BoardPiece Components. Each piece has as props, its index in the array, its value, and its respective location in the state array. 
+  
+  When the user clicks on a BoardPiece the application first validates the move by checking if: 
+    1. There is currently not a winner  
+    2. There is currently not a tie  
+    3. The BoardPiece does not have a value  
+    4. There is more than 1 player in the game  
+    5. It is the correct player's turn to play  
+
+  Once the move is validated the application checks to see if the game has a winner. The check will only be initiated if there have been at least 5 plays, the minimum number of total plays required for a winner.
+
+  The row and column of the placed piece is recorded. A winning game occurs if all pieces in the board's respective column, row, or a diagonal match the users role ('X' or 'O') value.   
+
+  If a winner is identified the usersWins total is incremented. If there is a winner or a tie the players have the option to start a new game. Once one user initiates a new game the board is reset for both users.
+
 ## Front-End Architecture
 
 Containers: 
@@ -65,7 +81,7 @@ App
      User Interactions:  
         - Play game  
 
-## Design Decisions:
+## Design Decisions and User Flow:
 
 ### App:
 Maintains the state of the user's current session. State includes the user's personal information (name, role('X' or 'O'), userWins ), opponent's information (opponent's name, opponent's wins), and session information (gameId, activeGame).
@@ -90,23 +106,30 @@ User has the option to create a new game or join an existing game.
       5. Client updates view to 'Board/Scoreboard' view  
   - Join Game:
     User adds gameId to join and clicks 'Join':
-      1. Client validates that gameId input contains text
-      2. User's name and gameId are sent to server via socket.io
-      3. Server looks up gameId in 'games' object and adds second user's name to game.
-      4. Server adds socket to existing private game socket via the gameId
-      5. Server emits gameId to user
-      6. Server emits player info to both sockets in gameId room.
-         - State Updated:
-           - Board container:  
-             - opponent from false to true
-           - App container: 
-             - opponent's name
-             - Role (opponent)
-             - gameId (opponent)
+      1. Client validates that gameId input contains text  
+      2. User's name and gameId are sent to server via socket.io  
+      3. Server looks up gameId in 'games' object and adds second user's name to game.  
+      4. Server adds socket to existing private game socket via the gameId  
+      5. Server emits gameId to user  
+      6. Server emits player info to both sockets in gameId room.  
+         - State Updated:  
+           - Board container:    
+             - opponent from false to true  
+           - App container:   
+             - opponent's name  
+             - Role (opponent)  
+             - gameId (opponent)  
 
+### Styling  
 
-   
+I utilized the styled-components library to optimize for resusable styled DOM elements. Elements that are used in more than one container are saved in the parent 'components' folder. Elements that are specific to one container are saved within their respective container's folder.  
+ 
 
-Express: Create node.js webserver. Is a level of abstraction above node.js http module. Simpler API set up and provides useful middleware 
-  Middleware utilized: 
-    - static: serve up static files
+## Testing  
+
+State function and game play function testing was done via jest.
+
+Run tests:
+```sh
+npm run test
+```
