@@ -38,7 +38,7 @@ npm run build
 ## Game Design  
   The Tic Tac Toe board is represented in state as a 2-D array. The board is viewed and constructed as an array of BoardPiece Components. Each piece has as props, its index in the array, its value, and its respective location in the state array. 
   
-  When the user clicks on a BoardPiece the application first validates the move by checking if: 
+  When the user clicks on a BoardPiece the application first validates the move by checking if:  
     1. There is currently not a winner  
     2. There is currently not a tie  
     3. The BoardPiece does not have a value  
