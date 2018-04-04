@@ -5,6 +5,9 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+const db = require('./Games');
+console.log(db);
+
 let gameId = 100;
 const games = {};
 
@@ -22,19 +25,25 @@ io.on('connection', (socket) => {
   console.log('A player connected');
 
   socket.on('newGame', (data) => {
-    socket.join(++gameId);
-    games[gameId] = [data.name];
-    socket.emit('newGame', gameId.toString());
+    const id = db.newGame(data.name);
+    socket.join(id);
+    socket.emit('newGame', id.toString());
   });
 
   socket.on('joinGame', (data) => {
-    const room = parseInt(data.gameId, 10);
-    data.opponent = games[room][0];
-    games[room].push(data.name);
-    const players = games[room];
-    socket.join(room);
-    socket.emit('joinGame', data);
-    io.in(room).emit('startGame', players);
+    const id = parseInt(data.gameId, 10);
+    const game = db.games[id];
+    if (!game) { console.log('No game exists'); }
+    if (game.size() === 0) { console.log('There is nobody in this room'); }
+    if (game.size() === 2) { console.log('Game is full'); }
+
+    game.addPlayer(data.name);
+
+    const opponent = game.firstPlayer;
+    const { players } = game;
+    socket.join(id);
+    socket.emit('joinGame', { gameId: id, opponent });
+    io.in(id).emit('startGame', players);
   });
 
   socket.on('updateBoard', (data) => {
