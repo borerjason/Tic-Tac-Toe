@@ -10,6 +10,14 @@ const games = {};
 
 app.use('/', express.static(path.join(__dirname, '../../dist')));
 
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../dist/index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
+
 io.on('connection', (socket) => {
   console.log('A player connected');
 
