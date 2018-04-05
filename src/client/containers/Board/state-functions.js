@@ -1,3 +1,7 @@
+/*
+ returns the winners role if there is a winner or false if there is none
+*/
+
 export function winningPlayer(data, props) {
   const { turn, winner } = data;
   const { role, name, opponent } = props;

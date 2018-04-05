@@ -12,31 +12,46 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      n: 3,
-      board: [['', '', ''], ['', '', ''], ['', '', '']],
-      turn: 'X',
-      opponent: false,
-      winner: false,
-      numOfPlays: 0,
+      n: 3, // hardcoded n to 3 but design of app should work if n is any size
+      board: [['', '', ''], ['', '', ''], ['', '', '']], // representation of board used to identify winners or tie
+      turn: 'X', // the 'X' always goes first
+      opponent: false, // doesnt let game start until an opponent has arrived
+      winner: false, // this should be named isWinner and not to be confused with winner in other file
+      numOfPlays: 0, // increments on each turn, keeps track of whether there is a tie and doesn't check for winner until min number has been reached
     };
 
+    /*
+    Action is emited from server to both players:
+    data: array of players
+    */
     startGame((err, data) => {
       if (err) throw new Error('Error starting game');
       this.setState({
         opponent: true,
       });
-
+      
+      // array of players passed up to App
       this.props.updateOpponent(data);
     });
-
+     
+    /*
+      Action is emited from server to both players on each game play
+      data: { board, turn, winner (isWinner), numOfPlays }
+    */
     clientUpdateBoard((err, data) => {
       if (err) throw new Error('Error starting game');
 
       const {
         board, turn, winner, numOfPlays,
       } = data;
-
+      
+      // make sure alert message is reset
+      // IMPROVE could move this to be nested in a another function, could only run if there is actually an alert msg
       this.props.updateMessage('');
+      /*
+      victor returns 'X' or 'O' if somebody one or false if there is no winner
+      IMPROVE: This should only run if winner is true....
+      */
       const victor = winningPlayer(data, this.props);
 
       if (victor) this.props.updateScoreboard(victor);
