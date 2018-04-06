@@ -35670,6 +35670,9 @@ var Board = function (_React$Component) {
           board: board, turn: turn, gameId: gameId, winner: winner, numOfPlays: numOfPlays
         });
       } else {
+        /*
+          If not valid move then update the alert message
+        */
         this.props.updateMessage(alertMessage);
       }
     }
@@ -35940,6 +35943,11 @@ var _BoardPiece2 = _interopRequireDefault(_BoardPiece);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+takes in size, previous board, validate function
+returns array of board pieces
+*/
+
 var buildBoard = function buildBoard(size, board, validate) {
   var quadrants = [];
   var n = Math.pow(size, 2);
@@ -35947,6 +35955,12 @@ var buildBoard = function buildBoard(size, board, validate) {
   for (var i = 0; i < n; i += 1) {
     var row = Math.floor(i / size);
     var col = i - size * row;
+
+    /*
+    Id is place in array
+    loc is represenation in board 2D array
+    val is its value from 2D board represnetation
+    */
 
     quadrants.push(_react2.default.createElement(_BoardPiece2.default, {
       validate: validate,

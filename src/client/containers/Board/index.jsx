@@ -53,7 +53,7 @@ class Board extends React.Component {
       IMPROVE: This should only run if winner is true....
       */
       const victor = winningPlayer(data, this.props);
-
+      
       if (victor) this.props.updateScoreboard(victor);
 
       this.setState({
@@ -84,6 +84,9 @@ class Board extends React.Component {
         board, turn, gameId, winner, numOfPlays,
       });
     } else {
+      /*
+        If not valid move then update the alert message
+      */
       this.props.updateMessage(alertMessage);
     }
   }
